@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 19:18:36 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/21 22:56:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/21 23:23:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #define DOWN_ARROW					"[B"
 #define NEXT_HISTORY				"C-N"  
 #define PREVIOUS_HISTORY            "C-P"  
-#define CTRL_D 1
-#define CTRL_C 1
+#define CTRL_D 						1
+#define CTRL_C 						1
 
 int	nav_maincore(t_linux *data, char *cmd_in);
 int	nav_scroll_up(t_linux *data, char *cmd_in);
