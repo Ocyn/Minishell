@@ -1,0 +1,2 @@
+# Ignore all .o files in the OBJ/ directory
+OBJ/*.o
