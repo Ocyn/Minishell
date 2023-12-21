@@ -1,7 +1,6 @@
 builtin : 
 ~cd
 ~echo
-~env
 export
 unset
 

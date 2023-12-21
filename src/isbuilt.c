@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   isbuilt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:16:48 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/14 16:27:27 by aammirat         ###   ########lyon.fr   */
+/*   Updated: 2023/12/21 14:07:44 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	is_empty(char *str)
 	return (1);
 }
 
-int	is_built(t_linux *shell)
+int	is_builtin(t_linux *shell)
 {
 	if (is_same(shell->command, "cd"))
 		ft_cd(shell->history[shell->nb_history - 1]);

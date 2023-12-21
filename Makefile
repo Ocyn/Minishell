@@ -17,7 +17,8 @@ SRCS			= main.c \
 				exec.c \
 				ft_split.c \
 				isbuilt.c \
-				free.c \
+				mem_tools.c \
+				debug.c
 
 CC 				= cc
 
@@ -37,9 +38,6 @@ OBJ_PATH 		= $(SRCC_DIR)$(OBJ_DIR)
 SRCS			+= $(BUILTIN)
 OBJ 			= $(patsubst %.c, $(OBJ_PATH)%.o, $(SRCS))
 OBJ_BUILTIN		= $(patsubst %.c, $(OBJ_PATH)%.o, $(BUILTIN))
-
-target:
-	@echo "Variable OBJ: $(BUILTIN_SRCS)"
 
 all : $(NAME)
 

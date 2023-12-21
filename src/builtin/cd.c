@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/14 16:35:19 by aammirat         ###   ########lyon.fr   */
+/*   Updated: 2023/12/21 13:59:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-char	*cut_str(char *str)
+char	*cut_cmd(char *str)
 {
 	char	*path;
 	int		i;
@@ -41,16 +41,17 @@ char	*cut_str(char *str)
 	return ("cd");
 }
 
-void	ft_cd(char *str)
+void	ft_cd(char *cmd)
 {
 	char	*path;
 	char	home[1];
 
 	home[0] = '~';
-	path = cut_str(str);
+	printf ("DEBUG\tvoid ft_cd(cmd[%s]\n", cmd);
+	path = cut_cmd(cmd);
 	if (path)
 	{
-		if (is_same(str, path))
+		if (is_same(cmd, path))
 		{
 			printf ("il faut aller dans le repertoire ~\n");
 		}

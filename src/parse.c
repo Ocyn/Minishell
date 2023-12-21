@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/13 14:39:51 by aammirat         ###   ########lyon.fr   */
+/*   Updated: 2023/12/21 14:06:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	parse(char *str, t_linux *shell)
 	add_histori(str, shell);
 }
 
-void	structing(t_linux *shell)
+void	struct_init(t_linux *shell)
 {
 	shell->nb_history = 0;
 	shell->end = 0;
