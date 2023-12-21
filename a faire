@@ -7,7 +7,6 @@ unset
 pipe 
 "" 
 ''
-
 signal 
 ctrl c,d,/
 fleche du haut/du bas
