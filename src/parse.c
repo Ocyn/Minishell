@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 14:06:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/21 22:55:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	add_histori(char *str, t_linux *shell)
+void	history_add(char *str, t_linux *shell)
 {
 	int		i;
 	char	**hist;
@@ -51,11 +51,17 @@ void	parse(char *str, t_linux *shell)
 	while (str[++i] && str[i] != ' ')
 		shell->command[i] = str[i];
 	shell->command[i] = '\0';
-	add_histori(str, shell);
+	history_add(str, shell);
 }
 
-void	struct_init(t_linux *shell)
+void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 {
+	(void)a_nb;
+	(void)a_s;
+	shell->envi = NULL;
+	shell->command = 0;
 	shell->nb_history = 0;
+	shell->history = NULL;
 	shell->end = 0;
+	shell->envi = genv;
 }

@@ -18,6 +18,7 @@ SRCS			= main.c \
 				ft_split.c \
 				isbuilt.c \
 				mem_tools.c \
+				arrow_key.c \
 				debug.c
 
 CC 				= cc
