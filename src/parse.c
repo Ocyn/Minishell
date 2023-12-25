@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 10:48:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 13:56:42 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parse(char *cmd_in, t_linux *shell)
 	if (!cmd_in || !cmd_in[0])
 		return ;
 	if (!ft_strcmp(cmd_in, "exit"))
-	 	return(ft_exit(shell));
+		return (ft_exit(shell));
 	shell->exe.arg_n = 0;
 	shell->exe.f_cmd = ft_split(cmd_in, ' ');
 	shell->command = shell->exe.f_cmd[0];
