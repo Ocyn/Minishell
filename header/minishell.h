@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 01:54:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 05:42:02 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct s_cmd
 {
 	pid_t	f_id;
 	int		w_id;
-	char	*cmd;
+	int		arg_n;
+	char	**f_cmd;
 	char	*path;
-	char	**args;
 }			t_cmd;
 
 typedef struct s_linux
@@ -44,16 +44,16 @@ void		db_debug(t_linux *sys_l, void *memm1, void **memm2);
 
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *str, t_linux *shell);
-void		bin_command(t_linux *shell);
 char		*get_path(char *command, char **env);
 int			is_builtin(t_linux *shell);
 
 int			nav_maincore(t_linux *data, char *cmd_in);
 
 void		*s_malloc(unsigned long size);
-void		s_free(void **ptr_memory);
-void		free_tab(void **ptr_tab, size_t i);
+void		s_free(char **ptr_memory);
+void		free_tab(char **tab, int i);
 int			ft_strcmp(const char *s1, const char *s2);
+int			tablen(char **tab);
 
 void		ft_pwd(void);
 void		ft_cd(char *cmd);
@@ -63,31 +63,6 @@ void		ft_echo(t_linux *shell);
 void		ft_unset(t_linux *shell);
 void		ft_export(t_linux *shell);
 
-
-
-/**
- * @brief Safely free a pointer and set it to NULL
- * 
- * @details
- * This function provides a safer alternative to the standard free() function.
- * It checks if the pointer is not NULL before freeing it, avoiding invalid reads,
- * invalid frees, and double frees. After freeing the pointer, it sets it to NULL.
- * ```c
- * // Using free()
- * char *str = malloc(sizeof(char) * 10);
- * strcpy(str, "Hello");
- * free(str);
- * printf("%s\n", str); // This will cause an invalid read
- * // Using s_free()
- * char *str = (char *)s_malloc(sizeof(char) * 10);
- * strcpy(str, "Hello");
- * s_free((void **)&str);
- * printf("%s\n", str); // This will print (null)
- * ```
- * @param ptr_memory [A pointer to the memory to be freed]
- * @return void
- */
-void		s_free(void **ptr_memory);
 
 /**
  * @brief Allocate an array; init each element at 0
@@ -104,4 +79,24 @@ void		s_free(void **ptr_memory);
  * @return void * [The allocated array]
  */
 void		*s_malloc(unsigned long size);
+
+
+/**
+ * @brief Free a dynamically allocated 2D array of strings.
+ *
+ * This function frees the memory allocated for a 2D array of strings, along with
+ * the memory allocated for each individual string.
+ *
+ * @param tab The 2D array of strings to be freed.
+ * @param i The index of the last string in the array.
+ */
+void		free_tab(char **tab, int i);
+
+/**
+ * @brief Frees the memory pointed to by the given pointer and sets it to NULL.
+ * 
+ * @param ptr_memory A pointer to a pointer to the memory to be freed.
+ */
+void		s_free(char **ptr_memory);
+
 #endif

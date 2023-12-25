@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:02:04 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/14 16:35:46 by aammirat         ###   ########lyon.fr   */
+/*   Updated: 2023/12/25 04:42:10 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_pwd(void)
 	if (temp)
 	{
 		printf ("%s\n", temp);
-		free(temp);
+		s_free(&temp);
 	}
 	else
 		printf ("where am i\n");

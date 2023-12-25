@@ -6,22 +6,18 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 01:56:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 05:47:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	*s_malloc(unsigned long size);
-void	s_free(void **ptr_memory);
-void	free_all(t_linux *shell);
-
-void	s_free(void **ptr_memory)
+void	s_free(char **ptr_memory)
 {
-	if (ptr_memory)
+	if (*ptr_memory)
 	{
-		free(ptr_memory);
-		ptr_memory = NULL;
+		free(*ptr_memory);
+		*ptr_memory = NULL;
 	}
 }
 
@@ -42,12 +38,12 @@ void	*s_malloc(unsigned long size)
 	return (byte_arr);
 }
 
-void	free_tab(void **ptr_tab, size_t i)
+void	free_tab(char **tab, int i)
 {
-	while (ptr_tab && i != 0)
+	while (i >= 0)
 	{
-		s_free((void *)ptr_tab[i]);
+		s_free(&tab[i]);
 		i--;
 	}
-	s_free((void *)ptr_tab);
+	//s_free((char **)&tab);
 }

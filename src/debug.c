@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/25 01:57:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 04:49:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,18 @@ void	db_debug(t_linux *sys_l, void *memm1, void **memm2);
 
 void	db_debug(t_linux *sys_l, void *memm1, void **memm2)
 {
-	char	**local_tab_array;
-	char	*local_array;
-	int		*nb_array;
+	char	*array1;
+	char	*array2;
 
 	(void)sys_l;
 	(void)memm1;
 	(void)memm2;
-	(void)local_array;
-	local_array = NULL;
-	nb_array = NULL;
-	printf("DB_DEBUG\n");
-	local_array = (char *)s_malloc(sizeof(char) * (9 + 1));
-	nb_array = s_malloc(sizeof(int) * 9);
-	local_tab_array = s_malloc(sizeof(char *) * (9 + 1));
-	s_free((void *)local_array);
-	s_free((void *)nb_array);
-	free_tab((void *)local_tab_array, 0);
+	array1 = NULL;
+	array2 = NULL;
+	array1 = readline("DB_DEBUG>> ");
+	//array2 = getcwd(array1, 4096);
+	printf("You wrote \"%s\"\n", array1);
+	fflush(stdout);
+	s_free(&array1);
 	return ;
 }
