@@ -1,2 +1,5 @@
-# Ignore all .o files in the OBJ/ directory
-OBJ/*.o
+# Ignore object files in src/OBJ
+/src/OBJ/*.o
+
+# Ignore object files in lib/libft/OBJ
+/lib/libft/OBJ/*.o

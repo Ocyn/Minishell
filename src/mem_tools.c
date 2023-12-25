@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 05:47:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 06:39:51 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	free_tab(char **tab, int i)
 		s_free(&tab[i]);
 		i--;
 	}
-	//s_free((char **)&tab);
+	s_free((char **)&tab);
 }

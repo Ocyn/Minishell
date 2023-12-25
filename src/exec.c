@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 05:13:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 06:54:14 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ char	*get_path(char *command, char **env)
 		s_free(&cmd_path);
 		i++;
 	}
+	free_tab(var, tablen(var));
 	return (s_free(&check), cmd_path);
 }
