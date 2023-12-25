@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 07:59:22 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/25 11:15:25 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 12:06:35 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	set_command(t_linux *shell)
 	if (shell->exe.arg_n < 3)
 		return (1);
 	command = shell->exe.f_cmd;
-	if (!ft_strcmp(command[1], "<"))
-		err = set_infile(command[0], shell);
+	if (!ft_strcmp(command[0], "<"))
+		err = set_infile(command[1], shell);
 	if (!ft_strcmp(command[shell->exe.arg_n - 2], ">"))
 		err = set_outfile(command[shell->exe.arg_n - 1], shell);
 	while (command[i])
@@ -39,6 +39,7 @@ int	set_command(t_linux *shell)
 			shell->exe.pipe_nb++;
 		i++;
 	}
+	printf("\tpipes: %d\t", shell->exe.pipe_nb);
 	return (1);
 }
 
