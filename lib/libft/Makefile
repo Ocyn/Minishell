@@ -33,7 +33,6 @@ re : fclean $(LIB_DIR)$(NAME)
 fclean : clean
 	rm -f $(LIB_DIR)$(NAME)
 	rm -rf lib/libft.a
-	make fclean -C $(LIB_DIR)Libft/
 
 clean :
 	rm -f $(OBJ_DIR)*.o

@@ -58,9 +58,11 @@ $(LIB): force
 
 clean :
 	rm -f $(OBJ)
+	make clean -C $(LIB_DIR)
 
 fclean : clean
 	rm -f $(NAME)
+	make fclean -C $(LIB_DIR)
 
 re : fclean all
 
