@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 23:04:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 01:54:34 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,23 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include "lib.h"
+
+typedef struct s_cmd
+{
+	pid_t	f_id;
+	int		w_id;
+	char	*cmd;
+	char	*path;
+	char	**args;
+}			t_cmd;
 
 typedef struct s_linux
 {
+	t_cmd	exe;
 	char	*command;
-	char	**history;
 	char	**envi;
+	char	**history;
 	int		nb_history;
 	int		end;
 }			t_linux;
@@ -34,21 +45,15 @@ void		db_debug(t_linux *sys_l, void *memm1, void **memm2);
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *str, t_linux *shell);
 void		bin_command(t_linux *shell);
-void		history_add(char *str, t_linux *shell);
+char		*get_path(char *command, char **env);
 int			is_builtin(t_linux *shell);
 
 int			nav_maincore(t_linux *data, char *cmd_in);
 
-char		**ft_split(char *s, char c);
-char		*put_in(char *str);
-char		*ft_substr(char *s, unsigned int start, size_t len);
 void		*s_malloc(unsigned long size);
-
 void		s_free(void **ptr_memory);
-void		free_all(t_linux *shell);
-size_t		ft_strlen(char *str);
-int			is_same(char *str, char *cmp);
-int			ft_memcmp(char *str, char *des);
+void		free_tab(void **ptr_tab, size_t i);
+int			ft_strcmp(const char *s1, const char *s2);
 
 void		ft_pwd(void);
 void		ft_cd(char *cmd);

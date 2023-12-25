@@ -30,8 +30,6 @@
 	- CTRL C					[New prompt]
 	- CTRL D					[Exit Shell]
 	- CTRL -\					[Nothing...?]
-	- FLECHE HAUT 				[Scroll up in history]
-	- FLECHE BAS 				[Scroll down in history]
 
 ### DOCUMENTATION
 

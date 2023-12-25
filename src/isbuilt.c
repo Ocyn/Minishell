@@ -6,27 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:16:48 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 14:07:44 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 01:47:31 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-int	is_same(char *str, char *cmp)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && cmp[i])
-	{
-		if (str[i] != cmp[i])
-			return (0);
-		i++;
-	}
-	if (cmp[i] != '\0')
-		return (0);
-	return (1);
-}
 
 int	is_empty(char *str)
 {
@@ -44,17 +28,15 @@ int	is_empty(char *str)
 
 int	is_builtin(t_linux *shell)
 {
-	if (is_same(shell->command, "cd"))
+	if (!ft_strcmp(shell->command, "cd"))
 		ft_cd(shell->history[shell->nb_history - 1]);
-	else if (is_same(shell->command, "pwd"))
+	else if (!ft_strcmp(shell->command, "pwd"))
 		ft_pwd();
-	else if (is_same(shell->command, "exit"))
+	else if (!ft_strcmp(shell->command, "exit"))
 		ft_exit(shell);
-	else if (is_same(shell->command, "env"))
+	else if (!ft_strcmp(shell->command, "env"))
 		ft_env(shell);
 	else if (is_empty(shell->command))
 		return (1);
-	else
-		return (0);
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 13:59:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 00:42:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*cut_cmd(char *str)
 		j++;
 	if (j > 0)
 	{
-		path = malloc (sizeof(char) * j + 1);
+		path = malloc(sizeof(char) * j + 1);
 		if (!path)
 			return (NULL);
 		j = 0;
@@ -47,11 +47,10 @@ void	ft_cd(char *cmd)
 	char	home[1];
 
 	home[0] = '~';
-	printf ("DEBUG\tvoid ft_cd(cmd[%s]\n", cmd);
 	path = cut_cmd(cmd);
 	if (path)
 	{
-		if (is_same(cmd, path))
+		if (!ft_strcmp(cmd, path))
 		{
 			printf ("il faut aller dans le repertoire ~\n");
 		}

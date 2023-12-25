@@ -6,60 +6,43 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 22:55:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 01:43:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	history_add(char *str, t_linux *shell)
+int	chk_command(t_linux *shell)
 {
-	int		i;
-	char	**hist;
-
-	shell->nb_history++;
-	hist = malloc(sizeof(char *) * (shell->nb_history + 1));
-	if (!hist)
-		return ;
-	i = 0;
-	while (i < shell->nb_history - 1)
-	{
-		hist[i] = put_in(shell->history[i]);
-		free(shell->history[i]);
-		i++;
-	}
-	hist[i] = put_in(str);
-	hist[i + 1] = 0;
-	if (shell->nb_history != 1)
-		free(shell->history);
-	shell->history = hist;
+	if (ft_strchr(shell->command, '|'))
+		printf("There's a pipe !\n");
+	//bin_command(shell);
+	shell->exe.path = get_path(shell->command, shell->envi);
+	printf("cmd = \"%s\" | path = \"%s\"\n", shell->command, shell->exe.path);
+	is_builtin(shell);
+	return (0);
 }
 
-void	parse(char *str, t_linux *shell)
+void	parse(char *cmd_in, t_linux *shell)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (str[++i] && str[i] != ' ')
-		j++;
-	shell->command = malloc(sizeof(char) * i + 1);
+	if (!cmd_in || !cmd_in[0])
+		return ;
+	shell->command = ft_strtrim(cmd_in, " ");
 	if (!shell->command)
 		return ;
-	i = -1;
-	while (str[++i] && str[i] != ' ')
-		shell->command[i] = str[i];
-	shell->command[i] = '\0';
-	history_add(str, shell);
+	add_history(cmd_in);
+	shell->nb_history++;
+	chk_command(shell);
+	s_free((void *)shell->command);
 }
 
 void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 {
 	(void)a_nb;
 	(void)a_s;
+	ft_bzero(shell, sizeof(t_linux));
 	shell->envi = NULL;
-	shell->command = 0;
+	shell->command = NULL;
 	shell->nb_history = 0;
 	shell->history = NULL;
 	shell->end = 0;

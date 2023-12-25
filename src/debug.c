@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/21 21:29:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 01:57:35 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	db_debug(t_linux *sys_l, void *memm1, void **memm2);
 
 void	db_debug(t_linux *sys_l, void *memm1, void **memm2)
 {
+	char	**local_tab_array;
 	char	*local_array;
 	int		*nb_array;
 
@@ -28,7 +29,9 @@ void	db_debug(t_linux *sys_l, void *memm1, void **memm2)
 	printf("DB_DEBUG\n");
 	local_array = (char *)s_malloc(sizeof(char) * (9 + 1));
 	nb_array = s_malloc(sizeof(int) * 9);
-	s_free((void *)&local_array);
-	s_free((void *)&nb_array);
+	local_tab_array = s_malloc(sizeof(char *) * (9 + 1));
+	s_free((void *)local_array);
+	s_free((void *)nb_array);
+	free_tab((void *)local_tab_array, 0);
 	return ;
 }

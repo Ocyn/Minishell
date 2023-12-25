@@ -15,7 +15,6 @@ SRCS			= main.c \
 				utils.c \
 				parse.c \
 				exec.c \
-				ft_split.c \
 				isbuilt.c \
 				mem_tools.c \
 				arrow_key.c \
@@ -28,6 +27,9 @@ CFLAGS			= -Wextra -Wall -Werror -g3
 LINK 			= -lreadline
 
 HEADERS			= header/minishell.h
+
+LIB_DIR = lib/libft/
+LIB = lib/libft.a
 
 OBJ_DIR = OBJ/
 
@@ -42,8 +44,8 @@ OBJ_BUILTIN		= $(patsubst %.c, $(OBJ_PATH)%.o, $(BUILTIN))
 
 all : $(NAME)
 
-$(NAME): $(OBJ) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJ) -I . -o $(NAME) $(LINK)
+$(NAME): $(OBJ) $(LIB) $(HEADERS)
+	$(CC) $(CFLAGS) $(OBJ) $(LIB) -I . -o $(NAME) $(LINK)
 
 $(OBJ_PATH)%.o : $(BUILTIN_DIR)%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -51,6 +53,8 @@ $(OBJ_PATH)%.o : $(BUILTIN_DIR)%.c $(HEADERS)
 $(OBJ_PATH)%.o : %.c $(OBJ_BUILTIN) $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(LIB): force
+	@make -sC $(LIB_DIR)
 
 clean :
 	rm -f $(OBJ)
@@ -60,4 +64,4 @@ fclean : clean
 
 re : fclean all
 
-.PHONY: all clean re fclean
+.PHONY: all clean re fclean force

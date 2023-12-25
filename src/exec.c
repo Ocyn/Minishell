@@ -6,91 +6,65 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/21 09:22:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 01:37:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*coma(char *str)
+char	*get_path(char *command, char **env)
 {
+	char	*cmd_path;
+	char	*check;
+	char	**var;
 	int		i;
-	int		len;
-	char	*com;
-
-	len = ft_strlen(str);
-	i = 5;
-	com = malloc(sizeof(char) * (len + 6));
-	if (!com)
-		return (NULL);
-	com[0] = '/';
-	com[1] = 'b';
-	com[2] = 'i';
-	com[3] = 'n';
-	com[4] = '/';
-	while (i < len + 5)
-	{
-		com[i] = str[i - 5];
-		i++;
-	}
-	com[i] = '\0';
-	return (com);
-}
-
-char	*check_com(char *str)
-{
-	int		i;
-	char	*com;
 
 	i = 0;
-	while (str[i])
+	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
-	if (i < 6)
-		return (coma(str));
-	if (str[0] != '/' || str[1] != 'b' || str[2] != 'i' \
-						|| str[3] != 'n' || str[4] != '/')
-		return (coma(str));
-	else
+	if (ft_strncmp(env[i], "PATH=", 5) != 0)
+		return (NULL);
+	cmd_path = ft_strtrim(env[i], "PATH=");
+	var = ft_split(cmd_path, ':');
+	s_free((void *)cmd_path);
+	i = 0;
+	check = ft_strjoin("/", command);
+	while (var[i])
 	{
-		com = malloc(sizeof(char) * i + 1);
-		if (!com)
-			return (NULL);
-		i = -1;
-		while (str[++i])
-			com[i] = str[i];
-		com[i] = '\0';
-		return (com);
+		cmd_path = ft_strjoin(var[i], check);
+		if (access(cmd_path, F_OK))
+			break ;
+		s_free((void *)cmd_path);
+		i++;
 	}
+	return (s_free((void *)check), cmd_path);
 }
 
-void	bin_command(t_linux *shell)
-{
-	char	*com;
-	char	**args;
-	pid_t	pid;
-	int		status;
+// void	bin_command(t_linux *shell)
+// {
+// 	t_execv	cmd;
 
-	com = check_com(shell->command);
-	if (!com)
-		return ;
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork failed");
-		free(com);
-		return ;
-	}
-	if (pid == 0)
-	{
-		args = ft_split(shell->history[shell->nb_history - 1], ' ');
-		if (!args)
-			return ;
-		execv(com, args);
-		perror("execv failed");
-		free(com);
-		exit(EXIT_FAILURE);
-	}
-	else
-		waitpid(pid, &status, 0);
-	free(com);
-}
+// 	cmd.path = get_path(&cmd, shell->envi);
+// 	if (!cmd.cmd)
+// 		return ;
+// 	cmd.f_id = fork();
+// 	if (cmd.f_id == -1)
+// 	{
+// 		perror("fork failed");
+// 		free(cmd.cmd);
+// 		return ;
+// 	}
+// 	if (cmd.f_id == 0)
+// 	{
+// 		args = ft_split(shell->history[shell->nb_history - 1], ' ');
+// 		if (!args)
+// 			return ;
+// 		execv(cmd, args);
+// 		perror("execv failed");
+// 		free(cmd);
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else
+// 		waitpid(cmd.f_id, &status, 0);
+// 	free(cmd);
+// }
