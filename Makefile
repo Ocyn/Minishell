@@ -17,7 +17,7 @@ SRCS			= main.c \
 				exec.c \
 				isbuilt.c \
 				mem_tools.c \
-				arrow_key.c \
+				set_command.c \
 				debug.c
 
 CC 				= cc

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 06:50:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 11:15:31 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include "lib.h"
 
+# define UNKNOWN_COMMAND 0
+# define SINGLE_COMMAND 1
+# define PIPE_COMMAND 2
+# define UNDEFINED_COMMAND 99
+
 typedef struct s_cmd
 {
-	pid_t	f_id;
-	int		w_id;
+	int		infile;
+	int		outfile;
+	int		pipe_nb;
 	int		arg_n;
 	char	**f_cmd;
 	char	*path;
@@ -34,6 +41,7 @@ typedef struct s_linux
 {
 	t_cmd	exe;
 	char	*command;
+	int		cmd_type;
 	char	**envi;
 	char	**history;
 	int		nb_history;
@@ -46,8 +54,8 @@ void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *str, t_linux *shell);
 char		*get_path(char *command, char **env);
 int			is_builtin(char *cmd_in, t_linux *shell);
-
-int			nav_maincore(t_linux *data, char *cmd_in);
+int			set_command(t_linux *shell);
+void		exec_all(t_linux *shell);
 
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
