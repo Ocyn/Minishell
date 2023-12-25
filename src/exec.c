@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 12:19:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 12:38:48 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	exec_all(t_linux *shell)
 	// }
 	if (shell->exe.outfile)
 		dup2(shell->exe.outfile, STDOUT_FILENO);
-	execute_command(shell->exe.f_cmd, shell->envi, &f_id, ipipe);
+	execute_command(shell->exe.f_cmd - 1, shell->envi, &f_id, ipipe);
 	close(ipipe[1]);
 	close(ipipe[0]);
 	waitpid(f_id - 1, 0, 0);
