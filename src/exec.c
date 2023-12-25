@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 14:51:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 14:56:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	execute_command(char **command, char **v_env, pid_t *f_id, int *fd_dup)
+void	execute_command(char **command, char **v_env, pid_t *f_id)
 {
 	char	*path;
 
@@ -26,35 +26,29 @@ void	execute_command(char **command, char **v_env, pid_t *f_id, int *fd_dup)
 			path = command[0];
 		else
 			path = get_path(command[0], v_env);
-		close(fd_dup[1]);
-		dup2(fd_dup[0], STDIN_FILENO);
 		printf("\tEXE [%s][%s\'  \'%s][%s]\n", path, command[0], command[1], v_env[0]);
 		execve(path, command, v_env);
 		perror("bash");
 		free_tab(command, tablen(command));
 		close(STDOUT_FILENO);
 		close(STDIN_FILENO);
-		close(fd_dup[0]);
 		exit (0);
 	}
-	close(fd_dup[0]);
 }
 
 void	exec_all(t_linux *shell)
 {
 	pid_t	f_id;
-	int		fd_dup[2];
 	int		ipipe[2];
 	int		i;
 
 	i = 0;
 	pipe(ipipe);
-	fd_dup[0] = ipipe[0];
-	fd_dup[1] = ipipe[1];
 	if (shell->exe.infile)
 	{
-		fd_dup[0] = shell->exe.infile;
+		dup2(shell->exe.infile, STDIN_FILENO);
 		i += 2;
+		execute_command(shell->exe.f_cmd + i, shell->envi, &f_id);
 	}
 	while (shell->exe.f_cmd[i] && shell->exe.pipe_nb > 0)
 	{
@@ -62,14 +56,16 @@ void	exec_all(t_linux *shell)
 			i++;
 		if (shell->exe.f_cmd[i] && shell->exe.f_cmd[i][0] == '|')
 			i++;
-		execute_command(shell->exe.f_cmd + i, shell->envi, &f_id, fd_dup);
+		execute_command(shell->exe.f_cmd + i, shell->envi, &f_id);
 		shell->exe.pipe_nb--;
-		fd_dup[0] = ipipe[0];
-		fd_dup[1] = ipipe[1];
+		dup2(ipipe[0], STDIN_FILENO);
+		dup2(ipipe[1], STDOUT_FILENO);
 	}
 	if (shell->exe.outfile)
-		fd_dup[1] = shell->exe.outfile;
-	execute_command(shell->exe.f_cmd + i, shell->envi, &f_id, fd_dup);
+	{
+		dup2(shell->exe.outfile, STDOUT_FILENO);
+		execute_command(shell->exe.f_cmd + i, shell->envi, &f_id);
+	}
 	close(ipipe[1]);
 	close(ipipe[0]);
 	waitpid(f_id - 1, 0, 0);
