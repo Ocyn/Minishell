@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 15:34:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 21:35:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,39 @@
 # include <signal.h>
 # include "lib.h"
 
-# define UNKNOWN_COMMAND 0
-# define SINGLE_COMMAND 1
-# define PIPE_COMMAND 2
-# define UNDEFINED_COMMAND 99
+# define UNKNOWN_CMD 0
+# define SINGLE_CMD 1
+# define PIPE_CMD 2
+# define INFILE_CMD 3
+# define OUTFILE_CMD 4
+# define HEREDOC_CMD 5
+# define ENV_CMD 6
+# define UNDEFINED_CMD 99
+
+typedef struct s_execve
+{
+	char			**full;
+	char			*one;
+	char			*path;
+	int				arg_n;
+}					t_execve;
 
 typedef struct s_cmd
 {
-	int		infile;
-	int		outfile;
-	int		pipe_nb;
-	int		arg_n;
-	char	**f_cmd;
-	char	*path;
-}			t_cmd;
+	t_execve		*command;
+	int				type;
+	int				id;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
+}					t_cmd;
 
 typedef struct s_linux
 {
-	t_cmd	exe;
+	t_cmd	cmd;
+	t_cmd	*cmd_h;
 	char	*command;
-	int		cmd_type;
+	int		infile;
+	int		outfile;
 	char	**envi;
 	char	**history;
 	int		nb_history;
@@ -56,6 +69,12 @@ char		*get_path(char *command, char **env);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			set_command(t_linux *shell);
 void		exec_all(t_linux *shell);
+
+t_cmd		*cmd_add_unit(t_cmd *cmd);
+void		cmd_init(t_cmd *cmd, t_cmd *nxt, t_cmd *prv);
+void		*cmd_rm_unit(t_cmd *cmd, t_cmd *head, int last, int first);
+void		cmd_display_list(t_cmd *list);
+void		*cmd_free_list(t_cmd *cmd);
 
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);

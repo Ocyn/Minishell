@@ -17,6 +17,7 @@ SRCS			= main.c \
 				exec.c \
 				isbuilt.c \
 				mem_tools.c \
+				cmd_list.c \
 				set_command.c \
 				debug.c
 
