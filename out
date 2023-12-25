@@ -1,0 +1,10 @@
+	EXE [/usr/bin/ls][ls'  '(null)][GJS_DEBUG_TOPICS=JS ERROR;JS LOG]
+Docx.md
+header
+ignore_readline.supp
+lib
+Makefile
+minishell
+out
+outfile.txt
+src

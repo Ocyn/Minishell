@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 07:59:22 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/25 14:38:16 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 16:31:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	set_command(t_linux *shell)
 	err = 0;
 	shell->exe.infile = 0;
 	shell->exe.outfile = 0;
+	shell->exe.pipe_nb = 0;
 	if (shell->exe.arg_n < 3)
 		return (1);
 	command = shell->exe.f_cmd;
