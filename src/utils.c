@@ -6,11 +6,27 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 16:13:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 05:14:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	*extract_str(char *str, int start, int len)
+{
+	char	*pulled;
+	int		i;
+
+	i = 0;
+	pulled = NULL;
+	if (!str || !len)
+		return (NULL);
+	pulled = s_malloc(sizeof(str) * (len + 1));
+	if (!pulled)
+		return (NULL);
+	ft_strncpy();
+	return (pulled);
+}
 
 int	tablen(char **tab)
 {

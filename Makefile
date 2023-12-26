@@ -18,8 +18,8 @@ SRCS			= main.c \
 				isbuilt.c \
 				mem_tools.c \
 				cmd_list.c \
-				set_command.c \
-				cmd_pattern.c \
+				fd_redirection.c \
+				multichecking.c \
 				debug.c
 
 CC 				= cc

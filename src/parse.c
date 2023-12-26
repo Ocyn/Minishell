@@ -6,35 +6,45 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 00:53:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 03:59:25 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
-
-t_execve	*get_command(char *str, int len, int type, char **env)
+t_cmd	*get_command(char *str, int index, char **env)
 {
-	t_execve	*command;
-	char		**full_c;
+	t_cmd	*command;
+	int		len;
 
 	command = NULL;
-	full_c = NULL;
-	
+	len = 0;
+	command = malloc(sizeof(t_cmd));
+	if (!command)
+		return (NULL);
+	type = command_pattern(str[index]);
+	if (type == INFILE_CMD)
+	{
+		while (str[index + len] && !(command_pattern(str[index + len])) \
+		&& white_space(str[index + len]))
+			len++;
+		command->infile = set_infile();
+	}
 	return (command);
 }
 
-int	chk_command(char *cmd_in, t_linux *shell)
+int	set_command(char *cmd_in, t_linux *shell)
 {
 	t_cmd	*command;
-	int			i;
+	int		head;
+	int		i;
 
 	i = 0;
 	command = &shell->cmd;
 	//printf("Arg_nb: %d  ", shell->cmd->command->arg_n);
 	while (cmd_in[i])
 	{
-		command = command_pattern(cmd_in, "<", INFILE_CMD);
-			printf("%d:[%s] ", i, command[i]);
+		if (command_pattern(cmd_in[i]))
+			get_command(cmd_in, i, shell->envi);
+		printf("%d:[%s] ", i, command[i]);
 		i++;
 	}
 	printf("\n");
@@ -52,7 +62,7 @@ void	parse(char *cmd_in, t_linux *shell)
 		return (ft_exit(shell));
 	add_history(cmd_in);
 	shell->nb_history++;
-	chk_command(cmd_in, shell);
+	set_command(cmd_in, shell);
 	exec_all(shell);
 }
 

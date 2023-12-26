@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_pattern.c                                      :+:      :+:    :+:   */
+/*   fd_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/26 00:50:38 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/26 00:53:27 by jcuzin           ###   ########.fr       */
+/*   Created: 2023/12/25 07:59:22 by jcuzin            #+#    #+#             */
+/*   Updated: 2023/12/26 04:37:44 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	command_pattern(const char *seek, const char *patern, int type)
+int	set_infile(char *file)
 {
-	int			i;
-	int			seek_l;
-	int			patern_l;
+	int	fd;
 
-	i = 0;
-	seek_l = ft_strlen(seek);
-	patern_l = ft_strlen(patern);
-	while (seek[i] && i <= seek_l - patern_l)
-	{
-		if (!ft_strncmp(seek + i, patern, patern_l))
-			return (1);
-		i++;
-	}
-	return (0);
+	fd = 0;
+	if (!file)
+		return (0);
+	if (!access(file, F_OK) && !access(file, R_OK))
+		fd = open(file, O_RDONLY);
+	if (!fd)
+		return (0);
+	return (fd);
 }
 
+int	set_outfile(char *file)
+{
+	int	fd;
+
+	fd = 0;
+	if (!file)
+		return (0);
+	if (!access(file, F_OK) && access(file, W_OK))
+		return (0);
+	fd = open(file, O_CREAT | O_RDWR, 00700);
+	if (!fd)
+		return (0);
+	return (fd);
+}
