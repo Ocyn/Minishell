@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:26:48 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 20:39:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 09:35:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_export(t_linux *shell)
 {
-	printf ("%s\n", shell->command);
+	printf ("%s\n", shell->input);
 }

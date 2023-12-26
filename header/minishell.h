@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 09:11:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 18:01:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@
 
 # include "header_doc_en.h"
 
-# define UNKNOWN_CMD 0
-# define SINGLE_CMD 1
-# define PIPE_CMD 2
-# define INFILE_CMD 3
-# define OUTFILE_CMD 4
-# define HEREDOC_CMD 5
-# define ENV_CMD 6
-# define ERROR_C -1
+# define UNKNOWN_CMD -1
+# define SINGLE_CMD 0
+# define PIPE_CMD 124
+# define INFILE_CMD 60
+# define OUTFILE_CMD 62
+# define DOLLARSIGN_CMD 36
+# define ERROR_C -2
 # define UNDEFINED_CMD 99
 
 typedef struct s_execve
@@ -57,8 +56,8 @@ typedef struct s_cmd
 
 typedef struct s_linux
 {
-	t_cmd	cmd;
-	t_cmd	*cmd_h;
+	t_cmd	*head;
+	char	*input;
 	int		count_cmd;
 	char	**envi;
 	char	**history;
@@ -72,7 +71,6 @@ void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *str, t_linux *shell);
 char		*get_path(char *command, char **env);
 int			is_builtin(char *cmd_in, t_linux *shell);
-void		exec_all(t_linux *shell);
 
 char		*extract_str(char *str, int start, int len);
 int			multichecking(const char check, int mode);
@@ -83,7 +81,7 @@ int			set_infile(char *file);
 int			set_outfile(char *file);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
-void		cmd_init(t_cmd *cmd, t_cmd *nxt, t_cmd *prv);
+void		cmd_init(t_cmd *cmd, char **data, int location);
 void		*cmd_rm_unit(t_cmd *cmd, t_cmd *head, int last, int first);
 void		cmd_display_list(t_cmd *list);
 void		*cmd_free_list(t_cmd *cmd);

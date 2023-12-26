@@ -6,13 +6,30 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 09:22:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 17:36:53 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*reassemble_all
+char	*tab_to_str(char **tab)
+{
+	char	*out;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = 0;
+	out = NULL;
+	while (tab[i])
+		len += ft_strlen(tab[i++]);
+	out = s_malloc(sizeof(char) * (len + 1));
+	i = -1;
+	while (tab[++i])
+		ft_strlcat(out, tab[i], ft_strlen(tab[i]));
+	free_tab(tab, tablen(tab));
+	return (out);
+}
 
 char	*extract_str(char *str, int start, int len)
 {
@@ -26,6 +43,7 @@ char	*extract_str(char *str, int start, int len)
 	pulled = s_malloc(sizeof(str) * (len + 1));
 	if (!pulled)
 		return (NULL);
+	pulled[len] = 0;
 	ft_strlcpy(pulled, str + start, len);
 	printf("\nextract_str DEBUG\nOut:\t[%s]\n", pulled);
 	return (pulled);

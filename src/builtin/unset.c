@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 20:39:07 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 09:36:04 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_unset(t_linux *shell)
 {
-	printf ("%s\n", shell->command);
+	printf ("%s\n", shell->input);
 }

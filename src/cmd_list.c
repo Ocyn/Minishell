@@ -6,37 +6,42 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/25 23:16:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 17:14:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	cmd_init(t_cmd *cmd, t_cmd *nxt, t_cmd *prv)
+void	cmd_init(t_cmd *cmd, char **data, int location)
 {
-	cmd->command = NULL;
-	cmd->full_command = NULL;
-	cmd->path = NULL;
-	cmd->arg_n = 0;
+	cmd->command.raw = NULL;
+	cmd->command.path = NULL;
+	cmd->command.full = NULL;
+	cmd->command.env_var = NULL;
+	cmd->command.arg_n = 0;
 	cmd->type = 0;
 	cmd->id = 0;
-	cmd->next = nxt;
-	cmd->prev = prv;
+	if (!location || !data)
+		return ;
+	if (location == 1)
+		cmd->command.raw = *data;
+	if (location == 2)
+		cmd->command.path = *data;
+	if (location == 3)
+		cmd->command.full = data;
+	if (location == 4)
+		cmd->command.env_var = data;
 }
 
-t_cmd	*cmd_add_unit(t_cmd *cmd)
+t_cmd	*cmd_add_unit(t_cmd *last)
 {
-    t_cmd *prv;
-    t_cmd *new_cmd;
-
-    prv = cmd;
-    new_cmd = malloc(sizeof(t_cmd));
-    if (!new_cmd)
-        return (NULL);
-    cmd->next = new_cmd;
-    cmd_init(new_cmd, NULL, prv);
-	new_cmd->id = prv->id + 1;
-    return (new_cmd);
+	last->next = malloc(sizeof(t_cmd));
+	if (!last->next)
+		return (NULL);
+	last = last->next;
+	last->next = NULL;
+	cmd_init(last, NULL, 0);
+	return (last);
 }
 
 void	*cmd_rm_unit(t_cmd *cmd, t_cmd *head, int last, int first)
@@ -69,9 +74,9 @@ void	*cmd_free_list(t_cmd *cmd)
 
 	while (cmd->next)
 	{
-		s_free(cmd->command.pattern);
-		s_free(cmd->command.one);
-		s_free(cmd->command.path);
+		s_free(&cmd->command.raw);
+		s_free(&cmd->command.one);
+		s_free(&cmd->command.path);
 		free_tab(cmd->command.full, cmd->command.arg_n);
 		temp = cmd;
 		cmd = cmd->next;
@@ -90,7 +95,7 @@ void	cmd_display_list(t_cmd *list)
 {
 	while (list->next)
 	{
-		printf("Cell %d:\tcommand [%s]\t|\tpath [%s]\t|\targ_n [%d]\t|\tnext [%p]\t|\tprev [%p]\n", list->id, list->command, list->path, list->arg_n, list->next, list->prev);
+		printf("Cell %d:\tRaw [%s] |Trimmed command [%s]\t|\tpath [%s]\t|\targ_n [%d]\t|\tnext [%p]\t|\tprev [%p]\n", list->id, list->command.raw, list->command.one, list->command.path, list->command.arg_n, list->next, list->prev);
 		list = list->next;
 	}
 }
