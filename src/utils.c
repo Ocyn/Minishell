@@ -6,11 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 05:17:15 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 09:22:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	*reassemble_all
 
 char	*extract_str(char *str, int start, int len)
 {

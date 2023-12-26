@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/26 05:22:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 06:58:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	multichecking(const char check, int mode)
 	{
 		if (mode == 1)
 			return (command_pattern(check));
-		else
+		else if (mode == 2)
 			return (white_space(check));
+		else
+			return (!(white_space(check) && command_pattern(check)));
 	}
 }
 

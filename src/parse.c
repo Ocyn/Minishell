@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 05:20:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 09:20:04 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,37 @@
 t_cmd	*get_command(char *str, int index, char **env)
 {
 	t_cmd	*command;
-	int		len;
+	char	*temp;
 
+	(env)
+	temp = NULL;
 	command = NULL;
-	len = 0;
-	command = malloc(sizeof(t_cmd));
 	if (!command)
 		return (NULL);
 	command->type = command_pattern(str[index]);
-	if (type == INFILE_CMD)
-	{
-		while (str[index + len] && !(command_pattern(str[index + len])) \
-		&& white_space(str[index + len]))
-			len++;
-		command->infile = set_infile();
-	}
 	return (command);
 }
 
-int	set_command(char *cmd_in, t_linux *shell)
+int	clean_command(char *cmd_in, t_linux *shell)
 {
 	t_cmd	*command;
-	int		head;
+	int		cmd_c;
 	int		i;
 
 	i = 0;
+	cmd_c = 0;
 	command = &shell->cmd;
-	//printf("Arg_nb: %d  ", shell->cmd->command->arg_n);
-	while (cmd_in[i])
+	while (cmd_in && cmd_in[i])
 	{
 		if (command_pattern(cmd_in[i]))
-			get_command(cmd_in, i, shell->envi);
-		printf("%d:[%s] ", i, command[i]);
+			cmd_c++;
 		i++;
 	}
+	i = 0;
+	
+	printf("%d:[%s] ", i, command[i]);
 	printf("\n");
-	// if (!set_command(shell))
-	// 	return (1);
-	printf("fd: in [%d] | out [%d]\n\n", shell->infile, shell->outfile);
+	exit (0);
 	return (0);
 }
 
@@ -64,7 +57,7 @@ void	parse(char *cmd_in, t_linux *shell)
 		return (ft_exit(shell));
 	add_history(cmd_in);
 	shell->nb_history++;
-	set_command(cmd_in, shell);
+	clean_command(cmd_in, shell);
 	exec_all(shell);
 }
 
@@ -78,8 +71,6 @@ void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 	shell->history = NULL;
 	shell->end = 0;
 	shell->envi = genv;
-	shell->infile = 0;
-	shell->outfile = 0;
-	shell->commands_count = 0;
+	shell->count_cmd = 0;
 	shell->cmd_h = NULL;
 }
