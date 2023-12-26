@@ -6,9 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 03:59:25 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 05:20:14 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../header/minishell.h"
 
 t_cmd	*get_command(char *str, int index, char **env)
 {
@@ -20,7 +22,7 @@ t_cmd	*get_command(char *str, int index, char **env)
 	command = malloc(sizeof(t_cmd));
 	if (!command)
 		return (NULL);
-	type = command_pattern(str[index]);
+	command->type = command_pattern(str[index]);
 	if (type == INFILE_CMD)
 	{
 		while (str[index + len] && !(command_pattern(str[index + len])) \

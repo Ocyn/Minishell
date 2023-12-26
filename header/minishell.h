@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 03:23:07 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 05:19:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char		*get_path(char *command, char **env);
 int			is_builtin(char *cmd_in, t_linux *shell);
 void		exec_all(t_linux *shell);
 
+int			multichecking(const char check, int mode);
 int			command_pattern(const char seek);
 int			white_space(const char seek);
 
@@ -97,41 +98,5 @@ void		ft_env(t_linux *shell);
 void		ft_echo(t_linux *shell);
 void		ft_unset(t_linux *shell);
 void		ft_export(t_linux *shell);
-
-
-/**
- * @brief Allocate an array; init each element at 0
- * 
- * @details
- * Keep in mind that in order to be able to allocate every type variable
- * in one function, you will have to cast the calling of the function as
- * your array variable type. Example:
- * ```c
- * char *str = (char *)s_malloc(sizeof(char) * (9 + 1));
- * int *tab = (int *)s_malloc(sizeof(int) * (9 + 1));
- * ```
- * @param size (* sizeof(Your_Variable_Type))
- * @return void * [The allocated array]
- */
-void		*s_malloc(unsigned long size);
-
-
-/**
- * @brief Free a dynamically allocated 2D array of strings.
- *
- * This function frees the memory allocated for a 2D array of strings, along with
- * the memory allocated for each individual string.
- *
- * @param tab The 2D array of strings to be freed.
- * @param i The index of the last string in the array.
- */
-void		free_tab(char **tab, int i);
-
-/**
- * @brief Frees the memory pointed to by the given pointer and sets it to NULL.
- * 
- * @param ptr_memory A pointer to a pointer to the memory to be freed.
- */
-void		s_free(char **ptr_memory);
 
 #endif

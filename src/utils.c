@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 05:14:22 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 05:17:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*extract_str(char *str, int start, int len)
 	pulled = s_malloc(sizeof(str) * (len + 1));
 	if (!pulled)
 		return (NULL);
-	ft_strncpy();
+	ft_strlcpy(pulled, str + start, len);
+	printf("\nextract_str DEBUG\nOut:\t[%s]\n", pulled);
 	return (pulled);
 }
 
