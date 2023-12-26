@@ -6,29 +6,41 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 21:41:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 00:53:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	chk_command(char *cmd_in, t_linux *shell)
+t_execve	*get_command(char *str, int len, int type, char **env)
 {
 	t_execve	*command;
+	char		**full_c;
+
+	command = NULL;
+	full_c = NULL;
+	
+	return (command);
+}
+
+int	chk_command(char *cmd_in, t_linux *shell)
+{
+	t_cmd	*command;
 	int			i;
 
 	i = 0;
-	command = shell->cmd;
+	command = &shell->cmd;
 	//printf("Arg_nb: %d  ", shell->cmd->command->arg_n);
 	while (cmd_in[i])
 	{
-		printf("%d:[%s] ", i, command[i]);
+		command = command_pattern(cmd_in, "<", INFILE_CMD);
+			printf("%d:[%s] ", i, command[i]);
 		i++;
 	}
 	printf("\n");
-	if (!set_command(shell))
-		return (1);
-	printf("fd: in [%d] | out [%d]\n\n", shell->exe.infile, shell->exe.outfile);
+	// if (!set_command(shell))
+	// 	return (1);
+	printf("fd: in [%d] | out [%d]\n\n", shell->infile, shell->outfile);
 	return (0);
 }
 
@@ -56,5 +68,6 @@ void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 	shell->envi = genv;
 	shell->infile = 0;
 	shell->outfile = 0;
+	shell->commands_count = 0;
 	shell->cmd_h = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 21:35:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 23:18:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 typedef struct s_execve
 {
+	char			*pattern;
 	char			**full;
 	char			*one;
 	char			*path;
@@ -41,9 +42,9 @@ typedef struct s_execve
 
 typedef struct s_cmd
 {
-	t_execve		*command;
-	int				type;
 	int				id;
+	t_execve		command;
+	int				type;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;
@@ -53,6 +54,7 @@ typedef struct s_linux
 	t_cmd	cmd;
 	t_cmd	*cmd_h;
 	char	*command;
+	int		commands_count;
 	int		infile;
 	int		outfile;
 	char	**envi;

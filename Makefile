@@ -19,6 +19,7 @@ SRCS			= main.c \
 				mem_tools.c \
 				cmd_list.c \
 				set_command.c \
+				cmd_pattern.c \
 				debug.c
 
 CC 				= cc

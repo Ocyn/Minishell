@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cmd_pattern.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 22:58:47 by jcuzin           ###   ########.fr       */
+/*   Created: 2023/12/26 00:50:38 by jcuzin            #+#    #+#             */
+/*   Updated: 2023/12/26 00:53:27 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+int	command_pattern(const char *seek, const char *patern, int type)
 {
-	t_linux	shell;
-	char	*input;
+	int			i;
+	int			seek_l;
+	int			patern_l;
 
-	input = NULL;
-	struct_init(&shell, argc, argv, env);
-	//return (db_debug(&shell, shell.envi, NULL), 0);
-	while (!shell.end)
+	i = 0;
+	seek_l = ft_strlen(seek);
+	patern_l = ft_strlen(patern);
+	while (seek[i] && i <= seek_l - patern_l)
 	{
-		input = readline("minishell>>");
-		parse(input, &shell);
-		s_free(&input);
+		if (!ft_strncmp(seek + i, patern, patern_l))
+			return (1);
+		i++;
 	}
-	rl_clear_history();
 	return (0);
 }
+

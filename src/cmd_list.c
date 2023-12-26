@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/25 21:37:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/25 23:16:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,10 @@ void	*cmd_free_list(t_cmd *cmd)
 
 	while (cmd->next)
 	{
-		s_free(cmd->command->one);
-		s_free(cmd->command->path);
-		free_tab(cmd->command->full, cmd->command->arg_n);
-		free(cmd->command);
-		cmd->command = NULL;
+		s_free(cmd->command.pattern);
+		s_free(cmd->command.one);
+		s_free(cmd->command.path);
+		free_tab(cmd->command.full, cmd->command.arg_n);
 		temp = cmd;
 		cmd = cmd->next;
 		free(temp);
