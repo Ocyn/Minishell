@@ -6,16 +6,9 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 05:18:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/26 06:24:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 06:29:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-Decommententes / Commentes la ligne ci dessous pour activer / desactiver
-les commentaires Doxygen.
-*/
-
-// #include "../header/minishell.h"
 
 #ifndef HEADER_DOC_FR_H
 # define HEADER_DOC_FR_H

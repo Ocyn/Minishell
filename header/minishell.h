@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 05:19:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/26 06:32:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include "lib.h"
+
+# include "header_doc_en.h"
 
 # define UNKNOWN_CMD 0
 # define SINGLE_CMD 1
