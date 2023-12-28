@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 17:36:53 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 00:01:11 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,6 @@ char	*tab_to_str(char **tab)
 	return (out);
 }
 
-char	*extract_str(char *str, int start, int len)
-{
-	char	*pulled;
-	int		i;
-
-	i = 0;
-	pulled = NULL;
-	if (!str || !len)
-		return (NULL);
-	pulled = s_malloc(sizeof(str) * (len + 1));
-	if (!pulled)
-		return (NULL);
-	pulled[len] = 0;
-	ft_strlcpy(pulled, str + start, len);
-	printf("\nextract_str DEBUG\nOut:\t[%s]\n", pulled);
-	return (pulled);
-}
-
 int	tablen(char **tab)
 {
 	int	i;
@@ -59,16 +41,20 @@ int	tablen(char **tab)
 	return (i);
 }
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	int	i;
 
 	i = 0;
-	while ((unsigned char)s1[i] || (unsigned char)s2[i])
+	if (!s1 && s2)
+		return (-1);
+	if (s1 && !s2)
+		return (1);
+	while (s1[i] || s2[i])
 	{
-		if ((unsigned char)s1[i] > (unsigned char)s2[i])
+		if (s1[i] > s2[i])
 			return (1);
-		if ((unsigned char)s1[i] < (unsigned char)s2[i])
+		if (s1[i] < s2[i])
 			return (-1);
 		i++;
 	}

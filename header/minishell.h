@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 18:01:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 00:35:41 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct s_linux
 	int		end;
 }			t_linux;
 
-void		db_debug(t_linux *sys_l, void *memm1, void **memm2);
+void		db_debug(t_linux *sys_l);
+void		db_tabstr_display(char **tab);
 
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *str, t_linux *shell);
@@ -82,14 +83,16 @@ int			set_outfile(char *file);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd, char **data, int location);
-void		*cmd_rm_unit(t_cmd *cmd, t_cmd *head, int last, int first);
+void		cmd_rm_unit(t_cmd *cmd);
 void		cmd_display_list(t_cmd *list);
 void		*cmd_free_list(t_cmd *cmd);
 
+int			str_occur(char *src, char *seek);
+void		str_edit(char **src, char *seek, char *replace);
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
-int			ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(char *s1, char *s2);
 int			tablen(char **tab);
 
 void		ft_pwd(void);

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 17:52:12 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 00:35:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **env)
 
 	shell.input = NULL;
 	struct_init(&shell, argc, argv, env);
-	//return (db_debug(&shell, shell.envi, NULL), 0);
+	return (db_debug(&shell), 0);
 	while (!shell.end)
 	{
 		shell.input = readline("minishell>>");

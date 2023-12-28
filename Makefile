@@ -20,11 +20,12 @@ SRCS			= main.c \
 				cmd_list.c \
 				fd_redirection.c \
 				multichecking.c \
+				str_edit.c \
 				debug.c
 
 CC 				= cc
 
-CFLAGS			= -Wextra -Wall -Werror -g3
+CFLAGS			= -Wextra -Wall -Werror -gdwarf-4
 
 LINK 			= -lreadline
 

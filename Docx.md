@@ -17,8 +17,10 @@
 	- $?						[expand to the exit status of most recently executed foreground pipeline]
 	- ""						[..........]
 	- ''						[..........]
-### DOCUMENTATION
+	**Functions**
+		- ?_
 
+### DOCUMENTATION
 
 
 

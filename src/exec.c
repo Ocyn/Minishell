@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 17:18:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/28 18:25:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	launch_command(t_linux *shell)
 	pipefd[0] = 0;
 	pipefd[1] = 0;
 	pipe(pipefd);
+	(void)command;
 	if (!pipefd[0] || !pipefd[1])
 		return ;
 	command = shell->head;
