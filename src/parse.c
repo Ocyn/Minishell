@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 02:18:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 02:33:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	parse(char *cmd_in, t_linux *shell)
 	add_history(cmd_in);
 	shell->nb_history++;
 	clean_command(command, cmd_in, shell);
-	//execute command
+	//launch_command(shell);
 	cmd_free_list(shell->head->next);
 }
 

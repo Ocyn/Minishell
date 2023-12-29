@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 01:38:15 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 02:33:29 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_linux
 void		db_debug(t_linux *sys_l);
 void		db_tabstr_display(char **tab);
 
+void		launch_command(t_linux *shell);
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *cmd_in, t_linux *shell);
 char		*get_path(char *command, char **env);
