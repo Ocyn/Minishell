@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 00:40:21 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 01:55:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	db_tabstr_display(char **tab)
 	int	i;
 
 	i = -1;
-	printf("[");
+	printf("{");
 	while (tab && tab[++i])
-		printf("\"%s\" ", tab[i]);
-	printf("]");
+		printf("[%s] ", tab[i]);
+	printf("}");
 }
 
 void	db_debug(t_linux *sys_l)
@@ -28,7 +28,6 @@ void	db_debug(t_linux *sys_l)
 	t_cmd	*command;
 	char	*line;
 
-	(void)sys_l;
 	line = NULL;
 	command = sys_l->head;
 	while (ft_strcmp(command->command.raw, "exit"))
@@ -43,8 +42,6 @@ void	db_debug(t_linux *sys_l)
 	s_free(&command->command.raw);
 	cmd_display_list(sys_l->head);
 	cmd_free_list(sys_l->head);
-	//cmd_rm_unit(sys_l->head);
-	// free(sys_l->head);
 	fflush(stdout);
 	return ;
 }

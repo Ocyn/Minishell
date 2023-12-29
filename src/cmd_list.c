@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 00:54:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 02:25:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,42 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 void	*cmd_free_list(t_cmd *cmd)
 {
-	t_cmd	*temp;
-
-	while (cmd->next)
+	while (cmd)
 	{
 		printf("Free Cell %d [%p]\n", cmd->id, cmd);
 		s_free(&cmd->command.raw);
 		s_free(&cmd->command.one);
-		s_free(&cmd->command.path);
 		if (cmd->command.full)
-			free_tab(cmd->command.full, cmd->command.arg_n);
-		temp = cmd;
-		cmd = cmd->next;
-		free(temp);
-		temp = NULL;
-	}
-	if (cmd)
-	{
-		free(cmd);
-		cmd = NULL;
+			free_tab(cmd->command.full, tablen(cmd->command.full));
+		if (cmd->next)
+		{
+			cmd = cmd->next;
+			free(cmd->prev);
+			cmd->prev = NULL;
+		}
+		else
+			break ;
 	}
 	return (NULL);
 }
 
 void	cmd_display_list(t_cmd *list)
 {
-	while (list->next)
+	while (list)
 	{
 		printf("Cell %d [%p]:\n", list->id, list);
+		printf("\tType [%d]\n", list->type);
 		printf("\tRaw [%s]\n", list->command.raw);
-		printf("\tTrimmed command [%s]\n", list->command.one);
-		printf("\tpath [%s]\n", list->command.path);
+		printf("\tOne [%s]\n", list->command.one);
+		printf("\tFull ");
+		db_tabstr_display(list->command.full);
+		printf("\n");
 		printf("\targ_n [%d]\n", list->command.arg_n);
-		printf("\tnext [%p]\n", list->next);
-		printf("\tprev [%p]\n\n", list->prev);
-		list = list->next;
+		printf("\tprev [%p]\n", list->prev);
+		printf("\tnext [%p]\n\n", list->next);
+		if (list->next)
+			list = list->next;
+		else
+			break ;
 	}
 }
