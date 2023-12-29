@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 05:07:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 05:33:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ void	exe_command(t_execve *cmd, pid_t *fk, char **env)
 	if (*fk == 0)
 	{
 		path = get_path(cmd->one, env);
-		execve(path, cmd->full, cmd->env_var);
+		execve(path, cmd->full, env);
 		perror("bash");
+		s_free(&path);
 		exit (0);
 	}
 }

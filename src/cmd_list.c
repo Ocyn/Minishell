@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 05:14:15 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 05:46:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,14 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 void	*cmd_free_list(t_cmd *cmd)
 {
+	if (cmd->id == 0 && cmd->next)
+	{
+		printf("Skipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
+		cmd = cmd->next;
+	}
 	while (cmd)
 	{
-		printf("Free Cell %d [%p]\n", cmd->id, cmd);
+		printf("Free Cell %d [%p]\n\n", cmd->id, cmd);
 		s_free(&cmd->command.raw);
 		s_free(&cmd->command.one);
 		if (cmd->command.full)
@@ -77,5 +82,6 @@ void	*cmd_free_list(t_cmd *cmd)
 		else
 			break ;
 	}
+	free(cmd);
 	return (NULL);
 }

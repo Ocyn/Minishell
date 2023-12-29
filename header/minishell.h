@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 04:58:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 05:19:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <signal.h>
 # include "lib.h"
 
-# include "header_doc_en.h"
+# include "header_doc_fr.h"
 
 # define UNKNOWN_CMD -1
 # define SINGLE_CMD 0
