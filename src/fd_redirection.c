@@ -6,11 +6,22 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 07:59:22 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/26 04:37:44 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 11:28:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+t_cmd	*fd_redirection(char *file, t_cmd *command)
+{
+	if (!file || !command)
+		return (command);
+	if (command->type == '<')
+		command->infile = set_infile(file);
+	if (command->type == '>')
+		command->outfile = set_outfile(file);
+	return (command);
+}
 
 int	set_infile(char *file)
 {

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 05:20:39 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 10:22:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,3 +95,12 @@ static char	*str_edit_init(char **src, char *seek, char *replace, int *llen)
 	return (new);
 }
 
+void	whitespaces_to_space(char **entry)
+{
+	str_edit(entry, "\t", " ");
+	str_edit(entry, "\0011", " ");
+	str_edit(entry, "\0012", " ");
+	str_edit(entry, "\0013", " ");
+	str_edit(entry, "\0014", " ");
+	str_edit(entry, "\0015", " ");
+}

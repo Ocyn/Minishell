@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 07:20:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 09:58:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 	tprev = cmd->prev;
 	tnext = cmd->next;
+	if (cmd->infile)
+		close(cmd->infile);
+	if (cmd->outfile)
+		close(cmd->outfile);
 	s_free(&cmd->command.raw);
 	s_free(&cmd->command.one);
 	if (cmd->command.full)
@@ -76,6 +80,10 @@ void	*cmd_free_list(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("Free Cell %d [%p]\n\n", cmd->id, cmd);
+		if (cmd->infile)
+			close(cmd->infile);
+		if (cmd->outfile)
+			close(cmd->outfile);
 		s_free(&cmd->command.raw);
 		s_free(&cmd->command.one);
 		if (cmd->command.full)

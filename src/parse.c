@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 08:11:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 12:46:47 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,108 +26,96 @@ int	is_empty(char *str)
 	return (1);
 }
 
-int	pipe_splitter(t_cmd **entry)
+char	**get_command_args(char **tab)
 {
-	t_cmd	*src;
-	t_cmd	*command;
-	char	*temp;
+	char	**full;
 	int		i;
-	int		len;
 
-	command = NULL;
-	len = 0;
-	i = -1;
-	command = *entry;
-	if (!command || !command->next)
-		return (0);
-	if (command->id == 0)
-		command = command->next;
-	src = command;
-	len = str_occur(src->command.raw, "|");
-	while (++i < len)
+	i = 0;
+	full = NULL;
+	if (!tab)
+		return (NULL);
+	while (tab[i] && !str_occur(tab[i], "|") \
+	&& !str_occur(tab[i], ">") && !str_occur(tab[i], "<") \
+	&& !str_occur(tab[i], "$"))
+		i++;
+	full = malloc(sizeof(char *) * (i + 1));
+	if (!full)
+		return (NULL);
+	full[i] = NULL;
+	i = 0;
+	while (tab[i] && !str_occur(tab[i], "|") \
+	&& !str_occur(tab[i], ">") && !str_occur(tab[i], "<") \
+	&& !str_occur(tab[i], "$"))
 	{
-		command = cmd_add_unit(command);
-		temp = ft_strdup(src->command.full[i]);
-		str_edit(&temp, "\t", " ");
-		str_edit(&temp, "\0011", " ");
-		str_edit(&temp, "\0012", " ");
-		str_edit(&temp, "\0013", " ");
-		str_edit(&temp, "\0014", " ");
-		str_edit(&temp, "\0015", " ");
-		command->command.full = ft_split(temp, ' ');
-		command->command.one = ft_strdup(command->command.full[0]);
-		command->type = PIPE_CMD;
-		command->id--;
-		s_free(&temp);
+		full[i] = ft_strdup(tab[i]);
+		i++;
 	}
-	command->type = 0;
-	cmd_rm_unit(src);
-	return (1);
+	full[i] = NULL;
+	return (full);
 }
 
-t_cmd	*get_command(t_cmd	*command, char *str, int index)
+t_cmd	*build_commands(t_cmd *command, char **token)
 {
-	char	*temp;
 	int		i;
 
-	temp = NULL;
 	i = -1;
-	if (!str)
-		return (command);
-	/*DEBUG*/ printf("Command %d saved[%p]:\n", command->id, command);
-	command->type = command_pattern(str[index]);
-	command->command.raw = ft_strtrim(str, "  \0011\0012\0013\0014\0015\t");
-	command->command.full = ft_split(command->command.raw, command->type);
-	while (command->command.full[++i])
+	while (token[++i])
 	{
-		temp = ft_strdup(command->command.full[i]);
-		s_free(&command->command.full[i]);
-		command->command.full[i] = ft_strtrim(temp, "  \0011\0012\0013\0014\0015\t");
-		s_free(&temp);
+		command = cmd_add_unit(command);
+		command->type = token[i][0];
+		if (str_occur(token[i], "<") || str_occur(token[i], ">"))
+			i += 2;
+		if (token[i] && str_occur(token[i], "|"))
+			i++;
+		command->command.full = get_command_args(token + i);
+		command->command.one = ft_strdup(command->command.full[0]);
+		if (token[i] && command->command.full)
+			i += tablen(command->command.full);
+		if (!token[i])
+			break ;
 	}
-	command->command.one = ft_strdup(command->command.full[0]);
 	return (command);
 }
 
-int	store_command(t_cmd	*command, char *cmd_in, t_linux *shell)
+char	**get_token(char *cmd_in)
 {
-	int		cmd_c;
-	int		i;
+	char	**tab;
+	char	*temp;
 
-	i = 0;
-	cmd_c = 0;
-	while (cmd_in && cmd_in[i])
-	{
-		if (command_pattern(cmd_in[i]) != SINGLE_CMD)
-		{
-			cmd_c++;
-			command = cmd_add_unit(command);
-			command = get_command(command, cmd_in, i);
-		}
-		i++;
-	}
-	i = 0;
-	if (!cmd_c)
-	{
-		command = cmd_add_unit(command);
-		command = get_command(command, cmd_in, 0);
-	}
-	/*DEBUG*/ db_display_list(shell->head);
-	return (0);
+	temp = NULL;
+	tab = NULL;
+	temp = ft_strtrim(cmd_in, "  \0011\0012\0013\0014\0015\t");
+	whitespaces_to_space(&temp);
+	str_edit(&temp, "<", " < ");
+	str_edit(&temp, "<<", " << ");
+	str_edit(&temp, ">", " > ");
+	str_edit(&temp, ">>", " >> ");
+	str_edit(&temp, "|", " | ");
+	tab = ft_split(temp, ' ');
+	s_free(&temp);
+	return (tab);
 }
 
 void	parse(char *cmd_in, t_linux *shell)
 {
 	t_cmd	*command;
+	char	**token;
 
 	command = shell->head;
+	token = NULL;
+	(void)command;
 	if (!cmd_in || !cmd_in[0] || is_empty(cmd_in))
 		return ;
 	if (!ft_strcmp(cmd_in, "exit"))
 		return (ft_exit(shell));
 	add_history(cmd_in);
 	shell->nb_history++;
-	store_command(command, cmd_in, shell);
+	token = get_token(cmd_in);
+	db_tabstr_display(token);
+	command = build_commands(shell->head, token);
+	/*DEBUG*/ db_display_list(shell->head);
 	//launch_command(shell);
+	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
 }

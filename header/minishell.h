@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 06:50:02 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 11:29:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "header_doc_fr.h"
 
 # define UNKNOWN_CMD -1
-# define SINGLE_CMD 32
+# define SINGLE_CMD 0
 # define PIPE_CMD 124
 # define INFILE_CMD 60
 # define OUTFILE_CMD 62
@@ -72,7 +72,8 @@ void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *cmd_in, t_linux *shell);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			is_empty(char *str);
-char		*extract_str(char *str, int start, int len);
+char		*tab_to_str(char **tab);
+void		whitespaces_to_space(char **entry);
 int			multichecking(const char check, int mode);
 int			command_pattern(const char seek);
 int			white_space(const char seek);
@@ -80,6 +81,7 @@ int			white_space(const char seek);
 void		launch_command(t_linux *shell);
 char		*get_path(char *command, char **env);
 
+t_cmd		*fd_redirection(char *file, t_cmd *command);
 int			set_infile(char *file);
 int			set_outfile(char *file);
 
