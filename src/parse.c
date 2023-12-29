@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 04:19:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:53:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	store_command(t_cmd	*command, char *cmd_in, t_linux *shell)
 	{
 		printf("One command\n");
 		command = cmd_add_unit(command);
-		printf("\nWho's %d ? [%p]\n", command->id, command);
 		command = get_command(command, cmd_in, 0);
 	}
 	printf("\nList Resume:\n");
