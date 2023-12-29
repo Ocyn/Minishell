@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 02:33:29 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:16:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,20 @@ typedef struct s_linux
 
 void		db_debug(t_linux *sys_l);
 void		db_tabstr_display(char **tab);
+void		db_display_list(t_cmd *list);
 
-void		launch_command(t_linux *shell);
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
-void		parse(char *cmd_in, t_linux *shell);
-char		*get_path(char *command, char **env);
-int			is_builtin(char *cmd_in, t_linux *shell);
 
+void		parse(char *cmd_in, t_linux *shell);
+int			is_builtin(char *cmd_in, t_linux *shell);
+int			is_empty(char *str);
 char		*extract_str(char *str, int start, int len);
 int			multichecking(const char check, int mode);
 int			command_pattern(const char seek);
 int			white_space(const char seek);
+
+void		launch_command(t_linux *shell);
+char		*get_path(char *command, char **env);
 
 int			set_infile(char *file);
 int			set_outfile(char *file);
@@ -85,7 +88,6 @@ int			set_outfile(char *file);
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd, char **data, int location);
 void		cmd_rm_unit(t_cmd *cmd);
-void		cmd_display_list(t_cmd *list);
 void		*cmd_free_list(t_cmd *cmd);
 
 int			str_occur(char *src, char *seek);

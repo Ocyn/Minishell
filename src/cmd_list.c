@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 02:25:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:15:44 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,25 +81,4 @@ void	*cmd_free_list(t_cmd *cmd)
 			break ;
 	}
 	return (NULL);
-}
-
-void	cmd_display_list(t_cmd *list)
-{
-	while (list)
-	{
-		printf("Cell %d [%p]:\n", list->id, list);
-		printf("\tType [%d]\n", list->type);
-		printf("\tRaw [%s]\n", list->command.raw);
-		printf("\tOne [%s]\n", list->command.one);
-		printf("\tFull ");
-		db_tabstr_display(list->command.full);
-		printf("\n");
-		printf("\targ_n [%d]\n", list->command.arg_n);
-		printf("\tprev [%p]\n", list->prev);
-		printf("\tnext [%p]\n\n", list->next);
-		if (list->next)
-			list = list->next;
-		else
-			break ;
-	}
 }

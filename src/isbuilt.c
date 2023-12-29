@@ -6,25 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:16:48 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 07:43:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:11:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-int	is_empty(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != ' ' && str[i] != '\n' && (str[i] < 9 || str[i] > 13))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	is_builtin(char *cmd_in, t_linux *shell)
 {
