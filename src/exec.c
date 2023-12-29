@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 05:33:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 15:44:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ void	exe_command(t_execve *cmd, pid_t *fk, char **env)
 
 void	stdfdout_dup(pid_t *fk, t_cmd *command, char **env)
 {
-	dup2(command->outfile, STDOUT_FILENO);
+	// dup2(command->outfile, STDOUT_FILENO);
 	exe_command(&command->command, fk, env);
-	close(command->outfile);
+	// close(command->outfile);
 	close(STDOUT_FILENO);
 }
 
 void	stdfdin_dup(pid_t *fk, t_cmd *command, char **env)
 {
-	dup2(command->infile, STDIN_FILENO);
+	// dup2(command->infile, STDIN_FILENO);
 	exe_command(&command->command, fk, env);
-	close(command->infile);
+	// close(command->infile);
 	close(STDIN_FILENO);
 }
 

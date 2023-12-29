@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 13:04:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 15:54:35 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ typedef struct s_cmd
 	int				id;
 	t_execve		command;
 	int				type;
-	int				infile;
-	int				outfile;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;
@@ -72,7 +70,8 @@ void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 void		parse(char *cmd_in, t_linux *shell);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			is_empty(char *str);
-char		*tab_to_str(char **tab);
+char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
+int			ft_strcat(char *dest, char *src);
 void		whitespaces_to_space(char **entry);
 int			multichecking(const char check, int mode);
 int			command_pattern(const char seek);
@@ -80,7 +79,6 @@ int			white_space(const char seek);
 
 void		launch_command(t_linux *shell);
 char		*get_path(char *command, char **env);
-
 t_cmd		*fd_redirection(t_cmd *command, char **token);
 int			set_infile(char *file);
 int			set_outfile(char *file);

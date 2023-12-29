@@ -6,14 +6,14 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 10:22:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 15:55:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 static char	*str_edit_init(char **src, char *seek, char *replace, int *llen);
-static int	ft_strcat(char *dest, char *src);
+int			ft_strcat(char *dest, char *src);
 int			str_occur(char *src, char *seek);
 
 void	str_edit(char **src, char *seek, char *replace)
@@ -44,7 +44,7 @@ void	str_edit(char **src, char *seek, char *replace)
 	*src = new;
 }
 
-static int	ft_strcat(char *dest, char *src)
+int	ft_strcat(char *dest, char *src)
 {
 	int		i;
 	int		len;

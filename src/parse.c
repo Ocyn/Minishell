@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 14:12:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 16:01:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	i = -1;
 	while (token && token[++i])
 	{
-		printf("\nDB: tab|%d[%s]\n", i, token[i]);
 		command = cmd_add_unit(command);
 		if (token[i] && str_occur(token[i], "<"))
 		{
@@ -59,9 +58,12 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 			command = cmd_add_unit(command);
 		}
 		command->command.full = get_command_args(token + i);
+		command->command.raw = tab_to_str(command->command.full, ' ', 0);
 		command->command.one = ft_strdup(command->command.full[0]);
 		command->type = command_pattern(token[i - (i > 0)][0]);
 		i += tablen(command->command.full);
+		if (command->prev && command->prev->type == INFILE_CMD)
+			command->type = PIPE_CMD;
 		if (!token[i])
 			break ;
 	}

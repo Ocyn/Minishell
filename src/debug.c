@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 12:51:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 15:58:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	db_display_list(t_cmd *list)
 	{
 		printf("Cell %d [%p]:\n", list->id, list);
 		if (list->type == SINGLE_CMD)
-			printf("\tType\t[%d]_ONE\n", list->type);
+			printf("\tType\t[%d]_SINGLE_COMMAND\n", list->type);
 		if (list->type == PIPE_CMD)
 			printf("\tType\t[%d]_PIPE\n", list->type);
 		if (list->type == DOLLARSIGN_CMD)
@@ -49,8 +49,6 @@ void	db_display_list(t_cmd *list)
 		printf("\tFull\t");
 		db_tabstr_display(list->command.full);
 		printf("\n");
-		printf("\tInfile\t[%d]\n", list->infile);
-		printf("\tOutfile\t[%d]\n", list->outfile);
 		printf("\tPrev\t[%p]\n", list->prev);
 		printf("\tNext\t[%p]\n\n", list->next);
 		if (list->next)

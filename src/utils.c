@@ -6,28 +6,37 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 00:01:11 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 15:55:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*tab_to_str(char **tab)
+char	*tab_to_str(char **tab, int add_sep, int do_free_after_join)
 {
 	char	*out;
 	int		len;
 	int		i;
 
-	i = 0;
+	i = -1;
 	len = 0;
 	out = NULL;
-	while (tab[i])
-		len += ft_strlen(tab[i++]);
+	while (tab[++i])
+		len += ft_strlen(tab[i]);
+	if (add_sep)
+		len += i;
 	out = s_malloc(sizeof(char) * (len + 1));
 	i = -1;
+	len = 0;
 	while (tab[++i])
-		ft_strlcat(out, tab[i], ft_strlen(tab[i]));
-	free_tab(tab, tablen(tab));
+	{
+		if (add_sep && i > 0)
+			out[len] = add_sep;
+		ft_strcat(out, tab[i]);
+		len += ft_strlen(tab[i]);
+	}
+	if (do_free_after_join)
+		free_tab(tab, tablen(tab));
 	return (out);
 }
 
