@@ -6,25 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 12:46:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 13:40:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-int	is_empty(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!white_space(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 char	**get_command_args(char **tab)
 {
@@ -62,10 +48,18 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	i = -1;
 	while (token[++i])
 	{
+		printf("\nDB: tab|%d[%s]\n", i, token[i]);
 		command = cmd_add_unit(command);
-		command->type = token[i][0];
-		if (str_occur(token[i], "<") || str_occur(token[i], ">"))
+		command->type = command_pattern(token[i][0]);
+		if (token[i] && i >= 1 && str_occur(token[i - 1], ">"))
+			command->type = OUTFILE_CMD;
+		if (token[i] && str_occur(token[i], "<"))
+		{
+			command->command.full = ft_split(token[i + 1], ' ');
+			command->command.one = ft_strdup(command->command.full[0]);
 			i += 2;
+			command = cmd_add_unit(command);
+		}
 		if (token[i] && str_occur(token[i], "|"))
 			i++;
 		command->command.full = get_command_args(token + i);

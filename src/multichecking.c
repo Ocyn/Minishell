@@ -6,11 +6,25 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/26 18:01:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 12:56:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+int	is_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!white_space(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	multichecking(const char check, int mode)
 {

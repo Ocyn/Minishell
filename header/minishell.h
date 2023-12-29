@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 11:29:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 13:04:28 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			white_space(const char seek);
 void		launch_command(t_linux *shell);
 char		*get_path(char *command, char **env);
 
-t_cmd		*fd_redirection(char *file, t_cmd *command);
+t_cmd		*fd_redirection(t_cmd *command, char **token);
 int			set_infile(char *file);
 int			set_outfile(char *file);
 
