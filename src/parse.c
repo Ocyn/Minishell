@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 05:41:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 06:20:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,22 @@ int	is_empty(char *str)
 t_cmd	*get_command(t_cmd	*command, char *str, int index)
 {
 	char	*temp;
+	int		skip;
 
 	temp = NULL;
+	skip = 0;
 	if (!str)
 		return (command);
-	temp = ft_substr(str, index, (ft_strlen(str) + 1) - index);
 	/*DEBUG*/ printf("Command %d saved[%p]:", command->id, command);
 	command->type = command_pattern(str[index]);
 	command->command.raw = ft_strtrim(str, "  \0011\0012\0013\0014\0015\t");
-	s_free(&temp);
+	skip = ft_strlen(ft_strchr(command->command.raw, command->type));
+	temp = ft_substr(command->command.raw, skip, ft_strlen(command->command.raw) - skip);
 	str_edit(&command->command.raw, " ", "");
 	command->command.full = ft_split(command->command.raw, command->type);
 	command->command.one = ft_strdup(command->command.full[0]);
+	/*DEBUG*/ printf("\n\tDB_Temp [%s] | Skip: %d | Len - Skip: %d", temp, skip, ft_strlen(command->command.raw) - skip);
+	s_free(&temp);
 	return (command);
 }
 
