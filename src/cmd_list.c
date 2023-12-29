@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 04:15:44 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 05:14:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,20 @@
 void	cmd_init(t_cmd *cmd, char **data, int location)
 {
 	cmd->command.raw = NULL;
-	cmd->command.path = NULL;
 	cmd->command.one = NULL;
 	cmd->command.full = NULL;
-	cmd->command.env_var = NULL;
 	cmd->command.arg_n = 0;
 	cmd->type = 0;
 	cmd->id = 0;
+	cmd->infile = 0;
+	cmd->outfile = 0;
 	if (!location || !data)
 		return ;
 	if (location == 1)
 		cmd->command.raw = *data;
 	if (location == 2)
-		cmd->command.path = *data;
-	if (location == 3)
 		cmd->command.full = data;
-	if (location == 4)
+	if (location == 3)
 		cmd->command.env_var = data;
 }
 
@@ -55,7 +53,6 @@ void	cmd_rm_unit(t_cmd *cmd)
 {
 	s_free(&cmd->command.raw);
 	s_free(&cmd->command.one);
-	s_free(&cmd->command.path);
 	if (cmd->command.full)
 		free_tab(cmd->command.full, tablen(cmd->command.full));
 	free(cmd);

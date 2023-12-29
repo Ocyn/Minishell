@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 04:16:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:58:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_execve
 	char			*raw;
 	char			**full;
 	char			*one;
-	char			*path;
 	char			**env_var;
 	int				arg_n;
 }					t_execve;

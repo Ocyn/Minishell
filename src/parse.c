@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 04:53:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 04:58:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ int	store_command(t_cmd	*command, char *cmd_in, t_linux *shell)
 		command = cmd_add_unit(command);
 		command = get_command(command, cmd_in, 0);
 	}
-	printf("\nList Resume:\n");
-	db_display_list(shell->head);
+	/*DEBUG*/ db_display_list(shell->head);
 	return (0);
 }
 

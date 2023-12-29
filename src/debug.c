@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 04:16:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 05:12:16 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,26 @@ void	db_tabstr_display(char **tab)
 
 void	db_display_list(t_cmd *list)
 {
+	printf("\nList Resume:\n");
+	if (list->next)
+	{
+		printf("Cell %d [%p]: HEAD\n\n", list->id, list);
+		list = list->next;
+	}
 	while (list)
 	{
 		printf("Cell %d [%p]:\n", list->id, list);
-		printf("\tType [%d]\n", list->type);
-		printf("\tRaw [%s]\n", list->command.raw);
-		printf("\tOne [%s]\n", list->command.one);
-		printf("\tFull ");
+		printf("\tType\t[%d]\n", list->type);
+		printf("\tRaw\t[%s]\n", list->command.raw);
+		printf("\tOne\t[%s]\n", list->command.one);
+		printf("\tFull\t");
 		db_tabstr_display(list->command.full);
 		printf("\n");
-		printf("\targ_n [%d]\n", list->command.arg_n);
-		printf("\tprev [%p]\n", list->prev);
-		printf("\tnext [%p]\n\n", list->next);
+		printf("\tArg_n\t[%d]\n", list->command.arg_n);
+		printf("\tInfile\t[%d]\n", list->infile);
+		printf("\tOutfile\t[%d]\n", list->outfile);
+		printf("\tPrev\t[%p]\n", list->prev);
+		printf("\tNext\t[%p]\n\n", list->next);
 		if (list->next)
 			list = list->next;
 		else
