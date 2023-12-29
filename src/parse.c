@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 13:56:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 14:12:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,18 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	{
 		printf("\nDB: tab|%d[%s]\n", i, token[i]);
 		command = cmd_add_unit(command);
-		command->type = command_pattern(token[i][0]);
-		if (token[i] && i >= 1 && str_occur(token[i - 1], ">"))
-			command->type = OUTFILE_CMD;
 		if (token[i] && str_occur(token[i], "<"))
 		{
-			command->command.full = ft_split(token[i + 1], ' ');
+			command->command.full = ft_split(token[i + 1], 0);
 			command->command.one = ft_strdup(command->command.full[0]);
+			command->type = command_pattern(token[i][0]);
 			i += 2;
 			command = cmd_add_unit(command);
 		}
 		command->command.full = get_command_args(token + i);
 		command->command.one = ft_strdup(command->command.full[0]);
-		if (token[i] && command->command.full)
-			i += tablen(command->command.full);
+		command->type = command_pattern(token[i - (i > 0)][0]);
+		i += tablen(command->command.full);
 		if (!token[i])
 			break ;
 	}
