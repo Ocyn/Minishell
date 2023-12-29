@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 02:26:02 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 02:35:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 		s_free(&shell.input);
 	}
 	rl_clear_history();
-	free(shell.head->next);
+	//free(shell.head->next);
 	free(shell.head);
 	return (0);
 }

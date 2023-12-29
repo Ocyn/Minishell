@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 02:33:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 02:35:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	parse(char *cmd_in, t_linux *shell)
 	clean_command(command, cmd_in, shell);
 	//launch_command(shell);
 	cmd_free_list(shell->head->next);
+	free(shell->head->next);
 }
 
 void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
