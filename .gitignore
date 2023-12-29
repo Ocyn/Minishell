@@ -3,3 +3,8 @@
 
 # Ignore object files in lib/libft/OBJ
 /lib/libft/OBJ/*.o
+
+/*
+!Makefile
+!Docx.md
+!ignore_readline.supp
