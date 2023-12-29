@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 13:40:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 13:43:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		command->command.one = ft_strdup(command->command.full[0]);
 		if (token[i] && command->command.full)
 			i += tablen(command->command.full);
-		if (!token[i])
-			break ;
 	}
 	return (command);
 }
