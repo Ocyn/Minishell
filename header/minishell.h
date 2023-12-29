@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 05:19:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 06:50:02 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "header_doc_fr.h"
 
 # define UNKNOWN_CMD -1
-# define SINGLE_CMD 0
+# define SINGLE_CMD 32
 # define PIPE_CMD 124
 # define INFILE_CMD 60
 # define OUTFILE_CMD 62
@@ -39,7 +39,6 @@ typedef struct s_execve
 	char			**full;
 	char			*one;
 	char			**env_var;
-	int				arg_n;
 }					t_execve;
 
 typedef struct s_cmd

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 05:28:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 06:50:51 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	db_display_list(t_cmd *list)
 		printf("\tFull\t");
 		db_tabstr_display(list->command.full);
 		printf("\n");
-		printf("\tArg_n\t[%d]\n", list->command.arg_n);
 		printf("\tInfile\t[%d]\n", list->infile);
 		printf("\tOutfile\t[%d]\n", list->outfile);
 		printf("\tPrev\t[%p]\n", list->prev);
