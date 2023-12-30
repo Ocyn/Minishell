@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/30 14:51:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 16:46:58 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,17 @@ int	is_empty(char *str)
 int	str_occur(const char *src, const char *seek)
 {
 	int	i;
+	int	len_src;
+	int	len_seek;
 
 	i = 0;
+	len_src = (int)ft_strlen(src);
+	len_seek = (int)ft_strlen(seek);
 	if (!src || !seek)
 		return (0);
-	while (src[i] && seek[i] && src[i] == seek[i])
+	while (i < len_src && i < len_seek && src[i] == seek[i])
 		i++;
-	if (i == (int)ft_strlen(seek))
+	if (i == len_seek)
 		return (1);
 	return (0);
 }

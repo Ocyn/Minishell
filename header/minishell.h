@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 14:42:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 16:28:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ void		db_display_list(t_cmd *list);
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 
 void		parse(char *cmd_in, t_linux *shell);
-char		**split_command(const char *s, char c);
+char		**split_command(const char *s, char c, char quote);
 t_cmd		*build_commands(t_cmd *command, const char **token);
+char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			is_empty(char *str);
 char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
