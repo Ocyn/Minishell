@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 13:01:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 14:42:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define CUSTOM_PROMPT				"\e[1m\e[48;5;234m\e[38;5;105m"
 
 # define EMPTY_CMD 					-1
-# define SINGLE_CMD 				0
+# define SINGLE_CMD 				 0
 # define PIPE_CMD 					'|'
 # define INFILE_CMD 				'<'
 # define OUTFILE_CMD 				'>'

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 08:12:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 14:56:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ char	**get_token(char *cmd_in)
 	tab = NULL;
 	temp = ft_strtrim(cmd_in, "  \0011\0012\0013\0014\0015\t");
 	whitespaces_to_space(&temp);
-	if (str_occur(temp, "<<"))
-		str_edit(&temp, "<<", " << ");
-	else
+	if (str_occur(temp, "<"))
 		str_edit(&temp, "<", " < ");
-	if (str_occur(temp, ">>"))
-		str_edit(&temp, ">>", " >> ");
-	else
+	if (str_occur(temp, "< <"))
+		str_edit(&temp, "< <", "<<");
+	if (str_occur(temp, ">"))
 		str_edit(&temp, ">", " > ");
+	if (str_occur(temp, "> >"))
+		str_edit(&temp, "> >", ">>");
 	str_edit(&temp, "|", " | ");
 	tab = split_command(temp, ' ');
 	s_free(&temp);

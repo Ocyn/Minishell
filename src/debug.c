@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 21:34:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 14:40:29 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ void	db_display_list(t_cmd *list)
 			printf("\tType\t[%d]_INFILE\n", list->type);
 		if (list->type == OUTFILE_CMD)
 			printf("\tType\t[%d]_OUTFILE\n", list->type);
+		if (list->type == HEREDOC)
+			printf("\tType\t[%d]_HEREDOC\n", list->type);
+		if (list->type == OUTFILE_ADDER)
+			printf("\tType\t[%d]_OUTFILE_ADDER\n", list->type);
 		printf("\tRaw\t[%s]\n", list->command.raw);
 		printf("\tOne\t[%s]\n", list->command.one);
 		printf("\tFull\t");
