@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 17:51:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 18:04:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@ char	**get_token(char *cmd_in, char prime_quote)
 	tab = NULL;
 	temp = ft_strtrim(cmd_in, "  \0011\0012\0013\0014\0015\t");
 	whitespaces_to_space(&temp);
-	if (str_occur(temp, "<<"))
-		str_edit(&temp, "<<", "  <<  ");
-	if (str_occur(temp, "<"))
-		str_edit(&temp, "<", " < ");
+	str_edit(&temp, "<", " < ");
+	str_edit(&temp, "<  <", " << ");
+	str_edit(&temp, ">", " > ");
+	str_edit(&temp, ">  >", " >> ");
 	str_edit(&temp, "|", " | ");
 	if (ft_strchr(temp, '\"'))
-	{
-		printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\n");
 		prime_quote = DOUBLEQUOTE;
-	}
 	printf("primequote = %d | %c  \n", prime_quote, prime_quote);
 	tab = split_command(temp, ' ', prime_quote);
 	s_free(&temp);

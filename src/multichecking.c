@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/30 16:46:58 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 17:58:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	str_occur(const char *src, const char *seek)
 	int	len_seek;
 
 	i = 0;
-	len_src = (int)ft_strlen(src);
-	len_seek = (int)ft_strlen(seek);
 	if (!src || !seek)
 		return (0);
-	while (i < len_src && i < len_seek && src[i] == seek[i])
+	len_src = (int)ft_strlen(src);
+	len_seek = (int)ft_strlen(seek);
+	while (i < len_src && i < len_seek && src[i] && src[i] == seek[i])
 		i++;
 	if (i == len_seek)
 		return (1);
