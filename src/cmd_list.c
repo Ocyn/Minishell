@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 23:50:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 04:24:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	cmd_rm_unit(t_cmd *cmd)
 	if (tnext)
 		tnext->prev = cmd->prev;
 	free(cmd);
+	cmd = NULL;
 }
 
 void	*cmd_free_list(t_cmd *cmd)

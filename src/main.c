@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 23:46:04 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 09:08:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	main(int argc, char **argv, char **env)
 	//return (db_debug(&shell), 0);
 	while (!shell.end)
 	{
-		shell.input = readline("minishell>>");
+		printf("%s  [Minishell #%s", CUSTOM_PROMPT, FONT_RESET);
+		fflush(NULL);
+		shell.input = readline("  ");
 		parse(shell.input, &shell);
 		s_free(&shell.input);
 	}
@@ -35,7 +37,7 @@ void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 	(void)a_nb;
 	(void)a_s;
 	ft_bzero(shell, sizeof(t_linux));
-	shell->head = malloc(sizeof(t_cmd));
+	shell->head = s_malloc(sizeof(t_cmd));
 	if (!shell->head)
 		return ;
 	cmd_init(shell->head, NULL, 0);

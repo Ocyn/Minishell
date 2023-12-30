@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 21:25:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 08:25:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,35 @@ int	is_empty(char *str)
 	return (1);
 }
 
-int	command_pattern(const char seek)
+int	str_occur(const char *src, const char *seek)
 {
-	if (seek == '<')
+	int	i;
+
+	i = 0;
+	if (!src || !seek)
+		return (0);
+	while (src[i] && src[i] == seek[i])
+		i++;
+	if (i == (int)ft_strlen(seek))
+		return (1);
+	return (0);
+}
+
+int	command_pattern(const char	*seek)
+{
+	if (!seek || !seek[0])
+		return (EMPTY_CMD);
+	if (str_occur(seek, "<"))
 		return (INFILE_CMD);
-	else if (seek == '>')
+	else if (str_occur(seek, ">"))
 		return (OUTFILE_CMD);
-	else if (seek == '|')
+	if (str_occur(seek, "<<"))
+		return (HEREDOC);
+	else if (str_occur(seek, ">>"))
+		return (OUTFILE_ADDER);
+	else if (str_occur(seek, "|"))
 		return (PIPE_CMD);
-	else if (seek == '$')
+	else if (str_occur(seek, "$"))
 		return (DOLLARSIGN_CMD);
 	return (SINGLE_CMD);
 }

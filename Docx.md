@@ -1,32 +1,51 @@
 
+### CAPTIONS
 
+🎯	 -	 Prority
+🗿	 -	 Nailed it baby !
+🚧	 -	 Waiting for mate
+⏳	-	In progress
+🧪	 - 	 Benchmarking...
+✅	-	Complete
 
-
-
-### REMAINING
+### JCUZIN's part
 **Functions**
-	- pipe 
-	- Redirections:
-		- <						[redirect input]
-		- >						[redirect output]
-		- >>					[..........]
-		- <<					[..........]
+	⏳ - Redirections:
+	|	⏳ - Pipe 					[Redirect -1_Out 0_In]
+	|	| 🧪 - Unique pipe
+	|	| 		✅ -  Parsing part
+	|	| 		🧪 -  Execute part
+	|	| 🧪 - Multiple pipes
+	|	| 		✅ -  Parsing part
+	|	| 		🧪 -  Execute part
+	|	| 🧪 - Consecutve pipes
+	|	| 		✅ -  Parsing part
+	|	|		🧪 -  Execute part
+	|	\_
+	|
+	|	⏳ - File descriptor
+	|	|	✅ - <			[take file descriptor as input]
+	|	|					 
+	|	|	✅ - >			[take file descriptor as output]
+	|	|						
+	|	|	⏳ - <<			[Heredoc]
+	|	|
+	|	|	⏳ - >>			[Redirect output in no overwrite mode]
+	|	\_
+	\_
 
-**Features**
-	- Heredoc					[]
-	- ""						[..........]
-	- ''						[..........]
-	
-	- Optionnal
-		- $_					[expand to the exit status of most recently executed foreground pipeline]
+**Features**	
+		⏳ - ""							[Double Quote]
+		⏳ - ''							[Simple Quote]
 
-	- Manual cases
-		echo "xx"    "cc" ---> xx cc | echo "xx""cc" ---> xxcc
+**Optionnal**	
+		🚧 - $_							 [expand to exit status of most recently executed foreground pipeline]
+
+**Manual cases**
+	- Quotes cancelled out when placed side-by-side
+			echo "xx"    "cc" ---> xx cc
+			echo "xx""cc" ---> xxcc
 
 ### DOCUMENTATION
 
-
-
-
-
-
+	- https://www.codequoi.com/pourquoi-je-necris-plus-darticles-sur-les-projets-de-42/#comments

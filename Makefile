@@ -22,6 +22,7 @@ SRCS			= main.c \
 				multichecking.c \
 				str_edit.c \
 				split_command.c \
+				build_command.c \
 				debug.c
 
 CC 				= cc
