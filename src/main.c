@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 09:08:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 10:22:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ int	main(int argc, char **argv, char **env)
 	//return (db_debug(&shell), 0);
 	while (!shell.end)
 	{
-		printf("%s  [Minishell #%s", CUSTOM_PROMPT, FONT_RESET);
-		fflush(NULL);
-		shell.input = readline("  ");
+		printf("\n%s  [Minishell |", CUSTOM_PROMPT);
+		shell.input = readline("\e[0m # ");
 		parse(shell.input, &shell);
 		s_free(&shell.input);
 	}

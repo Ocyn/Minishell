@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 09:02:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 11:53:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "header_doc_fr.h"
 
 # define FONT_EFFECT_BOLD			"\e[1m"
+# define FONT_EFFECT_BLINK			"\e[5m"
 # define FONT_BACK_COLOR_BLACK		"\e[48;5;234m"
 # define FONT_COLOR_PURPLE 			"\e[38;5;105m"
 # define FONT_BACK_COLOR_RESET 		"\e[0m"
@@ -32,19 +33,19 @@
 
 # define CUSTOM_PROMPT				"\e[1m\e[48;5;234m\e[38;5;105m"
 
-# define EMPTY_CMD 			-1
-# define SINGLE_CMD 		0
-# define PIPE_CMD 			'|'
-# define INFILE_CMD 		'<'
-# define OUTFILE_CMD 		'>'
-# define HEREDOC 			6060
-# define OUTFILE_ADDER		6262
-# define DOLLARSIGN_CMD 	'$'
-# define ERROR_C 			-2
-# define UNDEFINED_CMD 		99
+# define EMPTY_CMD 					-1
+# define SINGLE_CMD 				0
+# define PIPE_CMD 					'|'
+# define INFILE_CMD 				'<'
+# define OUTFILE_CMD 				'>'
+# define HEREDOC 					6060
+# define OUTFILE_ADDER				6262
+# define DOLLARSIGN_CMD 			'$'
+# define ERROR_C 					-2
+# define UNDEFINED_CMD 				99
 
-# define SIMPLEQUOTE 		'\''
-# define DOUBLEQUOTE 		'\"'
+# define SIMPLEQUOTE 				'\''
+# define DOUBLEQUOTE 				'\"'
 
 typedef struct s_execve
 {
@@ -88,6 +89,8 @@ int			ft_strcat(char *dest, char *src);
 void		whitespaces_to_space(char **entry);
 int			command_pattern(const char *seek);
 int			white_space(const char seek);
+
+t_cmd		*heredocument(t_cmd *cmd, char *delimiter);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);

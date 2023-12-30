@@ -35,7 +35,7 @@
 	\_
 
 **Features**	
-		⏳ - ""							[Double Quote]
+		🧪 - ""							[Double Quote]
 		⏳ - ''							[Simple Quote]
 
 **Optionnal**	

@@ -23,6 +23,7 @@ SRCS			= main.c \
 				str_edit.c \
 				split_command.c \
 				build_command.c \
+				heredoc.c \
 				debug.c
 
 CC 				= cc
