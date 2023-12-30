@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 17:06:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 17:51:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ char	**get_token(char *cmd_in, char prime_quote)
 	if (str_occur(temp, "<"))
 		str_edit(&temp, "<", " < ");
 	str_edit(&temp, "|", " | ");
-	if (str_occur(temp, "\""))
+	if (ft_strchr(temp, '\"'))
+	{
+		printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa\n");
 		prime_quote = DOUBLEQUOTE;
+	}
+	printf("primequote = %d | %c  \n", prime_quote, prime_quote);
 	tab = split_command(temp, ' ', prime_quote);
 	s_free(&temp);
 	return (tab);
