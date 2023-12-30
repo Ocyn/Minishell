@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 15:58:03 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 21:34:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	db_display_list(t_cmd *list)
 	printf("\nList Resume:\n");
 	if (list->next)
 	{
-		printf("Cell %d [%p]: HEAD\n\n", list->id, list);
+		printf("Cell %d [%p]: HEAD\n", list->id, list);
 		list = list->next;
 	}
 	while (list)
@@ -57,7 +57,6 @@ void	db_display_list(t_cmd *list)
 			break ;
 	}
 }
-
 
 void	db_debug(t_linux *sys_l)
 {

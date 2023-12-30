@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 15:44:44 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 23:50:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	*cmd_free_list(t_cmd *cmd)
 	}
 	while (cmd)
 	{
-		printf("Free Cell %d [%p]\n\n", cmd->id, cmd);
+		printf("Free Cell %d [%p]\n", cmd->id, cmd);
 		s_free(&cmd->command.raw);
 		s_free(&cmd->command.one);
 		if (cmd->command.full)

@@ -21,6 +21,7 @@ SRCS			= main.c \
 				fd_redirection.c \
 				multichecking.c \
 				str_edit.c \
+				split_command.c \
 				debug.c
 
 CC 				= cc

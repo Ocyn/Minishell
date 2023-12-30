@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 16:01:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 03:19:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		command = cmd_add_unit(command);
 		if (token[i] && str_occur(token[i], "<"))
 		{
-			command->command.full = ft_split(token[i + 1], 0);
+			command->command.full = ft_split(token[i + (token[i + 1] != 0)], 0);
 			command->command.one = ft_strdup(command->command.full[0]);
 			command->type = command_pattern(token[i][0]);
 			i += 2;
@@ -84,7 +84,7 @@ char	**get_token(char *cmd_in)
 	str_edit(&temp, ">", " > ");
 	str_edit(&temp, ">>", " >> ");
 	str_edit(&temp, "|", " | ");
-	tab = ft_split(temp, ' ');
+	tab = split_command(temp, ' ');
 	s_free(&temp);
 	return (tab);
 }
@@ -102,7 +102,6 @@ void	parse(char *cmd_in, t_linux *shell)
 	if (!ft_strcmp(cmd_in, "exit"))
 		return (ft_exit(shell));
 	add_history(cmd_in);
-	shell->nb_history++;
 	token = get_token(cmd_in);
 	db_tabstr_display(token);
 	command = build_commands(shell->head, token);

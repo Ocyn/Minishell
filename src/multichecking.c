@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/29 12:56:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 21:25:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,6 @@ int	is_empty(char *str)
 		i++;
 	}
 	return (1);
-}
-
-int	multichecking(const char check, int mode)
-{
-	if (mode)
-		return (0);
-	if (mode == 1)
-		return (command_pattern(check));
-	else if (mode == 2)
-		return (white_space(check));
-	else
-		return (!(white_space(check) && command_pattern(check)));
 }
 
 int	command_pattern(const char seek)

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 15:55:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/29 21:20:27 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ char	*tab_to_str(char **tab, int add_sep, int do_free_after_join)
 	if (add_sep)
 		len += i;
 	out = s_malloc(sizeof(char) * (len + 1));
-	i = -1;
+	i = 0;
 	len = 0;
-	while (tab[++i])
+	while (tab[i])
 	{
-		if (add_sep && i > 0)
-			out[len] = add_sep;
 		ft_strcat(out, tab[i]);
-		len += ft_strlen(tab[i]);
+		if (add_sep && tab[i + 1])
+			ft_strcat(out, " ");
+		i++;
 	}
 	if (do_free_after_join)
 		free_tab(tab, tablen(tab));

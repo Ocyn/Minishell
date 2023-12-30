@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 15:54:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 03:03:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ typedef struct s_linux
 	char	*input;
 	int		count_cmd;
 	char	**envi;
-	char	**history;
-	int		nb_history;
 	int		end;
 }			t_linux;
 
@@ -68,6 +66,7 @@ void		db_display_list(t_cmd *list);
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
 
 void		parse(char *cmd_in, t_linux *shell);
+char		**split_command(const char *s, char c);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			is_empty(char *str);
 char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);

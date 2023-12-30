@@ -21,7 +21,7 @@
 		- $_					[expand to the exit status of most recently executed foreground pipeline]
 
 	- Manual cases
-		echo "xx"    "cc" ---> xx cc
+		echo "xx"    "cc" ---> xx cc | echo "xx""cc" ---> xxcc
 
 ### DOCUMENTATION
 
