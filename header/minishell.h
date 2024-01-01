@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/01 13:56:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 16:52:41 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			white_space(const char seek);
 int			is_empty(char *str);
-int			heredoc_check(const char **token, int index);
+int			heredoc_check(const char **token, int index, int *checker);
 int			command_pattern(const char *seek);
 
 void		parse(char *cmd_in, t_linux *shell);
