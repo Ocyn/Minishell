@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/26 11:05:29 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 10:34:06 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*s_malloc(unsigned long size)
 	if (!array)
 		return (NULL);
 	byte_arr = (unsigned char *)array;
-	ft_bzero(byte_arr, size);
+	ft_memset(byte_arr, 0, size);
 	return (byte_arr);
 }
 
@@ -46,4 +46,19 @@ void	free_tab(char **tab, int i)
 		i--;
 	}
 	s_free((char **)&tab);
+}
+
+void	cut_and_paste(void **cut, void **paste, size_t sizeof_cut)
+{
+	if (!*cut)
+		return ;
+	if (paste && *paste)
+	{
+		free(*paste);
+		*paste = NULL;
+	}
+	*paste = s_malloc(sizeof_cut);
+	ft_memmove(*paste, *cut, sizeof_cut);
+	free(*cut);
+	*cut = NULL;
 }

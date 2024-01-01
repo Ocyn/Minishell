@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/29 21:20:27 by jcuzin           ###   ########.fr       */
+/*   Updated: 2023/12/30 18:59:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*tab_to_str(char **tab, int add_sep, int do_free_after_join)
 	i = -1;
 	len = 0;
 	out = NULL;
+	if (!tab)
+		return (NULL);
 	while (tab[++i])
 		len += ft_strlen(tab[i]);
 	if (add_sep)
@@ -45,6 +47,8 @@ int	tablen(char **tab)
 	int	i;
 
 	i = 0;
+	if (!tab)
+		return (0);
 	while (tab[i])
 		i++;
 	return (i);

@@ -50,5 +50,8 @@
 
 	- https://www.codequoi.com/pourquoi-je-necris-plus-darticles-sur-les-projets-de-42/#comments
 
+### TESTS
 
 < make cat -e | ls | wc -l -l | echo "     moustiques dans   ta   bouches   " > out
+
+<makefile cat -e | wc -l <<wesh | ls -la -la > shesh

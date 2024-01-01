@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/30 17:58:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 02:15:34 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ int	is_empty(char *str)
 		i++;
 	}
 	return (1);
+}
+
+int	heredoc_check(const char **token, int index)
+{
+	if (str_occur(token[index], "<<") && token[1] \
+	&& !str_occur(token[1], "<") \
+	&& !str_occur(token[tablen((char **)token)], "<"))
+		printf("\n\tHeredoc detected\n");
+	return ((str_occur(token[index], "<<") && token[1] \
+	&& !str_occur(token[1], "<") \
+	&& !str_occur(token[tablen((char **)token)], "<")));
 }
 
 int	str_occur(const char *src, const char *seek)

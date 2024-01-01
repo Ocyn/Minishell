@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2023/12/30 04:24:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 01:01:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,25 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 void	*cmd_free_list(t_cmd *cmd)
 {
+	printf("\nFree List:\n\n");
 	if (cmd->id == 0 && cmd->next)
 	{
-		printf("Skipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
+		printf("\tSkipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
 		cmd = cmd->next;
 	}
 	while (cmd)
 	{
-		printf("Free Cell %d [%p]\n", cmd->id, cmd);
+		printf("\tFree Cell %d [%p]: ", cmd->id, cmd);
 		s_free(&cmd->command.raw);
+		printf(" Raw: Done |");
 		s_free(&cmd->command.one);
+		printf(" One: Done |");
 		if (cmd->command.full)
+		{
 			free_tab(cmd->command.full, tablen(cmd->command.full));
+			printf(" Full: Done");
+		}
+		printf("\n");
 		if (cmd->next)
 		{
 			cmd = cmd->next;

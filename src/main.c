@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 13:04:06 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 11:36:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,20 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_linux		shell;
+	char		*prompt;
 
 	shell.input = NULL;
+	prompt = NULL;
 	struct_init(&shell, argc, argv, env);
+	prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	//return (db_debug(&shell), 0);
 	while (!shell.end)
 	{
-		shell.input = readline(""CUSTOM_PROMPT" [Minishell |"FONT_RESET" # ");
+		shell.input = readline(prompt);
 		parse(shell.input, &shell);
 		s_free(&shell.input);
 	}
+	s_free(&prompt);
 	rl_clear_history();
 	free(shell.head);
 	return (0);

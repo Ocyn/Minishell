@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 16:28:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 08:31:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@
 # include "lib.h"
 
 # include "header_doc_fr.h"
-
-# define FONT_EFFECT_BOLD			"\e[1m"
-# define FONT_EFFECT_BLINK			"\e[5m"
-# define FONT_BACK_COLOR_BLACK		"\e[48;5;234m"
-# define FONT_COLOR_PURPLE 			"\e[38;5;105m"
-# define FONT_BACK_COLOR_RESET 		"\e[0m"
-# define FONT_RESET 				"\033[0m"
-
-# define CUSTOM_PROMPT				"\e[1m\e[48;5;234m\e[38;5;105m"
 
 # define EMPTY_CMD 					-1
 # define SINGLE_CMD 				 0
@@ -77,21 +68,24 @@ void		db_debug(t_linux *sys_l);
 void		db_tabstr_display(char **tab);
 void		db_display_list(t_cmd *list);
 
+void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
+
+char		*prompt_tuning(char *name, char *suffix, char *profile);
+
 void		struct_init(t_linux *shell, int a_nb, char **a_s, char **genv);
+
+char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
+int			is_builtin(char *cmd_in, t_linux *shell);
+int			white_space(const char seek);
+int			is_empty(char *str);
+int			heredoc_check(const char **token, int index);
+int			command_pattern(const char *seek);
 
 void		parse(char *cmd_in, t_linux *shell);
 char		**split_command(const char *s, char c, char quote);
 t_cmd		*build_commands(t_cmd *command, const char **token);
-char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
-int			is_builtin(char *cmd_in, t_linux *shell);
-int			is_empty(char *str);
-char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
-int			ft_strcat(char *dest, char *src);
-void		whitespaces_to_space(char **entry);
-int			command_pattern(const char *seek);
-int			white_space(const char seek);
 
-t_cmd		*heredocument(t_cmd *cmd, char *delimiter);
+t_cmd		*heredocument(t_cmd *cmd);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
@@ -104,11 +98,14 @@ void		cmd_init(t_cmd *cmd, char **data, int location);
 void		cmd_rm_unit(t_cmd *cmd);
 void		*cmd_free_list(t_cmd *cmd);
 
+char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
+void		whitespaces_to_space(char **entry);
 int			str_occur(const char *src, const char *seek);
 void		str_edit(char **src, char *seek, char *replace);
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
+int			ft_strcat(char *dest, char *src);
 int			ft_strcmp(char *s1, char *s2);
 int			tablen(char **tab);
 

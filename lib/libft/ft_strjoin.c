@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:16:36 by jcuzin            #+#    #+#             */
-/*   Updated: 2022/12/07 20:16:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 09:08:28 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	cursor1 = 0;
 	cursor2 = 0;
-	result = malloc(sizeof(char) * (ft_strlen(&*(char *) s1) \
-	+ ft_strlen(&*(char *) s2)) + 1);
+	result = malloc(sizeof(char) * (ft_strlen((char *) s1) \
+	+ ft_strlen((char *) s2)) + 1);
 	if (result == NULL)
 		return (NULL);
 	while (s1[cursor1])
