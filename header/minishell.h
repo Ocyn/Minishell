@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/01 08:31:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 13:56:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		parse(char *cmd_in, t_linux *shell);
 char		**split_command(const char *s, char c, char quote);
 t_cmd		*build_commands(t_cmd *command, const char **token);
 
-t_cmd		*heredocument(t_cmd *cmd);
+char		**heredocument(char *delim, char **src, int start, char **remain);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);

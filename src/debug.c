@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/01 11:31:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 13:19:21 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	db_tabstr_display(char **tab)
 	int	i;
 
 	i = -1;
-	printf("[");
+	printf("|");
 	while (tab && tab[++i])
-		printf(" {%s}", tab[i]);
-	printf(" ]");
+		printf(" [%s]", tab[i]);
+	printf(" |");
 }
 
 void	db_display_list(t_cmd *list)

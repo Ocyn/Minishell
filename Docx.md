@@ -55,3 +55,6 @@
 < make cat -e | ls | wc -l -l | echo "     moustiques dans   ta   bouches   " > out
 
 <makefile cat -e | wc -l <<wesh | ls -la -la > shesh
+
+if (heredoc_check(token))
+			command->command.full = heredocument(command);

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/01 02:15:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/01 13:00:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	heredoc_check(const char **token, int index)
 	if (str_occur(token[index], "<<") && token[1] \
 	&& !str_occur(token[1], "<") \
 	&& !str_occur(token[tablen((char **)token)], "<"))
+	{
 		printf("\n\tHeredoc detected\n");
-	return ((str_occur(token[index], "<<") && token[1] \
-	&& !str_occur(token[1], "<") \
-	&& !str_occur(token[tablen((char **)token)], "<")));
+		return (1);
+	}
+	return (0);
 }
 
 int	str_occur(const char *src, const char *seek)
@@ -59,12 +60,10 @@ int	command_pattern(const char	*seek)
 {
 	if (!seek || !seek[0])
 		return (EMPTY_CMD);
-	if (str_occur(seek, "<"))
+	if (str_occur(seek, "<") && !str_occur(seek, "<<"))
 		return (INFILE_CMD);
-	else if (str_occur(seek, ">"))
+	else if (str_occur(seek, ">") && !str_occur(seek, ">>"))
 		return (OUTFILE_CMD);
-	if (str_occur(seek, "<<"))
-		return (HEREDOC);
 	else if (str_occur(seek, ">>"))
 		return (OUTFILE_ADDER);
 	else if (str_occur(seek, "|"))
