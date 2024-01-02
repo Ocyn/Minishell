@@ -28,9 +28,9 @@
 	|	|					 
 	|	|	✅ - >			[take file descriptor as output]
 	|	|						
-	|	|	⏳ - <<			[Heredoc]
+	|	|	✅ - <<			[Heredoc]
 	|	|
-	|	|	⏳ - >>			[Redirect output in no overwrite mode]
+	|	|	✅ - >>			[Redirect output in no overwrite mode]
 	|	\_
 	\_
 
@@ -57,4 +57,9 @@
 <makefile cat -e | wc -l <<wesh | ls -la -la > shesh
 
 if (heredoc_check(token))
-			command->command.full = heredocument(command);
+	command->command.full = heredocument(command);
+
+
+	`                "   test   '  "   test  ' `
+
+	
