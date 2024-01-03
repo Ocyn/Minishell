@@ -6,11 +6,31 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 12:48:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 18:56:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+void	resplit_infile(char ***tab)
+{
+	char	**temp_tab;
+	int		i;
+
+	temp_tab = NULL;
+	i = -1;
+	while ((*tab) && (*tab)[++i])
+	{
+		if (find_str_in_str((*tab)[i], "<") \
+		&& !find_str_in_str((*tab)[i], "<<"))
+		{
+			str_edit(&(*tab)[i], "<", " < ");
+			temp_tab = ft_split((*tab)[i], ' ');
+			insert_tab_in_tab(temp_tab, &(*tab), i + 1);
+			free_tab(temp_tab, tablen(temp_tab));
+		}
+	}
+}
 
 char	**get_token(char *cmd_in)
 {
@@ -18,17 +38,14 @@ char	**get_token(char *cmd_in)
 	char	*temp;
 
 	temp = NULL;
-	tab = NULL;
 	temp = ft_strtrim(cmd_in, "  \0011\0012\0013\0014\0015\t");
 	whitespaces_to_space(&temp);
-	str_edit(&temp, "<", " < ");
-	str_edit(&temp, "<  <", " << ");
 	str_edit(&temp, ">", " > ");
 	str_edit(&temp, ">  >", " >> ");
 	str_edit(&temp, "|", " | ");
-	printf("\n\tDebug split_command\n");
 	tab = split_command(temp, ' ');
 	s_free(&temp);
+	resplit_infile(&tab);
 	return (tab);
 }
 
@@ -47,10 +64,10 @@ void	parse(t_linux *shell)
 		return (ft_exit(shell));
 	add_history(cmd_in);
 	token = get_token(cmd_in);
-	/*DEBUG*/ db_tabstr_display(token, "\n\tToken: ", -1);
+	/*DEBUG*/ db_tabstr_display(token, "\nToken: ", -1);
 	printf("\n");
 	command = build_commands(shell->head, (const char **)token);
-	/*DEBUG*/ db_display_list(shell->head, "\n\t\tShell Commands: ");
+	/*DEBUG*/ db_display_list(shell->head, "\nShell Commands: ");
 	(void)command;
 	//launch_command(shell);
 	free_tab(token, tablen(token));

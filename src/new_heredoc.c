@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 16:16:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 17:23:41 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	hd_parse(t_linux *syst)
 	line = syst->input;
 	command = cmd_add_unit(command);
 	command->command.raw = ft_strjoin("\"", line);
-	cut_and_paste((void **)&command->command.raw, (void **)&temp, ft_strlen(command->command.raw) + 1);
+	cut_and_paste((void **)&command->command.raw, (void **)&temp \
+	, ft_strlen(command->command.raw) + 1);
 	command->command.raw = ft_strjoin(temp, "\"");
 	s_free(&temp);
-	printf("HD_DEBUG | Saved to cell %d: [%s]\n", command->id, command->command.raw);
 	syst->command = command;
 }
 
@@ -96,10 +96,10 @@ char	**new_heredoc(char *src)
 	printf("\n\tNewHd DB src [%s] -> %d\n", src, find_str_in_str(src, "<<"));
 	if (!find_str_in_str(src, "<<"))
 		return (NULL);
-	i = ft_strlen(src + find_str_in_str(src, "<<")) - ft_strlen(ft_strchr(src + find_str_in_str(src, "<<"), ' '));
+	i = ft_strlen(src + find_str_in_str(src, "<<")) \
+	- ft_strlen(ft_strchr(src + find_str_in_str(src, "<<"), ' '));
 	delim = ft_substr(ft_strchr(src, '<'), 2, i);
 	printf("\n\tDelim [%s] -> %d\n", delim, i);
-	str_edit(&delim, " ", "");
 	if (!delim || !delim[0])
 		return (s_free(&delim), NULL);
 	struct_init(&heredoc);
@@ -111,8 +111,5 @@ char	**new_heredoc(char *src)
 	cmd_free_list(heredoc.head);
 	free(heredoc.head);
 	s_free(&delim);
-	(void)out;
-	(void)src;
 	return (out);
 }
-

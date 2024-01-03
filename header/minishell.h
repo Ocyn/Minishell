@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 12:44:04 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 18:36:51 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		parse(t_linux *shell);
 char		**split_command(const char *s, char c);
 
 t_cmd		*build_commands(t_cmd *command, const char **token);
-char		**get_command_args(const char **tab, int *heredoc);
+char		**get_command_args(const char **tab);
 t_cmd		*chk_infile(t_cmd *cmd, int *index, const char **token);
 
 char		**new_heredoc(char *src);
