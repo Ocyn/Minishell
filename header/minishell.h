@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 09:03:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 09:44:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void		db_debug(void);
 void		db_tabstr_display(char **tab);
 void		db_display_list(t_cmd *list);
 
+void		get_signal(t_linux *ssystem, void (*action)(int));
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 

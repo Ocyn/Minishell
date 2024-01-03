@@ -12,6 +12,7 @@ BUILTIN 		= pwd.c \
 				unset.c
 
 SRCS			= main.c \
+				signal.c \
 				readline.c \
 				utils.c \
 				parse.c \
