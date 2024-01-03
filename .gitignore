@@ -8,3 +8,4 @@
 !Makefile
 !Docx.md
 !ignore_readline.supp
+!src/*.c
