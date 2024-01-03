@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 04:54:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 05:37:47 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,14 @@ void	db_display_list(t_cmd *list)
 	}
 }
 
-void	sfm_parse(char *line, t_linux *syst)
+void	safemode_parse(t_linux *syst)
 {
-	t_cmd	*command;
+	char	*line;
 
-	command = syst->command;
-	command = cmd_add_unit(command);
-	command->command.raw = ft_strdup(line);
-	str_edit(&command->command.raw, " ", "");
-	printf("Saved to cell %d: {%s}\n", command->id, command->command.raw);
+	line = syst->input;
+	syst->command = cmd_add_unit(syst->command);
+	syst->command->command.raw = ft_strdup(line);
+	printf("Saved to cell %d: {%s}\n", syst->command->id, syst->command->command.raw);
 }
 
 void	db_debug(void)
@@ -79,10 +78,11 @@ void	db_debug(void)
 
 	struct_init(&safesystem);
 	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV BN_GRA FE_BOL");
-	read_prompt(&safesystem, "##", sfm_parse);
+	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);
 	db_display_list(safesystem.head);
-	cmd_free_list(safesystem.head, 0);
+	cmd_free_list(safesystem.head);
+	free(safesystem.head);
 	fflush(stdout);
 	return ;
 }

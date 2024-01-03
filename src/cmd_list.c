@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 04:59:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 05:18:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 	cmd = NULL;
 }
 
-void	*cmd_free_list(t_cmd *cmd, int keep_head)
+void	*cmd_free_list(t_cmd *cmd)
 {
 	printf("\nFree List:\n\n");
-	if (cmd->id == 0 && keep_head)
+	if (cmd->id == 0)
 	{
 		printf("\tSkipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
 		cmd = cmd->next;

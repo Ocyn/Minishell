@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 05:02:29 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 05:22:42 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		db_display_list(t_cmd *list);
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 
-void		read_prompt(t_linux *sy, char *ex, void (*pa)(char *, t_linux *));
+void		read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *));
 void		struct_init(t_linux *shell);
 
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
@@ -84,7 +84,7 @@ int			is_empty(char *str);
 int			heredoc_check(const char **token, int index, int *checker);
 int			command_pattern(const char *seek);
 
-void		parse(void ***additionnal_data, t_linux *shell);
+void		parse(t_linux *shell);
 char		**split_command(const char *s, char c);
 
 t_cmd		*build_commands(t_cmd *command, const char **token);
@@ -102,7 +102,7 @@ int			set_outfile(char *file);
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd, char **data, int location);
 void		cmd_rm_unit(t_cmd *cmd);
-void		*cmd_free_list(t_cmd *cmd, int keep_head);
+void		*cmd_free_list(t_cmd *cmd);
 
 int			find_str_in_str(const char *src, const char *seek);
 int			find_str_in_tab(int strict_mode, char *find, char **tab);
