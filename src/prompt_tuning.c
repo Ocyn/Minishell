@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 04:31:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 04:05:13 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 12:48:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,8 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	if (!init_all(&settings, profile, &suffix))
 		return (ft_strdup("> "));
 	prompt = ft_strjoin(" ", name);
-	printf("\nPrompt Tuning \n\tPrompt: [%s]\n\tSuffix: [%s]\n\tSettings: ", prompt, suffix);
-	db_tabstr_display(settings);
+	printf("\nPrompt Tuning \n\tPrompt: [%s]\n\tSuffix: [%s]", prompt, suffix);
+	db_tabstr_display(settings, "\n\tSettings: ", -1);
 	printf("\n\n");
 	while (name && settings[++set_index])
 		prompt = apply_setting(prompt, ft_split(settings[set_index], '_'));

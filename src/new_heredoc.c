@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 09:10:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 14:31:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	insert_tab_in_tab(char **insert, char **tab, int where)
+void	insert_tab_in_tab(char **insert, char ***tab, int where)
 {
 	char	**new;
 	int		ins_;
@@ -22,28 +22,23 @@ void	insert_tab_in_tab(char **insert, char **tab, int where)
 	i = -1;
 	ins_ = 0;
 	new = NULL;
-	len = tablen(tab);
-	printf("\t\t where: %d", where);
-	if (!insert || !len || len < where)
+	len = tablen(*tab) + tablen(insert);
+	if (!insert || !len || tablen(*tab) < where)
 		return ;
-	new = s_malloc(sizeof(char *) * (len + tablen(insert) + 1));
+	new = s_malloc(sizeof(char *) * (len + 1));
 	if (!new)
 		return ;
-	while (++i >= 0 && tab[i - ins_])
+	while (++i < len && i - ins_ >= 0 && (*tab)[i - ins_])
 	{
-		printf("\t\t tab [%s]", tab[i - ins_]);
-		db_tabstr_display(new);
-		printf("\n");
-		if (i == where)
-			while (++i >= 0 && insert[ins_])
-				new[i] = ft_strdup(insert[ins_++]);
-		new[i] = ft_strdup(tab[i - ins_]);
+		db_tabstr_display(*tab, "\n\tCopy Tab ", i - ins_);
+		if (i == where - 1)
+			while (insert[ins_])
+				new[i++] = ft_strdup(insert[ins_++]);
+		new[i] = ft_strdup((*tab)[i - ins_]);
 	}
-	printf("\t\tEnd: ");
-	db_tabstr_display(new);
-	printf("\n");
-	free_tab(tab, len);
-	tab = new;
+	free_tab(*tab, tablen(*tab));
+	*tab = new;
+	db_tabstr_display(*tab, "\n\tNew tab", -1);
 }
 
 void	hd_parse(t_linux *syst)
@@ -108,11 +103,12 @@ char	**new_heredoc(char *src)
 	if (!delim || !delim[0])
 		return (s_free(&delim), NULL);
 	struct_init(&heredoc);
+	
 	heredoc.prompt = ft_strdup("heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
 	s_free(&heredoc.prompt);
 	out = list_to_tab(heredoc.head);
-	db_display_list(heredoc.head);
+	db_display_list(heredoc.head, "\n\t\tHeredoc: ");
 	cmd_free_list(heredoc.head);
 	free(heredoc.head);
 	s_free(&delim);

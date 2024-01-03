@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 05:18:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 12:48:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,10 @@ void	parse(t_linux *shell)
 		return (ft_exit(shell));
 	add_history(cmd_in);
 	token = get_token(cmd_in);
-	printf("\n\tToken: ");
-	/*DEBUG*/ db_tabstr_display(token);
+	/*DEBUG*/ db_tabstr_display(token, "\n\tToken: ", -1);
 	printf("\n");
 	command = build_commands(shell->head, (const char **)token);
-	/*DEBUG*/ db_display_list(shell->head);
+	/*DEBUG*/ db_display_list(shell->head, "\n\t\tShell Commands: ");
 	(void)command;
 	//launch_command(shell);
 	free_tab(token, tablen(token));

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:03:13 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 05:47:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 12:48:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ char	**heredocument(char *delim, char **src, int start, char **remain)
 		return (NULL);
 	var_exp += (ft_strchr(delim, '\'') != NULL) \
 	+ (ft_strrchr(delim, '\'') != NULL);
-	printf("\n\tRemain: ");
-	db_tabstr_display(remain);
+	db_tabstr_display(remain, "\n\tRemain: ", -1);
 	while (delim)
 	{
 		i++;
@@ -89,6 +88,6 @@ char	**heredocument(char *delim, char **src, int start, char **remain)
 		import_heardoc(line, &out, var_exp);
 	}
 	import_remain(&out, start, remain, delim);
-	db_tabstr_display(out);
+	db_tabstr_display(out, "\n\tOut: ", -1);
 	return (out);
 }

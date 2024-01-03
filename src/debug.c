@@ -6,26 +6,32 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 09:25:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 13:54:56 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+#include "../header/text_codes.h"
 
-void	db_tabstr_display(char **tab)
+void	db_tabstr_display(char **tab, char *message, int highlight)
 {
 	int	i;
 
 	i = -1;
-	printf("|");
+	printf("%s : |", message);
 	while (tab && tab[++i])
-		printf(" [%s]", tab[i]);
+	{
+		if (i == highlight)
+			printf(" [%d "HIGHLIGHT_TEXT"[%s]"FONT_RESET"", highlight, tab[i]);
+		else
+			printf(" [%s]", tab[i]);
+	}
 	printf(" |");
 }
 
-void	db_display_list(t_cmd *list)
+void	db_display_list(t_cmd *list, char *message)
 {
-	printf("\nList Resume:\n\n");
+	printf("\n%s\n", message);
 	if (list->next)
 	{
 		printf("\tCell %d [%p]: HEAD\n\n", list->id, list);
@@ -50,8 +56,7 @@ void	db_display_list(t_cmd *list)
 			printf("\t\tType\t[%d]_OUTFILE_ADDER\n", list->type);
 		printf("\t\tRaw\t[%s]\n", list->command.raw);
 		printf("\t\tOne\t[%s]\n", list->command.one);
-		printf("\t\tFull\t");
-		db_tabstr_display(list->command.full);
+		db_tabstr_display(list->command.full, "\t\tFull:\t", -1);
 		printf("\n");
 		printf("\t\tPrev\t[%p]\n", list->prev);
 		printf("\t\tNext\t[%p]\n\n", list->next);
@@ -60,6 +65,7 @@ void	db_display_list(t_cmd *list)
 		else
 			break ;
 	}
+	printf("\n");
 }
 
 void	safemode_parse(t_linux *syst)
@@ -75,10 +81,11 @@ void	safemode_parse(t_linux *syst)
 	command->command.raw = ft_strdup(line);
 	command->command.full = ft_split(line, ' ');
 	heredoc = new_heredoc(command->command.raw);
+	printf("%s | %s\n", command->command.full[0], command->command.full[1]);
 	if (heredoc)
-		insert_tab_in_tab(heredoc, command->command.full, find_str_in_tab(0, "<<", command->command.full));
-	printf("Saved to cell %d: [%s] ", command->id, command->command.raw);
-	db_tabstr_display(command->command.full);
+		insert_tab_in_tab(heredoc, &command->command.full, find_str_in_tab(0, "<<", command->command.full) + 1);
+	db_tabstr_display(command->command.full, "\n\tFull\t", -1);
+	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.raw);
 	printf("\n");
 	syst->command = command;
 }
@@ -91,7 +98,7 @@ void	db_debug(void)
 	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV FE_BOL");
 	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);
-	db_display_list(safesystem.head);
+	db_display_list(safesystem.head, "\n\t\tSafe System: ");
 	cmd_free_list(safesystem.head);
 	free(safesystem.head);
 	fflush(stdout);
