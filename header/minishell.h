@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/02 22:40:13 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 00:42:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_linux
 {
 	t_cmd	*head;
 	char	*input;
+	char	*prompt;
 	int		count_cmd;
 	char	**envi;
 	char	**p_set;
@@ -84,7 +85,10 @@ int			command_pattern(const char *seek);
 
 void		parse(char *cmd_in, t_linux *shell);
 char		**split_command(const char *s, char c);
+
 t_cmd		*build_commands(t_cmd *command, const char **token);
+char		**get_command_args(const char **tab, int *heredoc);
+t_cmd		*chk_infile(t_cmd *cmd, int *index, const char **token);
 
 char		**heredocument(char *delim, char **src, int start, char **remain);
 

@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/02 22:40:31 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 01:59:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	**get_token(char *cmd_in, char prime_quote)
+char	**get_token(char *cmd_in)
 {
 	char	**tab;
 	char	*temp;
@@ -26,9 +26,7 @@ char	**get_token(char *cmd_in, char prime_quote)
 	str_edit(&temp, ">", " > ");
 	str_edit(&temp, ">  >", " >> ");
 	str_edit(&temp, "|", " | ");
-	if (ft_strchr(temp, '\"'))
-		prime_quote = DOUBLEQUOTE;
-	printf("\n\tPrimequote = [%c]  \n", prime_quote);
+	printf("\n\tDebug split_command\n");
 	tab = split_command(temp, ' ');
 	s_free(&temp);
 	return (tab);
@@ -38,19 +36,19 @@ void	parse(char *cmd_in, t_linux *shell)
 {
 	t_cmd	*command;
 	char	**token;
-	char	prime_quote;
 
 	command = shell->head;
 	token = NULL;
-	prime_quote = SIMPLEQUOTE;
 	(void)command;
 	if (!cmd_in || !cmd_in[0] || is_empty(cmd_in))
 		return ;
 	if (!ft_strcmp(cmd_in, "exit"))
 		return (ft_exit(shell));
 	add_history(cmd_in);
-	token = get_token(cmd_in, prime_quote);
+	token = get_token(cmd_in);
+	printf("\n\tToken: ");
 	/*DEBUG*/ db_tabstr_display(token);
+	printf("\n");
 	command = build_commands(shell->head, (const char **)token);
 	/*DEBUG*/ db_display_list(shell->head);
 	//launch_command(shell);

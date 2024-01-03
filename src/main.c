@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/02 22:26:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 00:44:31 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	main(int argc, char **argv, char **env)
 	char		*prompt;
 
 	shell.input = NULL;
-	prompt = NULL;
 	struct_init(&shell, argc, argv, env);
+	prompt = shell.prompt;
 	prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	//return (db_debug(&shell), 0);
 	while (!shell.end)
@@ -43,6 +43,7 @@ void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 	if (!shell->head)
 		return ;
 	cmd_init(shell->head, NULL, 0);
+	shell->prompt = NULL;
 	shell->head->next = NULL;
 	shell->head->prev = NULL;
 	shell->head->id = 0;
