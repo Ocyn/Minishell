@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 06:07:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 06:11:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	safemode_parse(t_linux *syst)
 	command->command.raw = ft_strdup(line);
 	i = find_str_in_str(command->command.raw, "<<");
 	if (i)
-		command = new_heredoc(command->command.raw);
+		command->command.full = new_heredoc(command->command.raw);
 	printf("Saved to cell %d: [%s]\n", command->id, command->command.raw);
 	syst->command = command;
 }
