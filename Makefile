@@ -26,6 +26,7 @@ SRCS			= main.c \
 				split_command.c \
 				build_command.c \
 				heredoc.c \
+				new_heredoc.c \
 				prompt_tuning.c \
 				debug.c
 

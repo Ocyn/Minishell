@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 05:37:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 06:07:14 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,19 @@ void	db_display_list(t_cmd *list)
 
 void	safemode_parse(t_linux *syst)
 {
+	t_cmd	*command;
+	int		i;
 	char	*line;
 
+	command = syst->command;
 	line = syst->input;
-	syst->command = cmd_add_unit(syst->command);
-	syst->command->command.raw = ft_strdup(line);
-	printf("Saved to cell %d: {%s}\n", syst->command->id, syst->command->command.raw);
+	command = cmd_add_unit(command);
+	command->command.raw = ft_strdup(line);
+	i = find_str_in_str(command->command.raw, "<<");
+	if (i)
+		command = new_heredoc(command->command.raw);
+	printf("Saved to cell %d: [%s]\n", command->id, command->command.raw);
+	syst->command = command;
 }
 
 void	db_debug(void)
