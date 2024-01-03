@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 19:56:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 21:22:34 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**get_command_args(const char **tab)
 	i = -1;
 	while (tab[++i] && !command_pattern(tab[i]))
 		full[i] = ft_strdup(tab[i]);
-	heredoc = new_heredoc((char *)full[find_str_in_tab(0, "<<", full)]);
+	heredoc = new_heredoc((char *)full[find_str_in_tab(0, "<<", full)], 0);
 	if (heredoc)
 	{
 		insert_tab_in_tab(heredoc, &full, find_str_in_tab(0, "<<", full) + 1);

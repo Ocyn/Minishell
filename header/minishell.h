@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 18:36:51 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 21:12:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ t_cmd		*build_commands(t_cmd *command, const char **token);
 char		**get_command_args(const char **tab);
 t_cmd		*chk_infile(t_cmd *cmd, int *index, const char **token);
 
-char		**new_heredoc(char *src);
-char		**heredocument(char *delim, char **src, int start, char **remain);
+char		**new_heredoc(char *src, int pipe_mode);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);

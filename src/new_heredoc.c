@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 17:23:41 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 21:19:58 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,25 @@ char	**list_to_tab(t_cmd *list)
 	return (tab);
 }
 
-char	**new_heredoc(char *src)
+char	**new_heredoc(char *src, int pipe_mode)
 {
 	t_linux	heredoc;
 	char	*delim;
 	int		i;
 	char	**out;
 
-	out = NULL;
-	printf("\n\tNewHd DB src [%s] -> %d\n", src, find_str_in_str(src, "<<"));
 	if (!find_str_in_str(src, "<<"))
 		return (NULL);
+	out = NULL;
 	i = ft_strlen(src + find_str_in_str(src, "<<")) \
 	- ft_strlen(ft_strchr(src + find_str_in_str(src, "<<"), ' '));
 	delim = ft_substr(ft_strchr(src, '<'), 2, i);
-	printf("\n\tDelim [%s] -> %d\n", delim, i);
+	struct_init(&heredoc);
 	if (!delim || !delim[0])
 		return (s_free(&delim), NULL);
-	struct_init(&heredoc);
 	heredoc.prompt = ft_strdup("heredoc>");
+	if (pipe_mode)
+		str_edit(&heredoc.prompt, "heredoc>", "pipe heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
 	out = list_to_tab(heredoc.head);
 	db_display_list(heredoc.head, "\nHeredoc: ");
