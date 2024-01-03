@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 05:18:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 07:06:04 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ void	cmd_init(t_cmd *cmd, char **data, int location)
 		cmd->command.full = data;
 	if (location == 3)
 		cmd->command.env_var = data;
+}
+
+int	list_len(t_cmd list)
+{
+	t_cmd	*len;
+	int		i;
+
+	i = -1;
+	len = &list;
+	if (!len || !len->next)
+		return (0);
+	while (++i >= 0 && len)
+		len = len->next;
+	return (i);
 }
 
 t_cmd	*cmd_add_unit(t_cmd *last)

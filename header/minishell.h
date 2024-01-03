@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 06:09:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 09:03:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,14 @@ t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd, char **data, int location);
 void		cmd_rm_unit(t_cmd *cmd);
 void		*cmd_free_list(t_cmd *cmd);
+int			list_len(t_cmd list);
 
 int			find_str_in_str(const char *src, const char *seek);
 int			find_str_in_tab(int strict_mode, char *find, char **tab);
 int			ft_strcmp(char *s1, char *s2);
 
 void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
+void		insert_tab_in_tab(char **insert, char **tab, int where);
 char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
 void		whitespaces_to_space(char **entry);
 void		str_edit(char **src, char *seek, char *replace);

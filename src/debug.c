@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 06:11:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 09:25:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,21 @@ void	db_display_list(t_cmd *list)
 void	safemode_parse(t_linux *syst)
 {
 	t_cmd	*command;
-	int		i;
+	char	**heredoc;
 	char	*line;
 
+	heredoc = NULL;
 	command = syst->command;
 	line = syst->input;
 	command = cmd_add_unit(command);
 	command->command.raw = ft_strdup(line);
-	i = find_str_in_str(command->command.raw, "<<");
-	if (i)
-		command->command.full = new_heredoc(command->command.raw);
-	printf("Saved to cell %d: [%s]\n", command->id, command->command.raw);
+	command->command.full = ft_split(line, ' ');
+	heredoc = new_heredoc(command->command.raw);
+	if (heredoc)
+		insert_tab_in_tab(heredoc, command->command.full, find_str_in_tab(0, "<<", command->command.full));
+	printf("Saved to cell %d: [%s] ", command->id, command->command.raw);
+	db_tabstr_display(command->command.full);
+	printf("\n");
 	syst->command = command;
 }
 
@@ -84,7 +88,7 @@ void	db_debug(void)
 	t_linux	safesystem;
 
 	struct_init(&safesystem);
-	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV BN_GRA FE_BOL");
+	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV FE_BOL");
 	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);
 	db_display_list(safesystem.head);
