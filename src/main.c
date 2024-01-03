@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 00:44:31 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 04:57:40 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,18 @@ int	main(int argc, char **argv, char **env)
 	t_linux		shell;
 	char		*prompt;
 
+	(void)argc;
+	(void)argv;
+	//return (db_debug(), 0);
 	shell.input = NULL;
-	struct_init(&shell, argc, argv, env);
+	struct_init(&shell);
+	shell.envi = env;
 	prompt = shell.prompt;
 	prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
-	//return (db_debug(&shell), 0);
 	while (!shell.end)
 	{
 		shell.input = readline(prompt);
-		parse(shell.input, &shell);
+		parse((void ***)shell.input, &shell);
 		s_free(&shell.input);
 	}
 	s_free(&prompt);
@@ -34,10 +37,8 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
+void	struct_init(t_linux *shell)
 {
-	(void)a_nb;
-	(void)a_s;
 	ft_bzero(shell, sizeof(t_linux));
 	shell->head = s_malloc(sizeof(t_cmd));
 	if (!shell->head)
@@ -49,6 +50,7 @@ void	struct_init(t_linux *shell, int a_nb, char **a_s, char **genv)
 	shell->head->id = 0;
 	shell->envi = NULL;
 	shell->end = 0;
-	shell->envi = genv;
+	shell->envi = NULL;
 	shell->count_cmd = 0;
+	shell->command = shell->head;
 }

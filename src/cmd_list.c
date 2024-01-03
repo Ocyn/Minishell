@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/01 01:01:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 04:59:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 	cmd = NULL;
 }
 
-void	*cmd_free_list(t_cmd *cmd)
+void	*cmd_free_list(t_cmd *cmd, int keep_head)
 {
 	printf("\nFree List:\n\n");
-	if (cmd->id == 0 && cmd->next)
+	if (cmd->id == 0 && keep_head)
 	{
 		printf("\tSkipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
 		cmd = cmd->next;
@@ -80,12 +80,10 @@ void	*cmd_free_list(t_cmd *cmd)
 		printf(" Raw: Done |");
 		s_free(&cmd->command.one);
 		printf(" One: Done |");
+		printf(" Full: ");
 		if (cmd->command.full)
-		{
 			free_tab(cmd->command.full, tablen(cmd->command.full));
-			printf(" Full: Done");
-		}
-		printf("\n");
+		printf("Done\n");
 		if (cmd->next)
 		{
 			cmd = cmd->next;
@@ -96,5 +94,6 @@ void	*cmd_free_list(t_cmd *cmd)
 			break ;
 	}
 	free(cmd);
+	cmd = NULL;
 	return (NULL);
 }

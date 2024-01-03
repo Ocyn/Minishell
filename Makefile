@@ -12,15 +12,17 @@ BUILTIN 		= pwd.c \
 				unset.c
 
 SRCS			= main.c \
+				readline.c \
 				utils.c \
 				parse.c \
 				exec.c \
 				isbuilt.c \
-				mem_tools.c \
+				memory_allocation.c \
 				cmd_list.c \
 				fd_redirection.c \
-				multichecking.c \
-				str_edit.c \
+				quick_checking.c \
+				memory_edit.c \
+				memory_scan.c \
 				split_command.c \
 				build_command.c \
 				heredoc.c \

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/01 13:19:21 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 04:54:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,32 +62,27 @@ void	db_display_list(t_cmd *list)
 	}
 }
 
-void	db_debug(t_linux *sys_l)
+void	sfm_parse(char *line, t_linux *syst)
 {
 	t_cmd	*command;
-	char	*prompt;
-	char	*line;
 
-	line = NULL;
-	prompt = NULL;
-	command = sys_l->head;
-	(void)line;
-	prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
-	printf("\n\nCustom Prompt: [%s]\n\n", prompt);
-	while (ft_strcmp(command->command.raw, "exit"))
-	{
-		line = readline(prompt);
-		command = cmd_add_unit(command);
-		command->command.raw = ft_strdup(line);
-		str_edit(&command->command.raw, " ", "");
-		printf("Saved to cell %d: {%s}\n", command->id, command->command.raw);
-		s_free(&line);
-	}
-	s_free(&prompt);
-	s_free(&command->command.raw);
-	db_display_list(sys_l->head);
-	cmd_free_list(sys_l->head);
-	free(sys_l->head);
+	command = syst->command;
+	command = cmd_add_unit(command);
+	command->command.raw = ft_strdup(line);
+	str_edit(&command->command.raw, " ", "");
+	printf("Saved to cell %d: {%s}\n", command->id, command->command.raw);
+}
+
+void	db_debug(void)
+{
+	t_linux	safesystem;
+
+	struct_init(&safesystem);
+	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV BN_GRA FE_BOL");
+	read_prompt(&safesystem, "##", sfm_parse);
+	s_free(&safesystem.prompt);
+	db_display_list(safesystem.head);
+	cmd_free_list(safesystem.head, 0);
 	fflush(stdout);
 	return ;
 }
