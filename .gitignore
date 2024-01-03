@@ -4,4 +4,8 @@
 # Ignore object files in lib/libft/OBJ
 /lib/libft/OBJ/*.o
 
-minishell
+/*
+!Makefile
+!Docx.md
+!ignore_readline.supp
+src/!*.c

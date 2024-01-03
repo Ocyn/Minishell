@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 09:27:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 09:36:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	//return (db_debug(), 0);
+	return (db_debug(), 0);
 	shell.input = NULL;
 	struct_init(&shell);
 	shell.envi = env;
