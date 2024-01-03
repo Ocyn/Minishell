@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 15:19:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 16:16:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	insert_tab_in_tab(char **insert, char ***tab, int where)
 	}
 	free_tab(*tab, tablen(*tab));
 	*tab = new;
-	db_tabstr_display(*tab, "\n\tNew tab", -1);
 }
 
 void	hd_parse(t_linux *syst)

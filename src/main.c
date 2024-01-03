@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 12:12:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 16:19:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,16 @@
 int	main(int argc, char **argv, char **env)
 {
 	t_linux		shell;
-	char		*prompt;
 
 	(void)argc;
 	(void)argv;
-	return (db_debug(), 0);
+	//return (db_debug(), 0);
 	shell.input = NULL;
 	struct_init(&shell);
 	shell.envi = env;
-	prompt = shell.prompt;
-	prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
-	while (!shell.end)
-	{
-		shell.input = readline(prompt);
-		parse(&shell);
-		s_free(&shell.input);
-	}
-	s_free(&prompt);
+	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
+	read_prompt(&shell, "exit", parse);
+	s_free(&shell.prompt);
 	rl_clear_history();
 	free(shell.head);
 	return (0);
