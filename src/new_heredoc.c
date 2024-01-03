@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 14:31:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/03 15:19:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	insert_tab_in_tab(char **insert, char ***tab, int where)
 		if (i == where - 1)
 			while (insert[ins_])
 				new[i++] = ft_strdup(insert[ins_++]);
+		if (i - ins_ == where - 1)
+			ins_ -= (ins_ <= i);
 		new[i] = ft_strdup((*tab)[i - ins_]);
 	}
 	free_tab(*tab, tablen(*tab));
@@ -68,7 +70,6 @@ char	**list_to_tab(t_cmd *list)
 
 	i = -1;
 	len = list_len(*list);
-	printf("\n\t len = %d\n", len);
 	tab = NULL;
 	if (!list || !list->next)
 		return (NULL);
@@ -103,12 +104,11 @@ char	**new_heredoc(char *src)
 	if (!delim || !delim[0])
 		return (s_free(&delim), NULL);
 	struct_init(&heredoc);
-	
 	heredoc.prompt = ft_strdup("heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
-	s_free(&heredoc.prompt);
 	out = list_to_tab(heredoc.head);
-	db_display_list(heredoc.head, "\n\t\tHeredoc: ");
+	db_display_list(heredoc.head, "\nHeredoc: ");
+	s_free(&heredoc.prompt);
 	cmd_free_list(heredoc.head);
 	free(heredoc.head);
 	s_free(&delim);
