@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/04 09:16:41 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:35:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int			tablen(char **tab);
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
-
 
 void		ft_pwd(void);
 void		ft_cd(char *cmd);
