@@ -6,11 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 03:06:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 int	is_empty(char *str)
 {
@@ -40,19 +40,19 @@ int	heredoc_check(const char **token, int index, int *checker)
 	return (0);
 }
 
-int	command_pattern(const char	*seek)
+int	special_char(char *seek)
 {
 	if (!seek || !seek[0])
 		return (EMPTY_CMD);
-	if (find_str_in_str(seek, "<") && !find_str_in_str(seek, "<<"))
+	if (str_occur(seek, "<") && !str_occur(seek, "<<"))
 		return (INFILE_CMD);
-	else if (find_str_in_str(seek, ">") && !find_str_in_str(seek, ">>"))
+	else if (str_occur(seek, ">") && !str_occur(seek, ">>"))
 		return (OUTFILE_CMD);
-	else if (find_str_in_str(seek, ">>"))
+	else if (str_occur(seek, ">>"))
 		return (OUTFILE_ADDER);
-	else if (find_str_in_str(seek, "|"))
+	else if (str_occur(seek, "|"))
 		return (PIPE_CMD);
-	else if (find_str_in_str(seek, "$"))
+	else if (str_occur(seek, "$"))
 		return (DOLLARSIGN_CMD);
 	return (SINGLE_CMD);
 }

@@ -6,11 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 02:49:05 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 08:43:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 int	find_str_in_tab(int strict_mode, char *find, char **tab)
 {
@@ -52,7 +52,7 @@ int	find_str_in_str(const char *src, const char *seek)
 	return (0);
 }
 
-char	*find_var_in_env(char *src, char **env)
+char	*find_var_in_env(char *find, char **env)
 {
 	char	*g_variable;
 	char	*temp;
@@ -61,13 +61,13 @@ char	*find_var_in_env(char *src, char **env)
 	i = 0;
 	g_variable = NULL;
 	temp = NULL;
-	i = find_str_in_tab(0, src, env);
+	i = find_str_in_tab(0, find, env);
 	if (!i)
 		return (NULL);
 	temp = ft_strdup(env[i]);
 	if (!temp)
 		return (NULL);
-	g_variable = ft_strtrim(temp, src);
+	g_variable = ft_strtrim(temp, find);
 	if (!g_variable)
 		return (NULL);
 	s_free(&temp);

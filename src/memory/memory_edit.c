@@ -6,11 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 08:47:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 char	*str_edit_init(char **src, char *seek, char *replace, int *llen);
 
@@ -97,12 +97,32 @@ int	ft_strcat(char *dest, char *src)
 	return (i);
 }
 
-void	whitespaces_to_space(char **entry)
+void	insert_tab_in_tab(char **insert, char ***tab, int where)
 {
-	str_edit(entry, "\t", " ");
-	str_edit(entry, "\0011", " ");
-	str_edit(entry, "\0012", " ");
-	str_edit(entry, "\0013", " ");
-	str_edit(entry, "\0014", " ");
-	str_edit(entry, "\0015", " ");
+	char	**new;
+	int		ins_;
+	int		i;
+	int		len;
+
+	i = -1;
+	ins_ = 0;
+	new = NULL;
+	len = tablen(*tab) + tablen(insert);
+	if (!insert || !len || tablen(*tab) < where)
+		return ;
+	new = s_malloc(sizeof(char *) * (len + 1));
+	if (!new)
+		return ;
+	while (++i < len && i - ins_ >= 0 && (*tab)[i - ins_])
+	{
+		db_tabstr_display(*tab, "\n\tCopy Tab ", i - ins_);
+		if (i == where - 1)
+			while (insert[ins_])
+				new[i++] = ft_strdup(insert[ins_++]);
+		if (i - ins_ == where - 1)
+			ins_ -= (ins_ <= i);
+		new[i] = ft_strdup((*tab)[i - ins_]);
+	}
+	free_tab(*tab, tablen(*tab));
+	*tab = new;
 }

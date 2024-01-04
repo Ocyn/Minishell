@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 18:56:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:26:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	resplit_infile(char ***tab)
 			free_tab(temp_tab, tablen(temp_tab));
 		}
 	}
+}
+
+void	whitespaces_to_space(char **entry)
+{
+	str_edit(entry, "\t", " ");
+	str_edit(entry, "\0011", " ");
+	str_edit(entry, "\0012", " ");
+	str_edit(entry, "\0013", " ");
+	str_edit(entry, "\0014", " ");
+	str_edit(entry, "\0015", " ");
 }
 
 char	**get_token(char *cmd_in)
@@ -66,7 +76,7 @@ void	parse(t_linux *shell)
 	token = get_token(cmd_in);
 	/*DEBUG*/ db_tabstr_display(token, "\nToken: ", -1);
 	printf("\n");
-	command = build_commands(shell->head, (const char **)token);
+	command = build_commands(shell->head, token);
 	/*DEBUG*/ db_display_list(shell->head, "\nShell Commands: ");
 	(void)command;
 	//launch_command(shell);

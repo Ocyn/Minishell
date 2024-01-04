@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/30 18:59:15 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 04:47:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*tab_to_str(char **tab, int add_sep, int do_free_after_join)
+char	*tab_to_str(char **tab, int size, int add_sep, int freed)
 {
 	char	*out;
 	int		len;
@@ -23,21 +23,20 @@ char	*tab_to_str(char **tab, int add_sep, int do_free_after_join)
 	out = NULL;
 	if (!tab)
 		return (NULL);
-	while (tab[++i])
+	while (tab[++i] && i <= size)
 		len += ft_strlen(tab[i]);
 	if (add_sep)
 		len += i;
 	out = s_malloc(sizeof(char) * (len + 1));
-	i = 0;
+	i = -1;
 	len = 0;
-	while (tab[i])
+	while (tab[++i] && --size + 1 != 0)
 	{
 		ft_strcat(out, tab[i]);
 		if (add_sep && tab[i + 1])
 			ft_strcat(out, " ");
-		i++;
 	}
-	if (do_free_after_join)
+	if (freed)
 		free_tab(tab, tablen(tab));
 	return (out);
 }

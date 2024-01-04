@@ -2,6 +2,7 @@ NAME			= minishell
 
 SRCC_DIR		= src/
 BUILTIN_DIR 	= builtin/
+MEMORY_DIR 		= memory/
 
 BUILTIN 		= pwd.c \
 				cd.c \
@@ -11,6 +12,15 @@ BUILTIN 		= pwd.c \
 				export.c \
 				unset.c
 
+MEMORY			= cmd_list.c \
+	 			memory_allocation.c \
+				quick_checking.c \
+				memory_edit.c \
+				memory_scan.c \
+				split_command.c \
+				very_sure.c \
+				query.c 
+
 SRCS			= main.c \
 				signal.c \
 				readline.c \
@@ -18,13 +28,7 @@ SRCS			= main.c \
 				parse.c \
 				exec.c \
 				isbuilt.c \
-				memory_allocation.c \
-				cmd_list.c \
 				fd_redirection.c \
-				quick_checking.c \
-				memory_edit.c \
-				memory_scan.c \
-				split_command.c \
 				build_command.c \
 				heredoc.c \
 				new_heredoc.c \
@@ -44,14 +48,17 @@ LIB = lib/libft.a
 
 OBJ_DIR = OBJ/
 
-vpath %.c $(SRCC_DIR) $(BUILTIN_DIR)
+vpath %.c $(SRCC_DIR) $(BUILTIN_DIR) $(MEMORY_DIR)
 
+MEMORY_SRCS 	= $(addprefix $(MEMORY_DIR), $(BUILTIN))
 BUILTIN_SRCS 	= $(addprefix $(BUILTIN_DIR), $(BUILTIN))
 OBJ_PATH 		= $(SRCC_DIR)$(OBJ_DIR)
 
 SRCS			+= $(BUILTIN)
+SRCS			+= $(MEMORY)
 OBJ 			= $(patsubst %.c, $(OBJ_PATH)%.o, $(SRCS))
 OBJ_BUILTIN		= $(patsubst %.c, $(OBJ_PATH)%.o, $(BUILTIN))
+OBJ_MEMORY		= $(patsubst %.c, $(OBJ_PATH)%.o, $(MEMORY))
 
 all : $(NAME)
 
@@ -61,7 +68,13 @@ $(NAME): $(OBJ) $(LIB) $(HEADERS)
 $(OBJ_PATH)%.o : $(BUILTIN_DIR)%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(OBJ_PATH)%.o : $(MEMORY_DIR)%.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
 $(OBJ_PATH)%.o : %.c $(OBJ_BUILTIN) $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_PATH)%.o : %.c $(OBJ_MEMORY) $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIB): force

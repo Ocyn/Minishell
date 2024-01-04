@@ -6,11 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:47:35 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 02:47:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 static char	**initialization(int *i, int *t, int *quote, char **tab);
 static char	**tab_init(const char *s, char c);

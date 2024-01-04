@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2023/12/25 00:42:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 08:07:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_cd(char *cmd)
 				free (path);
 			}
 		}
-			//il faut aussi gerer le cas du ~
-			//et le cas ou on est dans un repertoire qui n'existe plus
+
 	}
 }

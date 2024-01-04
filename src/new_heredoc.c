@@ -6,41 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 21:19:58 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 07:50:57 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-void	insert_tab_in_tab(char **insert, char ***tab, int where)
-{
-	char	**new;
-	int		ins_;
-	int		i;
-	int		len;
-
-	i = -1;
-	ins_ = 0;
-	new = NULL;
-	len = tablen(*tab) + tablen(insert);
-	if (!insert || !len || tablen(*tab) < where)
-		return ;
-	new = s_malloc(sizeof(char *) * (len + 1));
-	if (!new)
-		return ;
-	while (++i < len && i - ins_ >= 0 && (*tab)[i - ins_])
-	{
-		db_tabstr_display(*tab, "\n\tCopy Tab ", i - ins_);
-		if (i == where - 1)
-			while (insert[ins_])
-				new[i++] = ft_strdup(insert[ins_++]);
-		if (i - ins_ == where - 1)
-			ins_ -= (ins_ <= i);
-		new[i] = ft_strdup((*tab)[i - ins_]);
-	}
-	free_tab(*tab, tablen(*tab));
-	*tab = new;
-}
 
 void	hd_parse(t_linux *syst)
 {
@@ -59,30 +29,6 @@ void	hd_parse(t_linux *syst)
 	command->command.raw = ft_strjoin(temp, "\"");
 	s_free(&temp);
 	syst->command = command;
-}
-
-char	**list_to_tab(t_cmd *list)
-{
-	char	**tab;
-	int		len;
-	int		i;
-
-	i = -1;
-	len = list_len(*list);
-	tab = NULL;
-	if (!list || !list->next)
-		return (NULL);
-	if (list->id == 0)
-		list = list->next;
-	tab = s_malloc(sizeof(char *) * len);
-	if (!tab)
-		return (NULL);
-	while (++i > -1 && list)
-	{
-		tab[i] = ft_strdup(list->command.raw);
-		list = list->next;
-	}
-	return (tab);
 }
 
 char	**new_heredoc(char *src, int pipe_mode)

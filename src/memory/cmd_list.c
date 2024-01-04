@@ -6,27 +6,21 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 07:06:04 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
-void	cmd_init(t_cmd *cmd, char **data, int location)
+void	cmd_init(t_cmd *cmd)
 {
+	if (!cmd)
+		return ;
 	cmd->command.raw = NULL;
-	cmd->command.one = NULL;
-	cmd->command.full = NULL;
+	cmd->command.prefixes = NULL;
+	cmd->command.args = NULL;
 	cmd->type = 0;
 	cmd->id = 0;
-	if (!location || !data)
-		return ;
-	if (location == 1)
-		cmd->command.raw = *data;
-	if (location == 2)
-		cmd->command.full = data;
-	if (location == 3)
-		cmd->command.env_var = data;
 }
 
 int	list_len(t_cmd list)
@@ -55,7 +49,7 @@ t_cmd	*cmd_add_unit(t_cmd *last)
 	last = last->next;
 	last->next = NULL;
 	last->prev = temp_prev;
-	cmd_init(last, NULL, 0);
+	cmd_init(last);
 	last->id = temp_prev->id + 1;
 	return (last);
 }
@@ -68,9 +62,9 @@ void	cmd_rm_unit(t_cmd *cmd)
 	tprev = cmd->prev;
 	tnext = cmd->next;
 	s_free(&cmd->command.raw);
-	s_free(&cmd->command.one);
-	if (cmd->command.full)
-		free_tab(cmd->command.full, tablen(cmd->command.full));
+	free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
+	if (cmd->command.args)
+		free_tab(cmd->command.args, tablen(cmd->command.args));
 	if (tprev)
 		tprev->next = cmd->next;
 	if (tnext)
@@ -89,15 +83,16 @@ void	*cmd_free_list(t_cmd *cmd)
 	}
 	while (cmd)
 	{
-		printf("\tFree Cell %d [%p]: ", cmd->id, cmd);
+		printf("\tFree Cell %d [%p]: \n", cmd->id, cmd);
+		printf("\t\tRaw: [%s]", cmd->command.raw);
 		s_free(&cmd->command.raw);
-		printf(" Raw: Done |");
-		s_free(&cmd->command.one);
-		printf(" One: Done |");
-		printf(" Full: ");
-		if (cmd->command.full)
-			free_tab(cmd->command.full, tablen(cmd->command.full));
-		printf("Done\n");
+		printf("\r\t  "__VALID_FREED"\n");
+		db_tabstr_display(cmd->command.prefixes, "\t\tPrefixes", -1);
+		free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
+		printf("\r\t  "__VALID_FREED"\n");
+		db_tabstr_display(cmd->command.args, "\t\tArgs", -1);
+		free_tab(cmd->command.args, tablen(cmd->command.args));
+		printf("\r\t  "__VALID_FREED"\n");
 		if (cmd->next)
 		{
 			cmd = cmd->next;

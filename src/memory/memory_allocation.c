@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mem_tools.c                                        :+:      :+:    :+:   */
+/*   memory_allocation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/01 13:29:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../header/minishell.h"
+#include "../../header/minishell.h"
 
 void	s_free(char **ptr_memory)
 {
@@ -40,6 +40,8 @@ void	*s_malloc(unsigned long size)
 
 void	free_tab(char **tab, int i)
 {
+	if (!tab)
+		return ;
 	while (i >= 0)
 	{
 		s_free(&tab[i]);
@@ -61,4 +63,28 @@ void	cut_and_paste(void **cut, void **paste, size_t sizeof_cut)
 	ft_memmove(*paste, *cut, sizeof_cut);
 	free(*cut);
 	*cut = NULL;
+}
+
+char	**list_to_tab(t_cmd *list)
+{
+	char	**tab;
+	int		len;
+	int		i;
+
+	i = -1;
+	len = list_len(*list);
+	tab = NULL;
+	if (!list || !list->next)
+		return (NULL);
+	if (list->id == 0)
+		list = list->next;
+	tab = s_malloc(sizeof(char *) * len);
+	if (!tab)
+		return (NULL);
+	while (++i > -1 && list)
+	{
+		tab[i] = ft_strdup(list->command.raw);
+		list = list->next;
+	}
+	return (tab);
 }

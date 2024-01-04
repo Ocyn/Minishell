@@ -6,12 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 04:31:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/03 12:48:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 05:37:48 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-#include "../header/text_codes.h"
 
 static char	*background_code(char *color)
 {

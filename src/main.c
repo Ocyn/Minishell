@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 16:19:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 07:31:44 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,16 @@ int	main(int argc, char **argv, char **env)
 
 void	struct_init(t_linux *shell)
 {
-	ft_bzero(shell, sizeof(t_linux));
 	shell->head = s_malloc(sizeof(t_cmd));
 	if (!shell->head)
 		return ;
-	cmd_init(shell->head, NULL, 0);
+	cmd_init(shell->head);
 	shell->prompt = NULL;
 	shell->head->next = NULL;
 	shell->head->prev = NULL;
 	shell->head->id = 0;
 	shell->envi = NULL;
 	shell->end = 0;
-	shell->envi = NULL;
 	shell->count_cmd = 0;
 	shell->command = shell->head;
 }

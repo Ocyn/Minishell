@@ -6,66 +6,17 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/03 21:12:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:16:41 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
-# include <signal.h>
+
 # include "lib.h"
-
-# include "header_doc_fr.h"
-
-# define EMPTY_CMD 					-1
-# define SINGLE_CMD 				 0
-# define PIPE_CMD 					'|'
-# define INFILE_CMD 				'<'
-# define OUTFILE_CMD 				'>'
-# define HEREDOC 					6060
-# define OUTFILE_ADDER				6262
-# define DOLLARSIGN_CMD 			'$'
-# define ERROR_C 					-2
-# define UNDEFINED_CMD 				99
-
-# define SIMPLEQUOTE 				'\''
-# define DOUBLEQUOTE 				'\"'
-
-typedef struct s_execve
-{
-	char			*raw;
-	char			**full;
-	char			*one;
-	char			**env_var;
-}					t_execve;
-
-typedef struct s_cmd
-{
-	int				id;
-	t_execve		command;
-	int				type;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}					t_cmd;
-
-typedef struct s_linux
-{
-	t_cmd	*head;
-	t_cmd	*command;
-	char	*input;
-	char	*prompt;
-	int		count_cmd;
-	char	**envi;
-	char	**p_set;
-	int		end;
-}			t_linux;
+# include "define_structs.h"
+# include "define_syntax.h"
+# include "functions_docs.h"
 
 void		db_debug(void);
 void		db_tabstr_display(char **tab, char *message, int highlight);
@@ -83,14 +34,14 @@ int			is_builtin(char *cmd_in, t_linux *shell);
 int			white_space(const char seek);
 int			is_empty(char *str);
 int			heredoc_check(const char **token, int index, int *checker);
-int			command_pattern(const char *seek);
+int			str_occur(const char *src, const char *seek);
+int			special_char(char *seek);
 
 void		parse(t_linux *shell);
 char		**split_command(const char *s, char c);
 
-t_cmd		*build_commands(t_cmd *command, const char **token);
-char		**get_command_args(const char **tab);
-t_cmd		*chk_infile(t_cmd *cmd, int *index, const char **token);
+t_cmd		*build_commands(t_cmd *command, char **all_token);
+char		**get_args(char **token);
 
 char		**new_heredoc(char *src, int pipe_mode);
 
@@ -101,7 +52,7 @@ int			set_infile(char *file);
 int			set_outfile(char *file);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
-void		cmd_init(t_cmd *cmd, char **data, int location);
+void		cmd_init(t_cmd *cmd);
 void		cmd_rm_unit(t_cmd *cmd);
 void		*cmd_free_list(t_cmd *cmd);
 int			list_len(t_cmd list);
@@ -112,14 +63,17 @@ int			ft_strcmp(char *s1, char *s2);
 
 void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
 void		insert_tab_in_tab(char **insert, char ***tab, int where);
-char		*tab_to_str(char **tab, int add_sep, int do_free_after_join);
+char		*tab_to_str(char **tab, int size, int add_sep, int freed);
 void		whitespaces_to_space(char **entry);
+char		**list_to_tab(t_cmd *list);
 void		str_edit(char **src, char *seek, char *replace);
+int			ft_strcat(char *dest, char *src);
+int			tablen(char **tab);
+
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
-int			ft_strcat(char *dest, char *src);
-int			tablen(char **tab);
+
 
 void		ft_pwd(void);
 void		ft_cd(char *cmd);
@@ -128,5 +82,16 @@ void		ft_env(t_linux *shell);
 void		ft_echo(t_linux *shell);
 void		ft_unset(t_linux *shell);
 void		ft_export(t_linux *shell);
+
+/**
+ * @file very_sure.c
+ * @brief An experimental version of the secured memory handle overlay.  
+ * The major difference is that the data are store in a struct
+ * filled of the variable informations, like their allocation state.
+ * 
+ * @param data The data in the experimental s_data format.
+ * @param size Put a size to malloc size at data | Put 0 to free the data.
+ */
+void		very_sure(t_sdata *data, unsigned long size);
 
 #endif

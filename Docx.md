@@ -32,7 +32,7 @@
 	|	|
 	|	|	✅ - >>			[Redirect output in no overwrite mode]
 	|	\_
-	\_
+	\_  
 
 **Features**	
 		🧪 - ""							[Double Quote]
