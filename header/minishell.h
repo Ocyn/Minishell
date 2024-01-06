@@ -93,4 +93,5 @@ void		ft_export(t_linux *shell);
  */
 void		very_sure(t_sdata *data, unsigned long size);
 
+void	  create_signal();
 #endif
