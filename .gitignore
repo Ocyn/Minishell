@@ -9,3 +9,5 @@
 !Docx.md
 !ignore_readline.supp
 !src/
+!header/
+!lib/

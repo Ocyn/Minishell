@@ -12,7 +12,8 @@ BUILTIN 		= pwd.c \
 				export.c \
 				unset.c
 
-MEMORY			= cmd_list.c \
+MEMORY			= cmd_lists.c \
+				lists.c \
 	 			memory_allocation.c \
 				quick_checking.c \
 				memory_edit.c \
