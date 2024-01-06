@@ -44,3 +44,5 @@ void	create_signal()
 	sigaction(SIGINT, &sa, 0);
 	sigaction(SIGQUIT, &lash, 0);
 }
+
+//ctrl d c'est le caractere EOF, a gerer dans le prompt, sinon juste newline
