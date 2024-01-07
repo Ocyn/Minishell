@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 07:53:15 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:38:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,15 @@ void	safemode_parse(t_linux *syst)
 	command = syst->command;
 	line = syst->input;
 	command = cmd_add_unit(command);
-	command->command.raw[0] = ft_strdup(line);
+	command->command.sraw = ft_strdup(line);
 	command->command.prefixes = ft_split(line, ' ');
-	heredoc = new_heredoc(command->command.raw[0], 0);
+	heredoc = get_heredoc(command->command.sraw, 0);
 	if (heredoc)
 	{
 		insert_tab_in_tab(heredoc, &command->command.args, find_str_in_tab(0, "<<", command->command.args) + 1);
 		free_tab(heredoc, tablen(heredoc));
 	}
-	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.raw[0]);
+	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.sraw);
 	db_tabstr_display(command->command.prefixes, "\n\tPrefixes\t", -1);
 	printf("\n\n");
 	syst->command = command;

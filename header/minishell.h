@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 09:11:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:05:28 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		**split_command(const char *s, char c);
 t_cmd		*build_commands(t_cmd *command, char **all_token);
 char		**get_args(char **token, int start);
 
-char		**new_heredoc(char *src, int pipe_mode);
+char		**get_heredoc(char *src, int pipe_mode);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
@@ -57,6 +57,12 @@ void		cmd_init(t_cmd *cmd);
 void		cmd_rm_unit(t_cmd *cmd);
 void		*cmd_free_list(t_cmd *cmd);
 int			list_len(t_cmd list);
+
+t_lst		*lst_add(t_lst *last);
+int			lst_len(t_lst list);
+void		list_init(t_lst *lst);
+void		lst_rm(t_lst *list);
+void		*lst_free_list(t_lst *lst);
 
 int			find_str_in_str(const char *src, const char *seek);
 int			find_str_in_tab(int strict_mode, char *find, char **tab);

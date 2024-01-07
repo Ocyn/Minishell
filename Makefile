@@ -33,7 +33,6 @@ SRCS			= main.c \
 				fd_redirection.c \
 				build_command.c \
 				heredoc.c \
-				new_heredoc.c \
 				prompt_tuning.c \
 				debug.c
 

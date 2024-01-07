@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 07:48:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 11:38:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 
 //	Font part
 # define FONT_RESET 			"\033[0m"
+# define FONT_PREFIX_START		"\e["
+# define FONT_PREFIX_END		"m"
 # define MY_CUSTOM_PROMPT		"\e[1m\e[48;5;234m\e[38;5;105m"
 # define __VALID_FREED			"\e[1m\e[4m\e[32mSUCCESS\033[0m"
 # define __INVALID_FREED		"\e[1m\e[4m\e[31mFAILURE\033[0m"

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 10:35:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:49:42 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**get_args(char **token, int start)
 	}
 	if (full && hd_index >= 0)
 	{
-		heredoc = new_heredoc(full[hd_index], 0);
+		heredoc = get_heredoc(full[hd_index], 0);
 		insert_tab_in_tab(heredoc, &full, hd_index + 1);
 		free_tab(heredoc, tablen(heredoc));
 	}

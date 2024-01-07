@@ -5,89 +5,55 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/30 11:03:13 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 05:49:24 by jcuzin           ###   ########.fr       */
+/*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
+/*   Updated: 2024/01/07 11:54:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	**add_str_to_tab(char *add, char **tab)
+void	hd_parse(t_linux *syst)
 {
-	char	**new;
-	int		i;
-
-	new = NULL;
-	i = 0;
-	if (!add)
-		return (tab);
-	i = tablen(tab) + 1;
-	new = malloc(sizeof(char *) * (i + 1));
-	if (!new)
-		return (NULL);
-	new[i] = NULL;
-	i = -1;
-	while (tab[++i])
-		new[i] = ft_strdup(tab[i]);
-	new[i] = ft_strdup(add);
-	free_tab(tab, tablen(tab));
-	return (new);
-}
-
-void	import_remain(char ***out, int start, char **remain, char *delim)
-{
-	while (remain[start])
-	{
-		if (special_char(remain[start], 0))
-			return ;
-		if (!find_str_in_str(remain[start], "<<") \
-		&& ft_strcmp(remain[start], delim))
-			*out = add_str_to_tab(remain[start], *out);
-		start++;
-	}
-}
-
-void	import_heardoc(char *line, char ***out, int var_exp)
-{
+	t_cmd	*command;
 	char	*temp;
+	char	*line;
 
 	temp = NULL;
-	(void)var_exp;
-	str_edit(&line, "\"", "\\\"");
-	cut_and_paste((void **)&line, (void **)&temp, ft_strlen(line) + 1);
-	line = ft_strjoin("\"", temp);
-	cut_and_paste((void **)&line, (void **)&temp, ft_strlen(line) + 1);
-	line = ft_strjoin(temp, "\"");
+	command = syst->command;
+	str_edit(&syst->input, "\"", "\\\"");
+	line = syst->input;
+	command = cmd_add_unit(command);
+	command->command.sraw = ft_strjoin("\"", line);
+	cut_and_paste((void **)&command->command.sraw, (void **)&temp \
+	, ft_strlen(command->command.sraw) + 1);
+	command->command.sraw = ft_strjoin(temp, "\"");
 	s_free(&temp);
-	*out = add_str_to_tab(line, *out);
-	s_free(&line);
+	syst->command = command;
 }
 
-char	**heredocument(char *delim, char **src, int start, char **remain)
+char	**get_heredoc(char *src, int pipe_mode)
 {
+	t_linux	heredoc;
 	char	**out;
-	char	*line;
+	char	*delim;
 	int		i;
-	int		var_exp;
 
-	line = NULL;
-	out = src;
-	var_exp = 0;
-	i = 0;
-	if (!delim)
+	if (!find_str_in_str(src, "<<"))
 		return (NULL);
-	var_exp += (ft_strchr(delim, '\'') != NULL) \
-	+ (ft_strrchr(delim, '\'') != NULL);
-	db_tabstr_display(remain, "\n\tRemain: ", -1);
-	while (delim)
-	{
-		i++;
-		line = readline("heredoc> ");
-		if (!ft_strcmp(line, delim))
-			break ;
-		import_heardoc(line, &out, var_exp);
-	}
-	import_remain(&out, start, remain, delim);
-	db_tabstr_display(out, "\n\tOut: ", -1);
+	out = NULL;
+	i = ft_strlen(src + find_str_in_str(src, "<<")) \
+	- ft_strlen(ft_strchr(src + find_str_in_str(src, "<<"), ' '));
+	delim = ft_substr(ft_strchr(src, '<'), 2, i);
+	if (!delim || !delim[0] || ft_strchr(delim, '<'))
+		return (s_free(&delim), NULL);
+	struct_init(&heredoc);
+	heredoc.prompt = ft_strdup("heredoc>");
+	read_prompt(&heredoc, delim, hd_parse);
+	out = list_to_tab(heredoc.head);
+	db_display_list(heredoc.head, "\nHeredoc: ");
+	s_free(&heredoc.prompt);
+	cmd_free_list(heredoc.head);
+	free(heredoc.head);
+	s_free(&delim);
 	return (out);
 }
