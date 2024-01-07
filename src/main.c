@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 11:43:53 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 21:43:02 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void	struct_init(t_linux *shell)
 	shell->envi = NULL;
 	shell->end = 0;
 	shell->count_cmd = 0;
+	shell->token = NULL;
 	shell->command = shell->head;
 }

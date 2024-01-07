@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 04:09:51 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 21:40:42 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_linux
 	char	*prompt;
 	int		count_cmd;
 	char	**envi;
-	char	**p_set;
+	char	**token;
 	int		end;
 }			t_linux;
 
