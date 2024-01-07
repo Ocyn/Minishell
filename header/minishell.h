@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 08:17:12 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:11:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			find_str_in_tab(int strict_mode, char *find, char **tab);
 int			ft_strcmp(char *s1, char *s2);
 
 void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
-int			skip_until(char **tab, int (*stop)(char *, int));
+int			skip_until(char **tab, int mode, int (*stop)(char *, int));
 char		**tab_dup(char **token_tab, int token_len);
 void		insert_tab_in_tab(char **insert, char ***tab, int where);
 char		*tab_to_str(char **tab, int size, int add_sep, int freed);

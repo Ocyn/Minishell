@@ -52,7 +52,7 @@
 
 ### TESTS
 
-< make cat -e | ls | wc -l -l | echo "     moustiques dans   ta   bouches   " > out
+< make cat -e | ls | wc -l | echo "     moustiques dans   ta   bouches   " > out
 
 <makefile cat -e | wc -l <<wesh | ls -la -la > shesh
 

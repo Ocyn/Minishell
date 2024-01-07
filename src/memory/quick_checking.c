@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 06:48:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:15:27 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,22 @@ int	special_char(char *seek, int mode)
 {
 	if (!seek || !seek[0])
 		return (EMPTY_CMD);
-	if ((!mode || mode == INFILE_CMD) && (str_occur(seek, "<") && !str_occur(seek, "<<")))
+	if ((mode <= 0 || mode == INFILE_CMD) \
+	&& (str_occur(seek, "<") && !str_occur(seek, "<<")))
 		return (INFILE_CMD);
-	else if ((!mode || mode == OUTFILE_CMD) && str_occur(seek, ">") && !str_occur(seek, ">>"))
+	else if ((mode <= 0 || mode == OUTFILE_CMD) \
+	&& str_occur(seek, ">") && !str_occur(seek, ">>"))
 		return (OUTFILE_CMD);
-	else if ((!mode || mode == OUTFILE_ADDER) && str_occur(seek, ">>"))
+	else if ((mode <= 0 || mode == OUTFILE_ADDER) && str_occur(seek, ">>"))
 		return (OUTFILE_ADDER);
-	else if ((!mode || mode == PIPE_CMD) && str_occur(seek, "|"))
+	else if ((mode <= 0 || mode == PIPE_CMD) && str_occur(seek, "|"))
 		return (PIPE_CMD);
-	else if ((!mode || mode == DOLLARSIGN_CMD) &&str_occur(seek, "$"))
+	else if ((mode <= 0 || mode == DOLLARSIGN_CMD) && str_occur(seek, "$"))
 		return (DOLLARSIGN_CMD);
+	else if ((mode == -2 || mode == SIMPLEQUOTE) && str_occur(seek, "\'"))
+		return (SIMPLEQUOTE);
+	else if ((mode == -2 || mode == DOUBLEQUOTE) && str_occur(seek, "\""))
+		return (DOUBLEQUOTE);
 	return (SINGLE_CMD);
 }
 

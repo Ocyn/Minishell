@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 08:53:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:15:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	skip_until(char **tab, int (*stop)(char *, int));
+int	skip_until(char **tab, int mode, int (*stop)(char *, int));
 
 int	get_prefixes(char **src, char ***prefixes)
 {
@@ -24,15 +24,7 @@ int	get_prefixes(char **src, char ***prefixes)
 	temp = NULL;
 	if (!src)
 		return (0);
-	stop = skip_until(src, special_char);
-	if (find_str_in_tab(0, "\"", src) != -1 \
-	&& stop > find_str_in_tab(0, "\"", src))
-		stop = find_str_in_tab(0, "\"", src);
-	else if (find_str_in_tab(0, "\'", src) != -1 \
-	&& stop > find_str_in_tab(0, "\'", src))
-		stop = find_str_in_tab(0, "\'", src);
-	if (stop == -1)
-		stop = 0;
+	stop = skip_until(src, -2, special_char);
 	pre_extract = tab_to_str(src, stop, 1, 0);
 	if (ft_strlen(pre_extract) > 1)
 		temp = ft_strtrim(pre_extract, ";");
@@ -68,12 +60,6 @@ int	type_identifier(char **src, int len)
 
 	type = -1;
 	raw = tab_dup(src, len);
-	db_tabstr_display(raw, "\n\tType Identifier", -1);
-	printf("\n\t\t< [%d]", find_str_in_tab(1, "<", raw));
-	printf("\n\t\t> [%d]", find_str_in_tab(1, ">", raw));
-	printf("\n\t\t| [%d]", find_str_in_tab(1, "|", raw));
-	printf("\n\t\t<< [%d]", find_str_in_tab(0, "<<", raw));
-	printf("\n\t\t>> [%d]", find_str_in_tab(1, ">>", raw));
 	if (find_str_in_tab(1, "<", raw) != -1)
 		type = INFILE_CMD;
 	else if (find_str_in_tab(1, ">", raw) != -1)
@@ -103,7 +89,7 @@ t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 	{
 		cmd->prev->type = SINGLE_CMD;
 		cmd->type = OUTFILE_CMD;
-		i--;
+		i -= (i > 0 && token[i - 1]);
 	}
 	cmd->command.raw = tab_dup(token + i, len);
 	get_prefixes(cmd->command.raw, &cmd->command.prefixes);
@@ -125,7 +111,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	while (i <= input_len && token && token[i])
 	{
 		/*DEBUG*/	db_tabstr_display(token, "\n\tToken Input (i)", i);
-		token_len = skip_until(token + i, special_char);
+		token_len = skip_until(token + i, 0, special_char);
 		command = cmd_add_unit(command);
 		command->type = type_identifier(token + i, token_len);
 		command = define_command_pattern(command, token, i, token_len);
