@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 20:45:39 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 20:47:57 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	launch_command(t_linux *shell)
 	ft_memset(pipfd_next, 0, 2);
 	pipe(pipfd);
 	pipe(pipfd_next);
-	// (void)command;
 	if (!pipfd[0] || !pipfd[1] || !pipfd_next[0] || !pipfd_next[1])
 		return ;
 	command = shell->head->next;
@@ -78,10 +77,10 @@ void	launch_command(t_linux *shell)
 			exe_command(command, &fork_id);
 		command = command->next;
 	}
-	waitpid(fork_id, 0, 0);
-	waitpid(fork_id - 1, 0, 0);
 	if (close(pipfd[0] == -1 || close(pipfd[1] == -1)))
 		printf("\nCLOSING FAILED\n");
 	if (close(pipfd_next[0] == -1 || close(pipfd_next[1] == -1)))
 		printf("\nCLOSING FAILED\n");
+	waitpid(fork_id, 0, 0);
+	waitpid(fork_id - 1, 0, 0);
 }
