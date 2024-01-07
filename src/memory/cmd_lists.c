@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 03:58:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 07:42:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,15 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 void	*cmd_free_list(t_cmd *cmd)
 {
-	printf("\nFree List:\n\n");
+	db_print_custom_font("\nFree List\n\n", FE_UND);
 	if (cmd->id == 0)
 	{
-		printf("\tSkipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
+		printf("\tSkipping "FE_REV"Cell %d"FRR" [%p]: HEAD\n\n", cmd->id, cmd);
 		cmd = cmd->next;
 	}
 	while (cmd)
 	{
-		printf("\tFree Cell %d [%p]: \n", cmd->id, cmd);
+		printf("\tFree "FE_REV"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
 		db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
 		free_tab(cmd->command.raw, tablen(cmd->command.raw));
 		printf("\r\t  "__VALID_FREED"\n");

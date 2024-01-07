@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 06:06:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 07:41:48 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	int	i;
 
 	i = -1;
-	printf("%s : |", message);
+	db_print_custom_font(message, FE_BOL);
+	printf(" : |");
 	if (!tab || !tab[i + 1])
 			printf(" "HIGHLIGHT_TEXT"[Empty]"FONT_RESET"");
 	while (tab && tab[++i])
@@ -44,16 +45,18 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 
 void	db_display_list(t_cmd *list, char *message)
 {
-	printf("\n%s\n", message);
+	db_print_custom_font(message, FE_UND);
+	printf("\n");
 	if (list->next)
 	{
-		printf("\tCell %d [%p]: HEAD\n\n", list->id, list);
+		printf("\t"FE_REV"Cell %d"FRR" [%p]: HEAD\n\n", list->id, list);
 		list = list->next;
 	}
 	while (list)
 	{
-		printf("\tCell %d [%p]:\n", list->id, list);
-		printf("\t\tType\t[%d]_", list->type);
+		printf("\t"FE_REV"Cell %d"FRR" [%p]:\n", list->id, list);
+		db_print_custom_font("\t\tType :", FE_BOL);
+		printf("\t[%d]_", list->type);
 		if (list->type == SINGLE_CMD)
 			printf("COMMAND\n");
 		else if (list->type == PIPE_CMD)
@@ -78,14 +81,15 @@ void	db_display_list(t_cmd *list, char *message)
 		printf("\n");
 		db_tabstr_display(list->command.args, "\t\tArgs", -1);
 		printf("\n");
-		printf("\t\tPrev\t[%p]\n", list->prev);
-		printf("\t\tNext\t[%p]\n\n", list->next);
+		db_print_custom_font("\t\tPrev :", FE_BOL);
+		printf("\t[%p]\n", list->prev);
+		db_print_custom_font("\t\tNext :", FE_BOL);
+		printf("\t[%p]\n", list->next);
 		if (list->next)
 			list = list->next;
 		else
 			break ;
 	}
-	printf("\n");
 }
 
 void	safemode_parse(t_linux *syst)

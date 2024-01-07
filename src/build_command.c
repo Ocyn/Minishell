@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 07:06:04 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 07:34:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**tab_dup(char **token_tab, int token_len)
 	raw = s_malloc(sizeof(char *) * (token_len + 1));
 	while (++i < token_len)
 		raw[i] = ft_strdup(token_tab[i]);
-	db_tabstr_display(raw, "\n\t\tTab_Dup - Out", token_len);
+	db_tabstr_display(raw, "\n\tTab_Dup - Out", token_len);
 	return (raw);
 }
 
@@ -109,7 +109,6 @@ int	type_identifier(char **raw, char **prefixes, char **args)
 		type = HEREDOC;
 	else if (raw && raw[0])
 		type = SINGLE_CMD;
-	printf("\n\t\tType Index [%d]", find_str_in_tab(1, "<", raw));
 	return (type);
 }
 
@@ -119,22 +118,23 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	int		input_len;
 	int		token_len;
 
+	/*DEBUG*/	db_print_custom_font("Build command\n", FE_UND);
 	i = 0;
 	token_len = 0;
 	input_len = tablen(token);
 	while (i <= input_len && token && token[i])
 	{
-		db_tabstr_display(token, "\n\tToken Input (i)", i);
+		/*DEBUG*/	db_tabstr_display(token, "\n\tToken Input (i)", i);
 		token_len = skip_until(token + i, special_char);
-		db_tabstr_display(token, "\n\tToken Input (token_len + i)", token_len + i);
 		command = cmd_add_unit(command);
 		command->command.raw = tab_dup(token + i, token_len);
-		db_tabstr_display(command->command.raw, "\n\tType identifier", token_len - (token_len > 0) - (i + token_len >= input_len));
+		/*DEBUG*/	db_tabstr_display(command->command.raw, "\n\tType identifier", token_len - (token_len > 0) - (i + token_len >= input_len));
 		command->type = type_identifier(command->command.raw, command->command.prefixes, command->command.args);
 		get_prefixes(command->command.raw, &command->command.prefixes);
 		command->command.args = get_args(command->command.raw, tablen(command->command.prefixes));
 		i += token_len;
-		printf("\n\tEnd loop | i [%d] | input_len [%d]\n", i, input_len);
+		db_print_custom_font("\n\tEnd loop:", FE_BOL);
+		/*DEBUG*/	printf(" i [%d] | input_len [%d]\n", i, input_len);
 	}
 	return (command);
 }
