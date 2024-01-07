@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 09:48:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 10:35:34 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@ int	get_prefixes(char **src, char ***prefixes)
 	if (!src)
 		return (0);
 	stop = skip_until(src, -2, special_char);
+	if (find_str_in_tab(0, "<<", src) != -1 \
+	&& find_str_in_tab(0, "<<", src) < stop)
+		stop = find_str_in_tab(0, "<<", src);
 	pre_extract = tab_to_str(src, stop, 1, 0);
-	if (ft_strlen(pre_extract) > 1)
-		temp = ft_strtrim(pre_extract, ";");
-	else
-		temp = ft_strdup(pre_extract);
+	temp = ft_strdup(pre_extract);
 	if (!temp)
 		return (0);
 	s_free(&pre_extract);
+	printf("\n\t\tTemp = [%s]\n", temp);
 	*prefixes = ft_split(temp, ' ');
 	s_free(&temp);
 	return (tablen(*prefixes));
@@ -49,15 +50,14 @@ char	**get_args(char **token, int start)
 	hd_index = -1;
 	full = NULL;
 	heredoc = NULL;
-	db_tabstr_display(token, "\n\tGet Args Entry", start);
 	args_len = tablen(token) - start;
-	args_len -= (special_char(token[args_len + start - 1], 0) != 0);
+	printf("\n\tlen_Token [%d] - Start [%d] == ArgLen [%d]\n", tablen(token), start, args_len);
+	args_len -= (special_char(token[args_len + start], 0) != -1);
 	if (token && token[start] && args_len)
 	{
 		full = tab_dup(token + start, args_len);
 		hd_index = find_str_in_tab(0, "<<", full);
 		printf("\n\t\tHd_index [%d]", hd_index);
-		db_tabstr_display(full, "\n\t\tHeredoc Check", hd_index);
 	}
 	if (full && hd_index >= 0)
 	{
