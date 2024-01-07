@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 04:09:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**list_to_tab(t_cmd *list)
 		return (NULL);
 	while (++i > -1 && list)
 	{
-		tab[i] = ft_strdup(list->command.raw);
+		tab[i] = ft_strdup(list->command.sraw);
 		list = list->next;
 	}
 	return (tab);

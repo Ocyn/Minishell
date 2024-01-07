@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 11:31:41 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 04:09:51 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef struct s_query
 
 typedef struct s_execve
 {
-	char			*raw;
+	char			*sraw;
+	char			**raw;
 	char			**prefixes;
 	char			**args;
 	char			**env_var;

@@ -6,11 +6,21 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 07:22:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 06:06:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+void	db_print_custom_font(char *message, char *font_effect)
+{
+	if (font_effect)
+		printf("%s", font_effect);
+	if (message)
+		printf("%s", message);
+	if (font_effect)
+		printf("%s", FRR);
+}
 
 void	db_tabstr_display(char **tab, char *message, int highlight)
 {
@@ -18,6 +28,8 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 
 	i = -1;
 	printf("%s : |", message);
+	if (!tab || !tab[i + 1])
+			printf(" "HIGHLIGHT_TEXT"[Empty]"FONT_RESET"");
 	while (tab && tab[++i])
 	{
 		if (i == highlight)
@@ -25,6 +37,8 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 		else
 			printf(" [%s]", tab[i]);
 	}
+	if (tab && i == highlight)
+			printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
 	printf(" |");
 }
 
@@ -41,7 +55,7 @@ void	db_display_list(t_cmd *list, char *message)
 		printf("\tCell %d [%p]:\n", list->id, list);
 		printf("\t\tType\t[%d]_", list->type);
 		if (list->type == SINGLE_CMD)
-			printf("SINGLE_COMMAND\n");
+			printf("COMMAND\n");
 		else if (list->type == PIPE_CMD)
 			printf("PIPE\n");
 		else if (list->type == DOLLARSIGN_CMD)
@@ -54,9 +68,12 @@ void	db_display_list(t_cmd *list, char *message)
 			printf("HEREDOC\n");
 		else if (list->type == OUTFILE_ADDER)
 			printf("OUTFILE_ADDER\n");
+		else if (list->type == EMPTY_CMD)
+			printf("EMPTY\n");
 		else
 			printf("UNKNOWN\n");
-		printf("\t\tRaw\t[%s]\n", list->command.raw);
+		db_tabstr_display(list->command.raw, "\t\tRaw", -1);
+		printf("\n");
 		db_tabstr_display(list->command.prefixes, "\t\tPrefixes", -1);
 		printf("\n");
 		db_tabstr_display(list->command.args, "\t\tArgs", -1);
@@ -81,15 +98,15 @@ void	safemode_parse(t_linux *syst)
 	command = syst->command;
 	line = syst->input;
 	command = cmd_add_unit(command);
-	command->command.raw = ft_strdup(line);
+	command->command.raw[0] = ft_strdup(line);
 	command->command.prefixes = ft_split(line, ' ');
-	heredoc = new_heredoc(command->command.raw, 0);
+	heredoc = new_heredoc(command->command.raw[0], 0);
 	if (heredoc)
 	{
 		insert_tab_in_tab(heredoc, &command->command.args, find_str_in_tab(0, "<<", command->command.args) + 1);
 		free_tab(heredoc, tablen(heredoc));
 	}
-	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.raw);
+	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.raw[0]);
 	db_tabstr_display(command->command.prefixes, "\n\tPrefixes\t", -1);
 	printf("\n\n");
 	syst->command = command;

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 13:57:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 01:18:31 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	list_init(t_lst *lst)
 		lst->id = lst->prev->id + 1;
 }
 
-int	lst_len(t_lst *list)
+int	lst_len(t_lst list)
 {
 	t_lst	*len;
 	int		i;
@@ -48,20 +48,19 @@ t_lst	*lst_add(t_lst *last)
 	last = last->next;
 	last->next = NULL;
 	last->prev = temp_prev;
-	cmd_init(last);
+	list_init(last);
 	return (last);
 }
 
-void	cmd_rm(t_lst *list)
+void	lst_rm(t_lst *list)
 {
 	t_lst	*tprev;
 	t_lst	*tnext;
 
 	tprev = list->prev;
 	tnext = list->next;
-	free_tab(list, tablen(list));
 	if (list)
-		free_tab(list, tablen(list));
+		s_free((char **)list->data);
 	if (tprev)
 		tprev->next = list->next;
 	if (tnext)
@@ -70,36 +69,30 @@ void	cmd_rm(t_lst *list)
 	list = NULL;
 }
 
-void	*cmd_free_list(t_lst *cmd)
+void	*lst_free_list(t_lst *lst)
 {
 	printf("\nFree List:\n\n");
-	if (cmd->id == 0)
+	if (lst->id == 0)
 	{
-		printf("\tSkipping Cell %d [%p]: HEAD\n\n", cmd->id, cmd);
-		cmd = cmd->next;
+		printf("\tSkipping Cell %d [%p]: HEAD\n\n", lst->id, lst);
+		lst = lst->next;
 	}
-	while (cmd)
+	while (lst)
 	{
-		printf("\tFree Cell %d [%p]: \n", cmd->id, cmd);
-		printf("\t\tRaw: [%s]", cmd->command.raw);
-		s_free(&cmd->command.raw);
+		printf("\tFree Cell %d [%p]: \n", lst->id, lst);
+		printf("\t\tData: [%p]", lst->data);
+		s_free((char **)lst->data);
 		printf("\r\t  "__VALID_FREED"\n");
-		db_tabstr_display(cmd->command.prefixes, "\t\tPrefixes", -1);
-		free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
-		printf("\r\t  "__VALID_FREED"\n");
-		db_tabstr_display(cmd->command.args, "\t\tArgs", -1);
-		free_tab(cmd->command.args, tablen(cmd->command.args));
-		printf("\r\t  "__VALID_FREED"\n");
-		if (cmd->next)
+		if (lst->next)
 		{
-			cmd = cmd->next;
-			free(cmd->prev);
-			cmd->prev = NULL;
+			lst = lst->next;
+			free(lst->prev);
+			lst->prev = NULL;
 		}
 		else
 			break ;
 	}
-	free(cmd);
-	cmd = NULL;
+	free(lst);
+	lst = NULL;
 	return (NULL);
 }

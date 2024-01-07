@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/04 09:35:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 05:59:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "functions_docs.h"
 
 void		db_debug(void);
+void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_cmd *list, char *message);
 
@@ -35,13 +36,13 @@ int			white_space(const char seek);
 int			is_empty(char *str);
 int			heredoc_check(const char **token, int index, int *checker);
 int			str_occur(const char *src, const char *seek);
-int			special_char(char *seek);
+int			special_char(char *seek, int mode);
 
 void		parse(t_linux *shell);
 char		**split_command(const char *s, char c);
 
 t_cmd		*build_commands(t_cmd *command, char **all_token);
-char		**get_args(char **token);
+char		**get_args(char **token, int start);
 
 char		**new_heredoc(char *src, int pipe_mode);
 
@@ -89,9 +90,10 @@ void		ft_export(t_linux *shell);
  * filled of the variable informations, like their allocation state.
  * 
  * @param data The data in the experimental s_data format.
- * @param size Put a size to malloc size at data | Put 0 to free the data.
+ * @param size Set a positive integer to malloc SIZE bytes at data 
+ * | Set to 0 to free the data.
  */
 void		very_sure(t_sdata *data, unsigned long size);
 
-void	  create_signal();
+void		create_signal();
 #endif

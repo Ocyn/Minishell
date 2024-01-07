@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 11:22:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 03:58:19 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cmd_init(t_cmd *cmd)
 	cmd->id = 0;
 }
 
-int	list_len(t_cmd *list)
+int	list_len(t_cmd list)
 {
 	t_cmd	*len;
 	int		i;
@@ -61,8 +61,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 	tprev = cmd->prev;
 	tnext = cmd->next;
-	s_free(&cmd->command.raw);
-	free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
+	if (cmd->command.raw)
+		free_tab(cmd->command.raw, tablen(cmd->command.raw));
+	if (cmd->command.prefixes)
+		free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
 	if (cmd->command.args)
 		free_tab(cmd->command.args, tablen(cmd->command.args));
 	if (tprev)
@@ -84,8 +86,8 @@ void	*cmd_free_list(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("\tFree Cell %d [%p]: \n", cmd->id, cmd);
-		printf("\t\tRaw: [%s]", cmd->command.raw);
-		s_free(&cmd->command.raw);
+		db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
+		free_tab(cmd->command.raw, tablen(cmd->command.raw));
 		printf("\r\t  "__VALID_FREED"\n");
 		db_tabstr_display(cmd->command.prefixes, "\t\tPrefixes", -1);
 		free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));

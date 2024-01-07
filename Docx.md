@@ -62,4 +62,4 @@ if (heredoc_check(token))
 
 	`                "   test   '  "   test  ' `
 
-	
+ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" "arg2"

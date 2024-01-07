@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 04:31:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 05:37:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 04:07:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,12 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	prompt = NULL;
 	settings = NULL;
 	set_index = -1;
+	db_print_custom_font("\nPrompt_Tuning", FE_UND);
 	if (!init_all(&settings, profile, &suffix))
 		return (ft_strdup("> "));
 	prompt = ft_strjoin(" ", name);
-	printf("\nPrompt Tuning \n\tPrompt: [%s]\n\tSuffix: [%s]", prompt, suffix);
+	printf("\n\tPrompt: [%s]\n\tSuffix: [%s]", prompt, suffix);
 	db_tabstr_display(settings, "\n\tSettings: ", -1);
-	printf("\n\n");
 	while (name && settings[++set_index])
 		prompt = apply_setting(prompt, ft_split(settings[set_index], '_'));
 	free_tab(settings, tablen(settings));
@@ -131,6 +131,6 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	prompt = ft_strjoin(profile, suffix);
 	s_free(&profile);
 	s_free(&suffix);
-	printf("\n\n\tNew Prompt: [%s]\n\n\n", prompt);
+	printf("\n\tNew Prompt: [%s]\n", prompt);
 	return (prompt);
 }

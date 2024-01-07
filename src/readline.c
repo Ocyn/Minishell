@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 03:44:24 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 09:13:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 04:00:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *))
 {
 	if (!exit)
 		return ;
-	printf("\n\nType\t");
+	printf("\nType\t");
 	printf(""HIGHLIGHT_TEXT"%s"FONT_RESET" to exit\n\n", exit);
 	while (exit)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/06 09:22:25 by aammirat         ###   ########lyon.fr   */
+/*   Updated: 2024/01/07 01:07:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	create_signal()
 	slash.sa_flags = SA_SIGINFO;
 	slash.sa_sigaction = ctrl_slash;
 	sigaction(SIGINT, &sa, 0);
-	sigaction(SIGQUIT, &lash, 0);
+	sigaction(SIGQUIT, &slash, 0);
 }
 
 //ctrl d c'est le caractere EOF, a gerer dans le prompt, sinon juste newline

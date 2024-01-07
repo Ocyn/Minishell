@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 08:46:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 06:43:19 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # define HEREDOC 					6060
 # define OUTFILE_ADDER				6262
 # define DOLLARSIGN_CMD 			'$'
-# define ERROR_C 					-2
 # define UNDEFINED_CMD 				99
 
 # define SIMPLEQUOTE 				'\''
@@ -34,7 +33,8 @@
 # define __VALID_FREED			"\e[1m\e[4m\e[32mDONE\033[0m"
 # define __INVALID_FREED		"\e[1m\e[4m\e[31mERROR\033[0m"
 # define HIGHLIGHT_TEXT			"\e[7m\e[1m\e[4m"
-//		Font part
+
+//		Font Color
 # define FONT_COLOR_BLACK		"\e[30m"
 # define FONT_COLOR_RED			"\e[31m"
 # define FONT_COLOR_GREEN		"\e[32m"

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 11:03:13 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 04:48:39 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 05:49:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	import_remain(char ***out, int start, char **remain, char *delim)
 {
 	while (remain[start])
 	{
-		if (special_char(remain[start]))
+		if (special_char(remain[start], 0))
 			return ;
 		if (!find_str_in_str(remain[start], "<<") \
 		&& ft_strcmp(remain[start], delim))
