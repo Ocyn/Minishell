@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 09:15:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:22:10 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,13 @@ t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 	int	prefixes_len;
 
 	prefixes_len = 0;
-	len -= (cmd->type == OUTFILE_CMD);
+	len -= (cmd->type == OUTFILE_CMD || cmd->type == OUTFILE_ADDER);
 	len += (cmd->type == INFILE_CMD);
-	if (cmd->prev && cmd->prev->type == OUTFILE_CMD)
+	if (cmd->prev && (cmd->prev->type == OUTFILE_CMD \
+	|| cmd->prev->type == OUTFILE_ADDER))
 	{
+		cmd->type = cmd->prev->type;
 		cmd->prev->type = SINGLE_CMD;
-		cmd->type = OUTFILE_CMD;
 		i -= (i > 0 && token[i - 1]);
 	}
 	cmd->command.raw = tab_dup(token + i, len);
