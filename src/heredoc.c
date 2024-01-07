@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 11:54:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:21:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	hd_parse(t_linux *syst)
 	syst->command = command;
 }
 
-char	**get_heredoc(char *src, int pipe_mode)
+char	**get_heredoc(char *src)
 {
 	t_linux	heredoc;
 	char	**out;

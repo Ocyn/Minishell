@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 11:38:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:22:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	safemode_parse(t_linux *syst)
 	command = cmd_add_unit(command);
 	command->command.sraw = ft_strdup(line);
 	command->command.prefixes = ft_split(line, ' ');
-	heredoc = get_heredoc(command->command.sraw, 0);
+	heredoc = get_heredoc(command->command.sraw);
 	if (heredoc)
 	{
 		insert_tab_in_tab(heredoc, &command->command.args, find_str_in_tab(0, "<<", command->command.args) + 1);

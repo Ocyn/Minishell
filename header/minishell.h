@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 11:05:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 14:22:39 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		**split_command(const char *s, char c);
 t_cmd		*build_commands(t_cmd *command, char **all_token);
 char		**get_args(char **token, int start);
 
-char		**get_heredoc(char *src, int pipe_mode);
+char		**get_heredoc(char *src);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);

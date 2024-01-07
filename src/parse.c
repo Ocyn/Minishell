@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 07:27:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 16:42:25 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ void	parse(t_linux *shell)
 	token = get_token(cmd_in);
 	command = build_commands(shell->head, token);
 	/*DEBUG*/ db_display_list(shell->head, "\nTotal Memory Data\n");
-	(void)command;
-	//launch_command(shell);
+	launch_command(shell);
 	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
 }
