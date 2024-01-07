@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 07:56:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	insert_tab_in_tab(char **insert, char ***tab, int where)
 		return ;
 	while (++i < len && i - ins_ >= 0 && (*tab)[i - ins_])
 	{
-		db_tabstr_display(*tab, "\n\tCopy Tab ", i - ins_);
 		if (i == where - 1)
 			while (insert[ins_])
 				new[i++] = ft_strdup(insert[ins_++]);

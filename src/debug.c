@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 07:41:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 07:53:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 
 	i = -1;
 	db_print_custom_font(message, FE_BOL);
-	printf(" : |");
+	db_print_custom_font(" : ", FE_BOL);
+	printf("|");
 	if (!tab || !tab[i + 1])
 			printf(" "HIGHLIGHT_TEXT"[Empty]"FONT_RESET"");
 	while (tab && tab[++i])
@@ -39,7 +40,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 			printf(" [%s]", tab[i]);
 	}
 	if (tab && i == highlight)
-			printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
+		printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
 	printf(" |");
 }
 
@@ -49,12 +50,12 @@ void	db_display_list(t_cmd *list, char *message)
 	printf("\n");
 	if (list->next)
 	{
-		printf("\t"FE_REV"Cell %d"FRR" [%p]: HEAD\n\n", list->id, list);
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", list->id, list);
 		list = list->next;
 	}
 	while (list)
 	{
-		printf("\t"FE_REV"Cell %d"FRR" [%p]:\n", list->id, list);
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_print_custom_font("\t\tType :", FE_BOL);
 		printf("\t[%d]_", list->type);
 		if (list->type == SINGLE_CMD)
@@ -90,6 +91,7 @@ void	db_display_list(t_cmd *list, char *message)
 		else
 			break ;
 	}
+	printf("\n");
 }
 
 void	safemode_parse(t_linux *syst)

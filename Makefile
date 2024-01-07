@@ -15,6 +15,7 @@ BUILTIN 		= pwd.c \
 MEMORY			= cmd_lists.c \
 				lists.c \
 	 			memory_allocation.c \
+				memory_utils.c \
 				quick_checking.c \
 				memory_edit.c \
 				memory_scan.c \
