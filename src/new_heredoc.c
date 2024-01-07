@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 04:45:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:38:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	**new_heredoc(char *src, int pipe_mode)
 	int		i;
 	char	**out;
 
+	printf("\n\tHeredoc Init: [%s]%d]\n", src, pipe_mode);
 	if (!find_str_in_str(src, "<<"))
 		return (NULL);
 	out = NULL;
@@ -48,8 +49,6 @@ char	**new_heredoc(char *src, int pipe_mode)
 	if (!delim || !delim[0])
 		return (s_free(&delim), NULL);
 	heredoc.prompt = ft_strdup("heredoc>");
-	if (pipe_mode)
-		str_edit(&heredoc.prompt, "heredoc>", "pipe heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
 	out = list_to_tab(heredoc.head);
 	db_display_list(heredoc.head, "\nHeredoc: ");

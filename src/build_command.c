@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 09:22:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:48:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,30 @@ int	get_prefixes(char **src, char ***prefixes)
 char	**get_args(char **token, int start)
 {
 	char	**full;
+	char	**heredoc;
+	int		hd_index;
 	int		args_len;
 
 	args_len = 0;
+	hd_index = -1;
 	full = NULL;
+	heredoc = NULL;
 	db_tabstr_display(token, "\n\tGet Args Entry", start);
 	args_len = tablen(token) - start;
 	args_len -= (special_char(token[args_len + start - 1], 0) != 0);
 	if (token && token[start] && args_len)
+	{
 		full = tab_dup(token + start, args_len);
+		hd_index = find_str_in_tab(0, "<<", full);
+		printf("\n\t\tHd_index [%d]", hd_index);
+		db_tabstr_display(full, "\n\t\tHeredoc Check", hd_index);
+	}
+	if (full && hd_index >= 0)
+	{
+		heredoc = new_heredoc(full[hd_index], 0);
+		insert_tab_in_tab(heredoc, &full, hd_index + 1);
+		free_tab(heredoc, tablen(heredoc));
+	}
 	return (full);
 }
 

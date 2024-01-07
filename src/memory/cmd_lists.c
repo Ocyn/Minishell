@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 07:47:44 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/07 09:51:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	cmd_init(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
+	cmd->command.sraw = NULL;
 	cmd->command.raw = NULL;
 	cmd->command.prefixes = NULL;
 	cmd->command.args = NULL;
@@ -61,6 +62,7 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 	tprev = cmd->prev;
 	tnext = cmd->next;
+	s_free(&cmd->command.sraw);
 	if (cmd->command.raw)
 		free_tab(cmd->command.raw, tablen(cmd->command.raw));
 	if (cmd->command.prefixes)
@@ -86,6 +88,9 @@ void	*cmd_free_list(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
+		printf("\t\tS_Raw");
+		s_free(&cmd->command.sraw);
+		printf("\r\t"__VALID_FREED"\n");
 		db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
 		free_tab(cmd->command.raw, tablen(cmd->command.raw));
 		printf("\r\t"__VALID_FREED"\n");
