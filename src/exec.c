@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/10 06:43:15 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/10 09:41:08 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	annihiliation(t_linux *shell, int *pip)
 {
+	(void)pip;
 	close(pip[1]);
 	close(pip[0]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	s_free(&shell->input);
 	s_free(&shell->prompt);
 	free_tab(shell->token, tablen(shell->token));
@@ -54,6 +57,10 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 
 void	redirection(int pip, int pipnext, int fdclose)
 {
+	printf("\n%sRedirection :%s", FE_UND, FRR);
+	printf("\n\tClosing %d", fdclose);
+	printf("\n\tDup2 %d -> %d", pipnext, pip);
+	printf("\n\tClosing %d\n\n", pip);
 	close(fdclose);
 	dup2(pipnext, pip);
 	close(pip);
@@ -95,8 +102,7 @@ void	launch_command(t_linux *shell)
 		if (select_dup(pipfd, command))
 		{
 			exe_command(command, &fork_id, pipfd, shell);
-			close(pipfd[1]);
-			close(pipfd[0]);
+			fork_id = 0;
 		}
 		command = command->next;
 	}
