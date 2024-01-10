@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 14:22:39 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:07:49 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_cmd *list, char *message);
 
 void		get_signal(t_linux *ssystem, void (*action)(int));
+void		ctrl_c(int sig, siginfo_t *inf, void *gain) ;
+void		ctrl_slash(int sig, siginfo_t *inf, void *gain);
+void		nothing(int sig, siginfo_t *inf, void *gain);
+void		create_signal(void *c, void *sla);
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 

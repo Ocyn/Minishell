@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <<jcuzin@student.42.fr>>            +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/08 04:12:57 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:08:11 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **argv, char **env)
 	//return (db_debug(), 0);
 	shell.input = NULL;
 	struct_init(&shell);
+	create_signal(ctrl_c, ctrl_slash);
 	shell.envi = env;
 	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	read_prompt(&shell, "exit", parse);

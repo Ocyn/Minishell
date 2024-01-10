@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 03:44:24 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 04:00:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 19:13:04 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *))
 	while (exit)
 	{
 		ssystem->input = readline(ssystem->prompt);
-		if (!ft_strcmp(ssystem->input, exit))
+		if (!ssystem->input || !ft_strcmp(ssystem->input, exit))
 			return ((void)s_free(&ssystem->input));
 		pa(ssystem);
 		s_free(&ssystem->input);
