@@ -3,25 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/07 21:42:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 06:43:15 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	annihiliation(t_linux *shell, char **path, int *pip)
+void	annihiliation(t_linux *shell, int *pip)
 {
-	s_free(path);
-	cmd_free_list(shell->head);
-	s_free((char **)shell->head);
+	close(pip[1]);
+	close(pip[0]);
 	s_free(&shell->input);
 	s_free(&shell->prompt);
 	free_tab(shell->token, tablen(shell->token));
-	close(pip[1]);
-	close(pip[0]);
+	cmd_free_list(shell->head);
+	free(shell->head);
 }
 
 void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
@@ -29,6 +28,8 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 	char	*path;
 
 	path = NULL;
+	(void)shell;
+	(void)pip;
 	printf("\n%sExecution :%s", FE_UND, FRR);
 	*fk = fork();
 	if (*fk == -1)
@@ -44,7 +45,7 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 		printf("%s", BND_DARK_GRAY);
 		execve(path, cmd->command.prefixes, cmd->command.env_var);
 		perror("bash");
-		annihiliation(shell, &path, pip);
+		annihiliation(shell, pip);
 		exit (0);
 	}
 	s_free(&path);
@@ -60,9 +61,11 @@ void	redirection(int pip, int pipnext, int fdclose)
 
 int	select_dup(int *pip, t_cmd *command)
 {
-	if (command->prev && command->command.args && command->prev->type == INFILE_CMD)
+	if (command->prev && command->command.args \
+	&& command->prev->type == INFILE_CMD)
 		redirection(set_infile(command->command.args[0]), STDIN_FILENO, pip[0]);
-	if (command->next && command->command.args && command->next->type == OUTFILE_CMD)
+	if (command->next && command->command.args \
+	&& command->next->type == OUTFILE_CMD)
 		redirection(set_outfile(command->command.args[0]), STDOUT_FILENO, pip[1]);
 	if (command && command->type == PIPE_CMD)
 		redirection(pip[1], STDOUT_FILENO, pip[0]);
@@ -97,6 +100,8 @@ void	launch_command(t_linux *shell)
 		}
 		command = command->next;
 	}
+	close(pipfd[1]);
+	close(pipfd[0]);
 	waitpid(fork_id - 1, 0, 0);
 	waitpid(fork_id, 0, 0);
 }
