@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/10 09:41:08 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/10 09:55:11 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	redirection(int pip, int pipnext, int fdclose)
 	printf("\n\tClosing %d\n\n", pip);
 	close(fdclose);
 	dup2(pipnext, pip);
-	close(pip);
+	// close(pip);
 }
 
 int	select_dup(int *pip, t_cmd *command)

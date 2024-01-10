@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 14:22:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 11:18:58 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**get_args(char **token, int start)
 	if (full && hd_index >= 0)
 	{
 		heredoc = get_heredoc(full[hd_index]);
-		insert_tab_in_tab(heredoc, &full, hd_index + 1);
+		
 		free_tab(heredoc, tablen(heredoc));
 	}
 	return (full);
