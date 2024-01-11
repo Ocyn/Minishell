@@ -65,3 +65,5 @@ if (heredoc_check(token))
 ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" "arg2"
 
 cat -e "t1" <<hd "t2"
+
+cat -e <<hd <<hd <<hd

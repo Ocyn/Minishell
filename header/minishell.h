@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 01:19:59 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 05:01:44 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void		parse(t_linux *shell);
 char		**split_command(const char *s, char c);
 
 t_cmd		*build_commands(t_cmd *command, char **all_token);
-char		**get_args(int type, char **token, int start);
 
 char		**get_heredoc(char *src);
 
@@ -54,7 +53,7 @@ void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
 char		*get_path(char *command, char **env);
 int			set_infile(char *file);
-int			set_outfile(char *file);
+int			set_outfile(char *file, int overwrite);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd);

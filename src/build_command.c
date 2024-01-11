@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 01:36:33 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 06:48:08 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,50 +14,39 @@
 
 int	skip_until(char **tab, int mode, int (*stop)(char *, int));
 
-int	get_prefixes(char **src, char ***prefixes)
+int	get_prefixes(int type, char **src, char ***prefixes)
 {
-	char	*temp;
-	char	*pre_extract;
 	int		stop;
 
-	pre_extract = NULL;
-	temp = NULL;
 	if (!src)
 		return (0);
-	stop = skip_until(src, -2, special_char);
-	pre_extract = tab_to_str(src, stop, 1, 0);
-	temp = ft_strdup(pre_extract);
-	if (!temp)
-		return (0);
-	s_free(&pre_extract);
-	printf("\n\t\tTemp = [%s]\n", temp);
-	*prefixes = ft_split(temp, ' ');
-	s_free(&temp);
+	stop = tablen(src);
+	if (type == INFILE_CMD || type == OUTFILE_CMD)
+		stop = 1;
+	else if (type == PIPE_CMD)
+		stop = find_str_in_tab(1, (char *)&type, src);
+	else if (type == HEREDOC)
+		stop = find_str_in_tab(0, "<<", src);
+	else if (type == OUTFILE_ADDER)
+		stop = find_str_in_tab(1, ">>", src);
+	printf("\n\t\tStop_len [%d]\n", stop);
+	*prefixes = tab_dup(src, stop);
 	return (tablen(*prefixes));
 }
 
-char	**get_args(int type, char **token, int start)
+char	**get_args(char **token, int start, int type)
 {
 	char	**full;
-	char	*hd;
 	int		args_len;
 
 	args_len = 0;
 	full = NULL;
-	hd = NULL;
 	args_len = tablen(token) - start;
 	printf("\n\tlen_Token [%d] - Start [%d] == ArgLen [%d]\n", tablen(token), start, args_len);
-	args_len -= (special_char(token[args_len + start], 0) != -1);
+	args_len -= (special_char(token[args_len + start], type) == type);
 	if (token && token[start] && args_len)
 	{
-		if (type == HEREDOC && args_len == 1)
-		{
-			hd = ft_strdup(token[start]);
-			full = get_heredoc(hd);
-			s_free(&hd);
-		}
-		else
-			full = tab_dup(token + start, args_len);
+		full = tab_dup(token + start, args_len);
 	}
 	return (full);
 }
@@ -102,9 +91,9 @@ t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 		i -= (i > 0 && token[i - 1]);
 	}
 	cmd->command.raw = tab_dup(token + i, len);
-	get_prefixes(cmd->command.raw, &cmd->command.prefixes);
+	get_prefixes(cmd->type, cmd->command.raw, &cmd->command.prefixes);
 	prefixes_len = tablen(cmd->command.prefixes);
-	cmd->command.args = get_args(cmd->type, cmd->command.raw, prefixes_len);
+	cmd->command.args = get_args(cmd->command.raw, prefixes_len, cmd->type);
 	return (cmd);
 }
 
@@ -125,6 +114,9 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		command = cmd_add_unit(command);
 		command->type = type_identifier(token + i, token_len);
 		command = define_command_pattern(command, token, i, token_len);
+		if (!command->command.args && !command->command.prefixes \
+		&& !command->command.raw && !command->command.sraw && !command->command.env_var)
+			cmd_rm_unit(command);
 		i += token_len + (command->type == INFILE_CMD);
 		db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
 		/*DEBUG*/	printf("i [%d] | input_len [%d]\n", i, input_len);

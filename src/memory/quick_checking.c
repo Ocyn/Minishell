@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 01:31:47 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 06:28:22 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ int	is_empty(char *str)
 	return (1);
 }
 
-int	heredoc_check(const char **token, int index, int *checker)
-{
-	if (find_str_in_str(token[index], "<<") && token[1] \
-	&& !find_str_in_str(token[1], "<") \
-	&& !find_str_in_str(token[tablen((char **)token)], "<"))
-	{
-		printf("\n\tHeredoc detected\n");
-		if (checker)
-			*checker = 1;
-		return (1);
-	}
-	return (0);
-}
-
 int	special_char(char *seek, int mode)
 {
 	if (!seek || !seek[0])
@@ -47,7 +33,7 @@ int	special_char(char *seek, int mode)
 	if ((mode <= 0 || mode == INFILE_CMD) \
 	&& (str_occur(seek, "<") && !str_occur(seek, "<<")))
 		return (INFILE_CMD);
-	else if ((mode == -3 || mode == HEREDOC) && str_occur(seek, "<<"))
+	else if ((mode <= -3 || mode == HEREDOC) && str_occur(seek, "<<"))
 		return (HEREDOC);
 	else if ((mode <= 0 || mode == OUTFILE_CMD) \
 	&& str_occur(seek, ">") && !str_occur(seek, ">>"))
@@ -58,9 +44,9 @@ int	special_char(char *seek, int mode)
 		return (PIPE_CMD);
 	else if ((mode <= 0 || mode == DOLLARSIGN_CMD) && str_occur(seek, "$"))
 		return (DOLLARSIGN_CMD);
-	else if ((mode == -2 || mode == SIMPLEQUOTE) && str_occur(seek, "\'"))
+	else if ((mode <= -2 || mode == SIMPLEQUOTE) && str_occur(seek, "\'"))
 		return (SIMPLEQUOTE);
-	else if ((mode == -2 || mode == DOUBLEQUOTE) && str_occur(seek, "\""))
+	else if ((mode <= -2 || mode == DOUBLEQUOTE) && str_occur(seek, "\""))
 		return (DOUBLEQUOTE);
 	return (SINGLE_CMD);
 }

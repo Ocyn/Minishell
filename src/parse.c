@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/10 21:58:35 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 03:58:49 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	parse(t_linux *shell)
 	shell->token = token;
 	(void)command;
 	/*DEBUG*/ db_display_list(shell->head, "\nTotal Memory Data\n");
-	//launch_command(shell);
+	launch_command(shell);
 	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
 }

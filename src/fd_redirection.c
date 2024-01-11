@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 07:59:22 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 20:31:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/11 05:14:46 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,18 @@ int	set_infile(char *file)
 	return (fd);
 }
 
-int	set_outfile(char *file)
+int	set_outfile(char *file, int overwrite)
 {
 	int	fd;
 
 	fd = 0;
 	if (!file)
 		return (0);
-	if (!access(file, F_OK) && access(file, W_OK))
-		return (0);
-	fd = open(file, O_CREAT | O_RDWR, 00700);
-	if (!fd)
+	if (overwrite)
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
+	else
+		fd = open(file, O_CREAT | O_WRONLY, 00700);
+	if (!fd || !access(file, F_OK) || !access(file, W_OK))
 		return (0);
 	return (fd);
 }
