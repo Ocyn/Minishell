@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_structs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/10 22:12:07 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 11:44:31 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_linux
 	char	**envi;
 	char	**token;
 	int		end;
+	char	*oldpwd;
 }			t_linux;
 
 #endif

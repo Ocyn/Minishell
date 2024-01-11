@@ -3,66 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/10 05:57:14 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 16:01:26 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-char	*cut_cmd(char *str)
+char	*search_path(char **str)
 {
-	char	*path;
-	int		i;
-	int		j;
-
-	i = 2;
-	j = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	while (str[i + j])
-		j++;
-	if (j > 0)
+	int	i;
+	
+	i = 0;
+	while (str[i])
 	{
-		path = malloc(sizeof(char) * j + 1);
-		if (!path)
-			return (NULL);
-		j = 0;
-		while (str[i + j])
-		{
-			path[j] = str[i + j];
-			j++;
-		}
-		path[j] = '\0';
-		return (path);
+		i++;
 	}
-	return ("cd");
+	if (i == 1)
+		return (put_in("~"));
+	else if (i == 2)
+		return (put_in(str[1]));
+	else
+		return (NULL);
 }
 
-void	ft_cd(char *cmd)
+void	change_to_home(t_linux	*shell)
 {
-	char	*path;
-	char	home[1];
+	char	*home;
+	char	*pwd;
 
-	home[0] = '~';
-	(void)home;
-	path = cut_cmd(cmd);
+	home = getenv("HOME");
+	pwd = getcwd(NULL, 0);
+	if (pwd)
+	{
+		if (home != NULL)
+		{
+			if (chdir(home) != 0)
+				perror("chdir");
+			else
+				shell->oldpwd = put_in(pwd);
+		}
+		free(pwd);
+	}
+}
+
+char	*what_path(t_linux	*shell, char **str)
+{
+	char	*oldpwd;
+	char	*path;
+
+	path = search_path(str);
 	if (path)
 	{
-		if (!ft_strcmp(cmd, path))
+		oldpwd = put_in(shell->oldpwd);
+		if (ft_strcmp(path, "~") == 0)
 		{
-			printf ("il faut aller dans le repertoire ~\n");
+			change_to_home(shell);
+		}
+		else if (ft_strcmp(path, "-") == 0)
+		{
+			free(path);
+			return (oldpwd);
 		}
 		else
-		{
-			if (chdir(path) != 0)
-			{
-				perror("chdir");
-				free (path);
-			}
-		}
-
+			return (path);
 	}
+	return (NULL);
 }
+
+void	ft_cd(t_linux *shell, char **str)
+{
+	char	*path;
+	char	*pwd;
+
+	if (!str)
+		return ;
+	path = what_path(shell, str);
+	pwd = getcwd(NULL, 0);
+	if (path != NULL && pwd)
+	{
+		if (chdir(path) != 0)
+			perror("chdir");
+		else
+		{
+			if (shell->oldpwd != NULL)
+				free(shell->oldpwd);
+			shell->oldpwd = put_in(pwd);
+		}
+		free (path);
+		free(pwd);
+	}
+	if (!pwd)
+		printf ("you are in the middle of nowere\n");
+}
+
+//comprendre pourquoi ca change pas le directory alors que tout a l'air parfait

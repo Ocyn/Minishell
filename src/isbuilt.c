@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   isbuilt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <<jcuzin@student.42.fr>>            +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:16:48 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/08 03:44:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/11 16:05:26 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	is_builtin(char *cmd_in, t_linux *shell)
 {
-	(void)shell;
-	if (!ft_strcmp(cmd_in, "cd") \
-	|| !ft_strcmp(cmd_in, "pwd") || !ft_strcmp(cmd_in, "env"))
-		return (printf("%s is a built in command !\tSkipped\n", cmd_in), 1);
-	// if (!ft_strcmp(cmd_in, "cd"))
-	// 	ft_cd(shell->history[shell->nb_history - 1]);
-	// else if (!ft_strcmp(cmd_in, "pwd"))
-	// 	ft_pwd();
-	// else if (!ft_strcmp(cmd_in, "env"))
-	// 	ft_env(shell);
-	// else if (is_empty(cmd_in))
-	// 	return (1);
-	// else if (!ft_strcmp(cmd_in, "exit"))
-	// 	return(ft_exit(shell), 1);
-	return (0);
+	if (ft_strcmp(cmd_in, "cd") == 0)
+		ft_cd(shell, shell->head->next->command.prefixes);
+	else if (ft_strcmp(cmd_in, "pwd") == 0)
+		ft_pwd();
+	else if (ft_strcmp(cmd_in, "env") == 0)
+		ft_env(shell);
+	else if (ft_strcmp(cmd_in, "exit") == 0)
+		ft_exit(shell);
+	else if (ft_strcmp(cmd_in, "echo") == 0)
+		ft_echo(shell->head->next->command.prefixes);
+	else if (ft_strcmp(cmd_in, "unset") == 0)
+		ft_unset(shell);
+	else if (ft_strcmp(cmd_in, "export") == 0)
+		ft_export(shell);
+	else
+		return (0);
+	return (1);
 }

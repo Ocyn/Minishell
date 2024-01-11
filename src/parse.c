@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 03:58:49 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 15:31:48 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,11 @@ void	parse(t_linux *shell)
 	launch_command(shell);
 	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
+}
+
+void	change_oldpwd(t_linux *shell)
+{
+	if (shell->oldpwd != NULL)
+		free(shell->oldpwd);
+	shell->oldpwd = put_in(getcwd(NULL, 0));
 }

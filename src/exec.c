@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 06:52:25 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 15:02:46 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 	char	*path;
 
 	path = NULL;
-	(void)shell;
 	(void)pip;
 	if (cmd->type == INFILE_CMD || cmd->type == OUTFILE_ADDER || cmd->type == OUTFILE_CMD)
 		return ;
@@ -42,13 +41,16 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 	{
 		printf("%s%d Execution Of %s%s :%s\n", FE_UND, cmd->id, FE_BOL, cmd->command.prefixes[0] ,FRR);
 		path = get_path(cmd->command.prefixes[0], cmd->command.env_var);
-		printf("execve(%s, ", path);
+		//printf("execve(%s, ", path);
 		db_tabstr_display(cmd->command.prefixes, "args", -1);
 		printf(", Env[Too long])\n\n");
 		printf("%s", BND_DARK_GRAY);
-		execve(path, cmd->command.prefixes, cmd->command.env_var);
-		perror("bash");
-		annihiliation(shell, pip);
+		if (!is_builtin(path, shell))
+		{
+			execve(path, cmd->command.prefixes, cmd->command.env_var);
+			perror("bash");
+			annihiliation(shell, pip);
+		}
 		s_free(&path);
 		exit (0);
 	}
@@ -59,11 +61,11 @@ void	redirection(int fdin, int fdout, int toclose)
 {
 	if (toclose)
 		close(toclose);
-	printf("\n%sRedirection :%s", FE_UND, FRR);
-	printf("\n\tDup2 %d -> %d", fdin, fdout);
+	//printf("\n%sRedirection :%s", FE_UND, FRR);
+	//printf("\n\tDup2 %d -> %d", fdin, fdout);
 	if (fdin)
 		dup2(fdin, STDIN_FILENO);
-	printf("\n\tDup2 %d -> %d", fdin, fdout);
+	//printf("\n\tDup2 %d -> %d", fdin, fdout);
 	if (fdout)
 		dup2(fdout, STDOUT_FILENO);
 }
