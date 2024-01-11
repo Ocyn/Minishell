@@ -20,8 +20,7 @@ MEMORY			= cmd_lists.c \
 				memory_edit.c \
 				memory_scan.c \
 				split_command.c \
-				very_sure.c \
-				query.c 
+				very_sure.c
 
 SRCS			= main.c \
 				signal.c \

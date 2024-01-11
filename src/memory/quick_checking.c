@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quick_checking.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 09:15:27 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/11 01:31:47 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	special_char(char *seek, int mode)
 	if ((mode <= 0 || mode == INFILE_CMD) \
 	&& (str_occur(seek, "<") && !str_occur(seek, "<<")))
 		return (INFILE_CMD);
+	else if ((mode == -3 || mode == HEREDOC) && str_occur(seek, "<<"))
+		return (HEREDOC);
 	else if ((mode <= 0 || mode == OUTFILE_CMD) \
 	&& str_occur(seek, ">") && !str_occur(seek, ">>"))
 		return (OUTFILE_CMD);

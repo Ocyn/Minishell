@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/04 04:47:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 21:55:10 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*get_path(char *command, char **env)
 	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
 	if (ft_strncmp(env[i], "PATH=", 5) != 0)
-		return (NULL);
+		return (ft_strdup(command));
 	cmd_path = ft_strtrim(env[i], "PATH=");
 	var = ft_split(cmd_path, ':');
 	s_free(&cmd_path);
@@ -98,6 +98,6 @@ char	*get_path(char *command, char **env)
 		s_free(&cmd_path);
 	}
 	if (!cmd_path)
-		cmd_path = command;
+		cmd_path = ft_strdup(command);
 	return (free_tab(var, tablen(var)), s_free(&check), cmd_path);
 }

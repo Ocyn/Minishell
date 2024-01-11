@@ -28,15 +28,15 @@
 	|	|					 
 	|	|	✅ - >			[take file descriptor as output]
 	|	|						
-	|	|	✅ - <<			[Heredoc]
+	|	|	⏳ - <<			[Heredoc]
 	|	|
 	|	|	✅ - >>			[Redirect output in no overwrite mode]
 	|	\_
 	\_  
 
 **Features**	
-		🧪 - ""							[Double Quote]
-		⏳ - ''							[Simple Quote]
+		✅ - ""							[Double Quote]
+		✅ - ''							[Simple Quote]
 
 **Optionnal**	
 		🚧 - $_							 [expand to exit status of most recently executed foreground pipeline]
@@ -63,3 +63,5 @@ if (heredoc_check(token))
 	`                "   test   '  "   test  ' `
 
 ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" "arg2"
+
+cat -e "t1" <<hd "t2"

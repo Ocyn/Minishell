@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/10 06:32:08 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 00:02:18 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	cmd_init(t_cmd *cmd)
 	cmd->command.raw = NULL;
 	cmd->command.prefixes = NULL;
 	cmd->command.args = NULL;
+	cmd->command.env_var = NULL;
 	cmd->type = 0;
 	cmd->id = 0;
 }

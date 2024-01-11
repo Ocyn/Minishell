@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_structs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 21:40:42 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/10 22:12:07 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,6 @@ typedef struct s_sdata
 	int				sstr;
 	char			**str;
 }					t_sdata;
-
-typedef struct s_query
-{
-	int				id;
-	int				start;
-	int				end;
-	int				boolean;
-	int				index;
-	int				len;
-	int				range;
-	char			*pattern;
-	char			letter;
-	char			*str;
-	char			**tab;
-}					t_query;
 
 typedef struct s_execve
 {

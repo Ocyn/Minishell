@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/10 19:09:22 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/10 21:52:29 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 	if (*fk == 0)
 	{
 		path = get_path(cmd->command.prefixes[0], cmd->command.env_var);
-		if (!path)
-			path = ft_strdup("./");
 		printf("execve(%s, ", path);
 		db_tabstr_display(cmd->command.prefixes, "args", -1);
 		printf(", Env[Too long])\n");
@@ -49,9 +47,9 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 		execve(path, cmd->command.prefixes, cmd->command.env_var);
 		perror("bash");
 		annihiliation(shell, pip);
+		s_free(&path);
 		exit (0);
 	}
-	s_free(&path);
 	printf("%s", FRR);
 }
 

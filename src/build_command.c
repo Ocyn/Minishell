@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/10 11:18:58 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/11 01:36:33 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ int	get_prefixes(char **src, char ***prefixes)
 	if (!src)
 		return (0);
 	stop = skip_until(src, -2, special_char);
-	if (find_str_in_tab(0, "<<", src) != -1 \
-	&& find_str_in_tab(0, "<<", src) < stop)
-		stop = find_str_in_tab(0, "<<", src);
 	pre_extract = tab_to_str(src, stop, 1, 0);
 	temp = ft_strdup(pre_extract);
 	if (!temp)
@@ -39,31 +36,28 @@ int	get_prefixes(char **src, char ***prefixes)
 	return (tablen(*prefixes));
 }
 
-char	**get_args(char **token, int start)
+char	**get_args(int type, char **token, int start)
 {
 	char	**full;
-	char	**heredoc;
-	int		hd_index;
+	char	*hd;
 	int		args_len;
 
 	args_len = 0;
-	hd_index = -1;
 	full = NULL;
-	heredoc = NULL;
+	hd = NULL;
 	args_len = tablen(token) - start;
 	printf("\n\tlen_Token [%d] - Start [%d] == ArgLen [%d]\n", tablen(token), start, args_len);
 	args_len -= (special_char(token[args_len + start], 0) != -1);
 	if (token && token[start] && args_len)
 	{
-		full = tab_dup(token + start, args_len);
-		hd_index = find_str_in_tab(0, "<<", full);
-		printf("\n\t\tHd_index [%d]", hd_index);
-	}
-	if (full && hd_index >= 0)
-	{
-		heredoc = get_heredoc(full[hd_index]);
-		
-		free_tab(heredoc, tablen(heredoc));
+		if (type == HEREDOC && args_len == 1)
+		{
+			hd = ft_strdup(token[start]);
+			full = get_heredoc(hd);
+			s_free(&hd);
+		}
+		else
+			full = tab_dup(token + start, args_len);
 	}
 	return (full);
 }
@@ -95,7 +89,7 @@ int	type_identifier(char **src, int len)
 
 t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 {
-	int	prefixes_len;
+	int		prefixes_len;
 
 	prefixes_len = 0;
 	len -= (cmd->type == OUTFILE_CMD || cmd->type == OUTFILE_ADDER);
@@ -110,7 +104,7 @@ t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 	cmd->command.raw = tab_dup(token + i, len);
 	get_prefixes(cmd->command.raw, &cmd->command.prefixes);
 	prefixes_len = tablen(cmd->command.prefixes);
-	cmd->command.args = get_args(cmd->command.raw, prefixes_len);
+	cmd->command.args = get_args(cmd->type, cmd->command.raw, prefixes_len);
 	return (cmd);
 }
 
