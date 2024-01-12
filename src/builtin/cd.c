@@ -106,5 +106,3 @@ void	ft_cd(t_linux *shell, char **str)
 			printf ("i'm in the middle of nowere\n");
 	}
 }
-
-//comprendre pourquoi ca change pas le directory alors que tout a l'air parfait
