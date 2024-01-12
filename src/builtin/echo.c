@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:22:27 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 16:01:09 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:40:17 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ void	ft_echo(char **str)
 	while (str[i])
 	{
 		if (i > 0)
-			printf ("%s",str[i]);
+		{
+			if (i > 1)
+				printf(" ");
+			printf ("%s", str[i]);
+		}
 		i++;
 	}
-	
+	printf ("\n");
 }
 
 //ajout du  -n a faire

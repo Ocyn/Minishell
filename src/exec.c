@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 15:02:46 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:15:51 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,9 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 		db_tabstr_display(cmd->command.prefixes, "args", -1);
 		printf(", Env[Too long])\n\n");
 		printf("%s", BND_DARK_GRAY);
-		if (!is_builtin(path, shell))
-		{
-			execve(path, cmd->command.prefixes, cmd->command.env_var);
-			perror("bash");
-			annihiliation(shell, pip);
-		}
+		execve(path, cmd->command.prefixes, cmd->command.env_var);
+		perror("bash");
+		annihiliation(shell, pip);
 		s_free(&path);
 		exit (0);
 	}
@@ -104,7 +101,10 @@ void	launch_command(t_linux *shell)
 		create_signal(nothing, nothing);
 		command->command.env_var = shell->envi;
 		select_dup(pip, command);
-		exe_command(command, &fork_id, pip, shell);
+		if (!is_builtin(command->command.prefixes[0], shell))
+		{
+			exe_command(command, &fork_id, pip, shell);
+		}
 		command = command->next;
 		create_signal(ctrl_c, ctrl_slash);
 	}

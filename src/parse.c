@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 15:31:48 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:10:46 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	parse(t_linux *shell)
 
 void	change_oldpwd(t_linux *shell)
 {
-	if (shell->oldpwd != NULL)
-		free(shell->oldpwd);
-	shell->oldpwd = put_in(getcwd(NULL, 0));
+	if (shell->oldpwd)
+		s_free(&shell->oldpwd);
+	shell->oldpwd = getcwd(NULL, 0);
 }

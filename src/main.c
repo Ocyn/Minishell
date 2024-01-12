@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 15:26:38 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:17:18 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **env)
 	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	read_prompt(&shell, "exit", parse);
 	s_free(&shell.prompt);
+	s_free(&shell.oldpwd);
 	rl_clear_history();
 	free(shell.head);
 	return (0);
@@ -37,6 +38,7 @@ void	struct_init(t_linux *shell)
 	if (!shell->head)
 		return ;
 	cmd_init(shell->head);
+	shell->oldpwd = NULL;
 	shell->prompt = NULL;
 	shell->head->next = NULL;
 	shell->head->prev = NULL;

@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 16:01:26 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:16:04 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ void	change_to_home(t_linux	*shell)
 			if (chdir(home) != 0)
 				perror("chdir");
 			else
+			{
+				if (shell->oldpwd)
+					s_free(&shell->oldpwd);
 				shell->oldpwd = put_in(pwd);
+			}
 		}
 		free(pwd);
 	}
@@ -57,13 +61,14 @@ char	*what_path(t_linux	*shell, char **str)
 	path = search_path(str);
 	if (path)
 	{
-		oldpwd = put_in(shell->oldpwd);
 		if (ft_strcmp(path, "~") == 0)
 		{
+			free (path);
 			change_to_home(shell);
 		}
 		else if (ft_strcmp(path, "-") == 0)
 		{
+			oldpwd = put_in(shell->oldpwd);
 			free(path);
 			return (oldpwd);
 		}
@@ -81,22 +86,25 @@ void	ft_cd(t_linux *shell, char **str)
 	if (!str)
 		return ;
 	path = what_path(shell, str);
-	pwd = getcwd(NULL, 0);
-	if (path != NULL && pwd)
+	if (path != NULL)
 	{
-		if (chdir(path) != 0)
-			perror("chdir");
-		else
+		pwd = getcwd(NULL, 0);
+		if (pwd)
 		{
-			if (shell->oldpwd != NULL)
-				free(shell->oldpwd);
-			shell->oldpwd = put_in(pwd);
+			if (chdir(path) != 0)
+				perror("chdir");
+			else
+			{
+				if (shell->oldpwd != NULL)
+					s_free(&shell->oldpwd);
+				shell->oldpwd = put_in(pwd);
+			}
+			free(path);
+			free(pwd);
 		}
-		free (path);
-		free(pwd);
+		else
+			printf ("i'm in the middle of nowere\n");
 	}
-	if (!pwd)
-		printf ("you are in the middle of nowere\n");
 }
 
 //comprendre pourquoi ca change pas le directory alors que tout a l'air parfait
