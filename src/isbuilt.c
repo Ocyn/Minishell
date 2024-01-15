@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:16:48 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 14:34:12 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:25:13 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_builtin(char *cmd_in, t_linux *shell)
 	else if (ft_strcmp(cmd_in, "echo") == 0)
 		ft_echo(shell->head->next->command.prefixes);
 	else if (ft_strcmp(cmd_in, "unset") == 0)
-		ft_unset(shell);
+		ft_unset(shell, NULL);
 	else if (ft_strcmp(cmd_in, "export") == 0)
 		ft_export(shell);
 	else

@@ -6,12 +6,12 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 16:48:20 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 15:02:13 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-/*
+
 int		weird_cmp(char *str, char *cmp)
 {
 	int	i;
@@ -28,7 +28,7 @@ int		weird_cmp(char *str, char *cmp)
 	return (0);
 }
 
-void	ft_unset(t_linux *shell)
+void	ft_unset(t_linux *shell, char *src)
 {
 	t_env	*buf;
 	int		i;
@@ -37,8 +37,13 @@ void	ft_unset(t_linux *shell)
 
 	i = 0;
 	prev = NULL;
+	if (src == NULL)
+	{
+		printf ("hey\n");
+		return ;
+	}
 	buf = shell->env;
-	str = cut_env(shell->history[shell->nb_history - 1]);
+	str = shell->command->command.prefixes[0];
 	while (buf != NULL && i == 0 && str != NULL)
 	{
 		if (weird_cmp(buf->str, str) == 1)
@@ -64,12 +69,7 @@ void	ft_unset(t_linux *shell)
 		}
 	}
 	free(str);
-}*/
-void	ft_unset(t_linux *shell)
-{
-	(void)shell;
-
-	printf ("ok ici ca va etre un peu plus dur \n");
 }
+
 //va falloir mettre a la norme et le changer de maniere a ce que ca le fasse bien dans l'env
 //et faire en sorte que ca unset chaque argument passer%  

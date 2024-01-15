@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 15:16:04 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:07:50 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,3 @@ void	ft_cd(t_linux *shell, char **str)
 			printf ("i'm in the middle of nowere\n");
 	}
 }
-
-//comprendre pourquoi ca change pas le directory alors que tout a l'air parfait

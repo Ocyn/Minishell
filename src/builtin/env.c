@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:15:34 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 14:44:05 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:19:52 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	ft_env(t_linux *shell)
 {
-	int	i;
+	t_env	*buf;
 
-	i = 0;
-	while (shell->envi && shell->envi[i])
+	buf = shell->env;
+	while (buf->next != NULL)
 	{
-		printf("%s\n", shell->envi[i]);
-		i++;
+		printf ("%s\n", buf->str);
+		buf = buf->next;
 	}
+	printf ("%s\n", buf->str);
 }

@@ -6,116 +6,72 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:26:48 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 16:48:10 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 17:05:02 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-/*
-char	*modified(char *str)
-{
-	int		i;
-	int		j;
-	char	*new;
 
-	i = 0;
-	while (str[i] && is_space(str[i]) == 0)
-		i++;
-	new = malloc(sizeof(char) * i + 1);
-	if (!new)
-		return (NULL);
-	j = 0;
-	while (j < i)
-	{
-		new[j] = str[j];
-		j++;
-	}
-	new[j] = '\0';
-	return (new);
+int	error(char *str)
+{
+	printf ("they are a problem with the syntax of : %s\n", str);
+	return (0);
 }
 
-char	*cut_export(char *str)
-{
-	char	*path;
-	int		i;
-	int		j;
-
-	i = 7;
-	j = 0;
-	while (str[i] && str[i] == ' ')
-		i++;
-	while (str[i + j])
-		j++;
-	if (j > 0)
-	{
-		path = malloc (sizeof(char) * j + 1);
-		if (!path)
-			return (NULL);
-		j = 0;
-		while (str[i + j])
-		{
-			path[j] = str[i + j];
-			j++;
-		}
-		path[j] = '\0';
-		return (path);
-	}
-	return (NULL);
-}
-
-int	is_export(char *str)
+int	test_valid(char **arguments)
 {
 	int	i;
-	int	ret;
-
-	i = 0;
-	ret = 0;
-	while (str[i])
+	int	j;
+	int	count;
+	
+	i = 1;
+	while (arguments[i])
 	{
-		if (str[i] == '=' && i > 0 && is_space(str[i - 1]) == 0)
-			ret = 1;
-		else if (str[i] == '=')
-			return (0);
+		j = 0;
+		count = 0;
+		while (arguments[i][j])
+		{
+			if (j == 0 && arguments[i][j] == '=')
+				return (error(arguments[i]));
+			if (arguments[i][j] == '=')
+				count++;
+			if (is_space(arguments[i][j - 1]) && arguments[i][j] == '=' && count == 1)
+				return (error(arguments[i]));
+			
+			j++;
+		}
+		if (count == 0)
+			return (error(arguments[i]));
 		i++;
 	}
-	return (ret);
+	return (1);
 }
 
 void	ft_export(t_linux *shell)
 {
 	t_env	*buf;
-	char	*str;
-
+	int		i;
+ 
+	i = 1;
+	if (test_valid(shell->head->next->command.prefixes) == 0)
+		return ;
 	buf = shell->env;
-	str = cut_export(shell->history[shell->nb_history - 1]);
-	if (!str)
-		return ;
-	if (is_export(str) == 0)
-		return ;
-	//ft_unset(shell, str);
 	while(buf->next)
 		buf = buf->next;
-	buf->next = malloc(sizeof(t_env));
-	if (!buf->next)
-		return ;
-	buf = buf->next;
-	buf->next = NULL;
-	buf->str = modified(str);
-	free(str);
+	while (shell->head->next->command.prefixes[i])
+	{
+		buf->next = malloc(sizeof(t_env));
+		if (!buf->next)
+			return ;
+		buf = buf->next;
+		buf->next = NULL;
+		//ft_unset(shell, str);
+		buf->str = put_in(shell->head->next->command.prefixes[i]);
+		i++;
+	}
 }
 
-//changement a faire : on prend chaque fois qu'on a un egal, et on print tout ce qu'il a de colle a celui ci
-//si il ny a rien avant l'egal, on ne fait rien
-//et ceux pour tout les arguments
-//et bien sur avant, on unset ce qui y a avant egal, avant de l'export
-*/
-
-void	ft_export(t_linux *shell)
-{
-	(void)shell;
-	
-	printf ("gl hf q moi \n");
-}//changement a faire : on prend chaque fois qu'on a un egal, et on print tout ce qu'il a de colle a celui ci
-//si il ny a rien avant l'egal, on ne fait rien
-//et ceux pour tout les arguments
-//et bien sur avant, on unset ce qui y a avant egal, avant de l'export
+//alors, si y a plusiuer argument, et que parmis eux y a juste des truc sans egal, a cote de format valide
+//on ajoute ce truc avec un truc vide
+//genre export salut hey=fd, on export les deux et "salut="
+//il faut aussi gerer car dans le parsing, j'ai plus les nombre

@@ -6,12 +6,18 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 11:44:31 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:10:57 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_STRUCTS_H
 # define DEFINE_STRUCTS_H
+
+typedef struct s_env
+{
+	char			*str;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_sdata
 {
@@ -53,6 +59,7 @@ typedef struct s_linux
 	char	*prompt;
 	int		count_cmd;
 	char	**envi;
+	t_env	*env;
 	char	**token;
 	int		end;
 	char	*oldpwd;

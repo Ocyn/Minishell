@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/11 15:58:50 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 15:01:41 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		ft_cd(t_linux *shell, char **str);
 void		ft_exit(t_linux *shell);
 void		ft_env(t_linux *shell);
 void		ft_echo(char **str);
-void		ft_unset(t_linux *shell);
+void		ft_unset(t_linux *shell, char *src);
 void		ft_export(t_linux *shell);
 void	    change_oldpwd(t_linux *shell);
 /**
@@ -108,4 +108,10 @@ void	    change_oldpwd(t_linux *shell);
 void		very_sure(t_sdata *data, unsigned long size);
 
 void		create_signal();
+
+
+void		change_env(t_linux *shell, char **env);
+int			is_space(char c);
+
+
 #endif

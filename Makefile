@@ -33,7 +33,8 @@ SRCS			= main.c \
 				build_command.c \
 				heredoc.c \
 				prompt_tuning.c \
-				debug.c
+				debug.c \
+				utils_two.c
 
 CC 				= cc
 

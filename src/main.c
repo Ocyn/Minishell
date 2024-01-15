@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 14:17:18 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/15 14:12:00 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **env)
 	shell.input = NULL;
 	struct_init(&shell);
 	create_signal(ctrl_c, ctrl_slash);
+	change_env(&shell, env);
 	shell.envi = env;
 	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	read_prompt(&shell, "exit", parse);
