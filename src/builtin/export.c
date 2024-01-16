@@ -67,4 +67,5 @@ void	ft_export(t_linux *shell)
 }
 
 //changement a faire : phrase du avant egal a mieux parser (_, pas de digit en first)
-//changement a faire : enlever les guillemets durant le parsing je pense
+//changement a faire : enlever les guillemets durant le parsing je pense, tel "salut= ca va" en salut= ca va
+//changement a faire : oui, les guillmets aussi genre salut="cava", donne salut=cava
