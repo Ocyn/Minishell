@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:06:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/15 14:20:37 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:42:09 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,19 @@ int	is_space(char c)
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);
 	return (0);
+}
+
+void	free_env(t_env *env)
+{
+	t_env	*buf;
+	t_env	*next;
+
+	buf = env;
+	while (buf)
+	{
+		next = buf->next;
+		s_free(&buf->str);
+		free(buf);
+		buf = next;
+	}
 }

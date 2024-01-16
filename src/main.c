@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/15 14:12:00 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:41:38 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **env)
 	s_free(&shell.prompt);
 	s_free(&shell.oldpwd);
 	rl_clear_history();
+	free_env(shell.env);
 	free(shell.head);
 	return (0);
 }

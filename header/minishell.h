@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/15 15:01:41 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/16 14:42:05 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void		create_signal();
 
 void		change_env(t_linux *shell, char **env);
 int			is_space(char c);
-
+void		free_env(t_env *env);
 
 #endif
