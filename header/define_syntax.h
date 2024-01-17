@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_syntax.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 11:38:37 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/17 14:51:57 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,15 @@
 # define OUTFILE_ADDER				6262
 # define DOLLARSIGN_CMD 			'$'
 # define UNDEFINED_CMD 				99
-
 # define SIMPLEQUOTE 				'\''
 # define DOUBLEQUOTE 				'\"'
+
+//	Exit codes
+# define EXIT_FINISH				"EX001"
+# define EXIT_CMDSUCCESS			"EX011"	
+# define EXIT_CMDFAILURE			"EX002"
+# define EXIT_FORKFAILURE			"EX022"
+# define EXIT_SPECIAL				"EX099"
 
 //	Font part
 # define FONT_RESET 			"\033[0m"

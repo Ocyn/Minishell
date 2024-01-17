@@ -20,6 +20,7 @@ MEMORY			= cmd_lists.c \
 				memory_edit.c \
 				memory_scan.c \
 				split_command.c \
+				initialization.c \
 				very_sure.c
 
 SRCS			= main.c \
@@ -34,7 +35,8 @@ SRCS			= main.c \
 				heredoc.c \
 				prompt_tuning.c \
 				debug.c \
-				utils_two.c
+				utils_two.c \
+				shutdown.c
 
 CC 				= cc
 

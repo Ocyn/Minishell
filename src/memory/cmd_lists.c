@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 00:02:18 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/17 16:22:26 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	cmd_init(t_cmd *cmd)
 	cmd->command.prefixes = NULL;
 	cmd->command.args = NULL;
 	cmd->command.env_var = NULL;
-	cmd->type = 0;
+	cmd->infile = init_redi();
+	cmd->outfile = init_redi();
 	cmd->id = 0;
 }
 
@@ -70,6 +71,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 		free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
 	if (cmd->command.args)
 		free_tab(cmd->command.args, tablen(cmd->command.args));
+	s_free(&cmd->infile.token);
+	s_free(&cmd->outfile.token);
+	close(cmd->outfile.fd);
+	close(cmd->infile.fd);
 	if (tprev)
 		tprev->next = cmd->next;
 	if (tnext)

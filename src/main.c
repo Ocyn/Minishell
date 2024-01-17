@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/16 14:41:38 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/17 15:48:57 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,12 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	//return (db_debug(), 0);
 	shell.input = NULL;
-	struct_init(&shell);
+	init_struct(&shell);
 	create_signal(ctrl_c, ctrl_slash);
 	change_env(&shell, env);
 	shell.envi = env;
 	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");
 	read_prompt(&shell, "exit", parse);
-	s_free(&shell.prompt);
-	s_free(&shell.oldpwd);
-	rl_clear_history();
-	free_env(shell.env);
-	free(shell.head);
+	exit_end(1, &shell);
 	return (0);
-}
-
-void	struct_init(t_linux *shell)
-{
-	shell->head = s_malloc(sizeof(t_cmd));
-	if (!shell->head)
-		return ;
-	cmd_init(shell->head);
-	shell->oldpwd = NULL;
-	shell->prompt = NULL;
-	shell->head->next = NULL;
-	shell->head->prev = NULL;
-	shell->head->id = 0;
-	shell->envi = NULL;
-	shell->end = 0;
-	shell->count_cmd = 0;
-	shell->token = NULL;
-	shell->command = shell->head;
-	change_oldpwd(shell);
 }

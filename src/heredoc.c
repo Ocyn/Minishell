@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 14:21:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/17 15:46:53 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**get_heredoc(char *src)
 	delim = ft_substr(ft_strchr(src, '<'), 2, i);
 	if (!delim || !delim[0] || ft_strchr(delim, '<'))
 		return (s_free(&delim), NULL);
-	struct_init(&heredoc);
+	init_struct(&heredoc);
 	heredoc.prompt = ft_strdup("heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
 	out = list_to_tab(heredoc.head);

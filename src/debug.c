@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 14:22:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/17 16:03:12 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	db_print_custom_font(" : ", FE_BOL);
 	printf("|");
 	if (!tab || !tab[i + 1])
-			printf(" "HIGHLIGHT_TEXT"[Empty]"FONT_RESET"");
+		printf(" "HIGHLIGHT_TEXT"[Empty]"FONT_RESET"");
 	while (tab && tab[++i])
 	{
 		if (i == highlight)
@@ -42,6 +42,13 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	if (tab && i == highlight)
 		printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
 	printf(" |");
+}
+
+void	db_display_redi(t_redi redi, char *message)
+{
+	printf("\t\t%s%s : %s", FE_BOL, message, FRR);
+	printf("\n\t\t\tToken : [%s]", redi.token);
+	printf("\n\t\t\tFd : [%d]", redi.fd);
 }
 
 void	db_display_list(t_cmd *list, char *message)
@@ -56,26 +63,9 @@ void	db_display_list(t_cmd *list, char *message)
 	while (list)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
-		db_print_custom_font("\t\tType :", FE_BOL);
-		printf("\t[%d]_", list->type);
-		if (list->type == SINGLE_CMD)
-			printf("COMMAND\n");
-		else if (list->type == PIPE_CMD)
-			printf("PIPE\n");
-		else if (list->type == DOLLARSIGN_CMD)
-			printf("DOLLARSIGN\n");
-		else if (list->type == INFILE_CMD)
-			printf("INFILE\n");
-		else if (list->type == OUTFILE_CMD)
-			printf("OUTFILE\n");
-		else if (list->type == HEREDOC)
-			printf("HEREDOC\n");
-		else if (list->type == OUTFILE_ADDER)
-			printf("OUTFILE_ADDER\n");
-		else if (list->type == EMPTY_CMD)
-			printf("EMPTY\n");
-		else
-			printf("UNKNOWN\n");
+		db_display_redi(list->infile, "Infile");
+		db_display_redi(list->outfile, "Outfile");
+		db_display_redi(list->pipe, "Pipe");
 		db_tabstr_display(list->command.raw, "\t\tRaw", -1);
 		printf("\n");
 		db_tabstr_display(list->command.prefixes, "\t\tPrefixes", -1);
@@ -122,7 +112,7 @@ void	db_debug(void)
 {
 	t_linux	safesystem;
 
-	struct_init(&safesystem);
+	init_struct(&safesystem);
 	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV FE_BOL");
 	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);

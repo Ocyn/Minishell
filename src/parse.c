@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 14:10:46 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:18:35 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,9 @@ void	resplit_infile(char ***tab)
 void	whitespaces_to_space(char **entry)
 {
 	str_edit(entry, "\t", " ");
-	str_edit(entry, "\0011", " ");
-	str_edit(entry, "\0012", " ");
-	str_edit(entry, "\0013", " ");
-	str_edit(entry, "\0014", " ");
-	str_edit(entry, "\0015", " ");
+	str_edit(entry, "\n", " ");
+	str_edit(entry, "\v", " ");
+	str_edit(entry, "\r", " ");
 }
 
 char	**get_token(char *cmd_in)
@@ -48,7 +46,7 @@ char	**get_token(char *cmd_in)
 	char	*temp;
 
 	temp = NULL;
-	temp = ft_strtrim(cmd_in, "  \0011\0012\0013\0014\0015\t");
+	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
 	whitespaces_to_space(&temp);
 	str_edit(&temp, ">", " > ");
 	str_edit(&temp, ">  >", " >> ");
@@ -78,7 +76,7 @@ void	parse(t_linux *shell)
 	shell->token = token;
 	(void)command;
 	/*DEBUG*/ db_display_list(shell->head, "\nTotal Memory Data\n");
-	launch_command(shell);
+	//launch_command(shell);
 	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
 }

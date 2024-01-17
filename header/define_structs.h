@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_structs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/15 14:10:57 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/17 16:15:35 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ typedef struct s_sdata
 	char			**str;
 }					t_sdata;
 
+typedef struct s_redi
+{
+	char			*token;
+	int				fd;
+}					t_redi;
+
 typedef struct s_execve
 {
 	char			*sraw;
@@ -38,7 +44,8 @@ typedef struct s_cmd
 {
 	int				id;
 	t_execve		command;
-	int				type;
+	t_redi			infile;
+	t_redi			outfile;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;

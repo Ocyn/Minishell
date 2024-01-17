@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 06:48:08 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/17 16:30:02 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,14 @@ int	type_identifier(char **src, int len)
 t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 {
 	int		prefixes_len;
+	int		type;
 
 	prefixes_len = 0;
-	len -= (cmd->type == OUTFILE_CMD || cmd->type == OUTFILE_ADDER);
-	len += (cmd->type == INFILE_CMD);
-	if (cmd->prev && (cmd->prev->type == OUTFILE_CMD \
-	|| cmd->prev->type == OUTFILE_ADDER))
-	{
-		cmd->type = cmd->prev->type;
-		cmd->prev->type = SINGLE_CMD;
-		i -= (i > 0 && token[i - 1]);
-	}
+	type = type_identifier(token + i, len);
 	cmd->command.raw = tab_dup(token + i, len);
-	get_prefixes(cmd->type, cmd->command.raw, &cmd->command.prefixes);
+	get_prefixes(type, cmd->command.raw, &cmd->command.prefixes);
 	prefixes_len = tablen(cmd->command.prefixes);
-	cmd->command.args = get_args(cmd->command.raw, prefixes_len, cmd->type);
+	cmd->command.args = get_args(cmd->command.raw, prefixes_len, type);
 	return (cmd);
 }
 
@@ -112,7 +105,6 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		/*DEBUG*/	db_tabstr_display(token, "\n\tToken Input (i)", i);
 		token_len = skip_until(token + i, 0, special_char);
 		command = cmd_add_unit(command);
-		command->type = type_identifier(token + i, token_len);
 		command = define_command_pattern(command, token, i, token_len);
 		if (!command->command.args && !command->command.prefixes \
 		&& !command->command.raw && !command->command.sraw && !command->command.env_var)

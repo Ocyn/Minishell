@@ -56,10 +56,6 @@
 
 <makefile cat -e | wc -l <<wesh | ls -la -la > shesh
 
-if (heredoc_check(token))
-	command->command.full = heredocument(command);
-
-
 	`                "   test   '  "   test  ' `
 
 ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" "arg2"

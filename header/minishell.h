@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/20 10:59:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/16 14:42:05 by aammirat         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   minishell.h										:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: ocyn <ocyn@student.42.fr>				  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2023/11/20 10:59:46 by aammirat		  #+#	#+#			 */
+/*   Updated: 2024/01/17 12:52:56 by ocyn			 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -32,7 +32,8 @@ void		create_signal(void *c, void *sla);
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 
 void		read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *));
-void		struct_init(t_linux *shell);
+void		init_struct(t_linux *shell);
+t_redi		init_redi(void);
 
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 int			is_builtin(char *cmd_in, t_linux *shell);
@@ -52,7 +53,7 @@ char		**get_heredoc(char *src);
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
 char		*get_path(char *command, char **env);
-char	    *put_in(char *str);
+char		*put_in(char *str);
 int			set_infile(char *file);
 int			set_outfile(char *file, int overwrite);
 
@@ -94,7 +95,7 @@ void		ft_env(t_linux *shell);
 void		ft_echo(char **str);
 void		ft_unset(t_linux *shell, char *src);
 void		ft_export(t_linux *shell);
-void	    change_oldpwd(t_linux *shell);
+void		change_oldpwd(t_linux *shell);
 /**
  * @file very_sure.c
  * @brief An experimental version of the secured memory handle overlay.  
@@ -107,11 +108,14 @@ void	    change_oldpwd(t_linux *shell);
  */
 void		very_sure(t_sdata *data, unsigned long size);
 
-void		create_signal();
-
+void		create_signal(void *c, void *sla);
 
 void		change_env(t_linux *shell, char **env);
 int			is_space(char c);
 void		free_env(t_env *env);
+
+void		exit_end(int launch, t_linux *shell);
+void		exit_forkfailure(int launch, t_linux *shell, int *pip);
+void		exit_prompt(int launch, t_linux *shell);
 
 #endif
