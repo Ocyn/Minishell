@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by ocyn              #+#    #+#             */
-/*   Updated: 2024/01/17 16:05:06 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/20 14:58:35 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 t_redi	init_redi(void)
 {
-	t_redi	*template;
+	t_redi	template;
 
-	template->fd = 0;
-	template->fd = NULL;
+	template.fd = 0;
+	template.token = NULL;
+	return (template);
 }
 
 void	init_struct(t_linux *shell)

@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/17 16:30:02 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/20 14:57:09 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		if (!command->command.args && !command->command.prefixes \
 		&& !command->command.raw && !command->command.sraw && !command->command.env_var)
 			cmd_rm_unit(command);
-		i += token_len + (command->type == INFILE_CMD);
+		i += token_len;
 		db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
 		/*DEBUG*/	printf("i [%d] | input_len [%d]\n", i, input_len);
 	}

@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/17 16:03:12 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/20 14:57:27 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	db_display_list(t_cmd *list, char *message)
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_display_redi(list->infile, "Infile");
 		db_display_redi(list->outfile, "Outfile");
-		db_display_redi(list->pipe, "Pipe");
 		db_tabstr_display(list->command.raw, "\t\tRaw", -1);
 		printf("\n");
 		db_tabstr_display(list->command.prefixes, "\t\tPrefixes", -1);
