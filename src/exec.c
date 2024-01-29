@@ -6,7 +6,7 @@
 /*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/17 16:16:47 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/26 00:51:13 by ocyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	launch_command(t_linux *shell)
 	command = shell->head->next;
 	while (command)
 	{
-		create_signal(nothing, nothing);
+		create_signal(nothing);
 		command->command.env_var = shell->envi;
 		select_dup(pip, command);
 		if (!is_builtin(command->command.prefixes[0], shell))
@@ -78,7 +78,7 @@ void	launch_command(t_linux *shell)
 			exe_command(command, &fork_id, pip, shell);
 		}
 		command = command->next;
-		create_signal(ctrl_c, ctrl_slash);
+		create_signal(ctrl_c);
 	}
 	close(pip[1]);
 	close(pip[0]);

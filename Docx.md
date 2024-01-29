@@ -58,7 +58,11 @@
 
 	`                "   test   '  "   test  ' `
 
-ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" "arg2"
+$ ls -la "args1" "arg2" | cat -e "args1" "arg2" | ls -la -l -l "args1" <<HDDELIM >> "arg2"
+$ test1
+$ test2
+$ HDDELIM
+$
 
 cat -e "t1" <<hd "t2"
 

@@ -27,7 +27,6 @@ void		get_signal(t_linux *ssystem, void (*action)(int));
 void		ctrl_c(int sig, siginfo_t *inf, void *gain) ;
 void		ctrl_slash(int sig, siginfo_t *inf, void *gain);
 void		nothing(int sig, siginfo_t *inf, void *gain);
-void		create_signal(void *c, void *sla);
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 
@@ -108,7 +107,7 @@ void		change_oldpwd(t_linux *shell);
  */
 void		very_sure(t_sdata *data, unsigned long size);
 
-void		create_signal(void *c, void *sla);
+void		create_signal(void *c);
 
 void		change_env(t_linux *shell, char **env);
 int			is_space(char c);
