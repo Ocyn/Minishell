@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/26 00:51:13 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:59:04 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ void	launch_command(t_linux *shell)
 		command->command.env_var = shell->envi;
 		select_dup(pip, command);
 		if (!is_builtin(command->command.prefixes[0], shell))
-		{
 			exe_command(command, &fork_id, pip, shell);
-		}
 		command = command->next;
 		create_signal(ctrl_c);
 	}

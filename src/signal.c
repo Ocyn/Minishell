@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/26 00:51:06 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:56:57 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	ctrl_c(int sig, siginfo_t *inf, void *gain)
 {
-	write(1,"\n", 1);
+	write (1, "\n", 1);
+	printf ("hey mais je suis la en fait \n");
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -25,6 +26,7 @@ void	ctrl_c(int sig, siginfo_t *inf, void *gain)
 
 void	nothing(int sig, siginfo_t *inf, void *gain)
 {
+	printf ("FDSKJGBLKSBGLJHSGLJHA\n");
 	(void)gain;
 	(void)inf;
 	(void)sig;

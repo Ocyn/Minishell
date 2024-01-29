@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/20 14:57:27 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:42:46 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ void	safemode_parse(t_linux *syst)
 	heredoc = get_heredoc(command->command.sraw);
 	if (heredoc)
 	{
-		insert_tab_in_tab(heredoc, &command->command.args, find_str_in_tab(0, "<<", command->command.args) + 1);
+		insert_tab_in_tab(heredoc, &command->command.args, \
+			find_str_in_tab(0, "<<", command->command.args) + 1);
 		free_tab(heredoc, tablen(heredoc));
 	}
 	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.sraw);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_structs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/17 16:15:35 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:54:14 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,16 @@ typedef struct s_lst
 
 typedef struct s_linux
 {
-	t_cmd	*head;
-	t_cmd	*command;
-	char	*input;
-	char	*prompt;
-	int		count_cmd;
-	char	**envi;
-	t_env	*env;
-	char	**token;
-	int		end;
-	char	*oldpwd;
+	t_cmd				*head;
+	t_cmd				*command;
+	char				*input;
+	char				*prompt;
+	int					count_cmd;
+	char				**envi;
+	t_env				*env;
+	char				**token;
+	int					end;
+	char				*oldpwd;
 }			t_linux;
 
 #endif

@@ -24,7 +24,7 @@ void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_cmd *list, char *message);
 
 void		get_signal(t_linux *ssystem, void (*action)(int));
-void		ctrl_c(int sig, siginfo_t *inf, void *gain) ;
+void		ctrl_c(int sig, siginfo_t *inf, void *gain);
 void		ctrl_slash(int sig, siginfo_t *inf, void *gain);
 void		nothing(int sig, siginfo_t *inf, void *gain);
 
@@ -107,8 +107,6 @@ void		change_oldpwd(t_linux *shell);
  */
 void		very_sure(t_sdata *data, unsigned long size);
 
-void		create_signal(void *c);
-
 void		change_env(t_linux *shell, char **env);
 int			is_space(char c);
 void		free_env(t_env *env);
@@ -116,5 +114,10 @@ void		free_env(t_env *env);
 void		exit_end(int launch, t_linux *shell);
 void		exit_forkfailure(int launch, t_linux *shell, int *pip);
 void		exit_prompt(int launch, t_linux *shell);
+int			weird_cmp(char *str, char *cmp);
+int			weird_cmp_export(char *str, char *cmp);
+void		total_free(t_env *chain);
+char		*get_home(t_env *env);
+void		create_signal(void *c);
 
 #endif

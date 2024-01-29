@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 04:31:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/12 13:43:48 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:39:18 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,3 @@ void	very_sure(t_sdata *data, unsigned long size)
 	}
 	return ;
 }
-
-

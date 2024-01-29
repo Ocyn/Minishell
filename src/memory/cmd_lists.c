@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_lists.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/17 16:22:26 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:53:49 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,32 +85,32 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 void	*cmd_free_list(t_cmd *cmd)
 {
-	db_print_custom_font("\nFree List\n\n", FE_UND);
+	//db_print_custom_font("\nFree List\n\n", FE_UND);
 	if (cmd->id == 0)
 	{
-		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", cmd->id, cmd);
+		//printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", cmd->id, cmd);
 		cmd = cmd->next;
 	}
 	while (cmd)
 	{
-		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
-		printf("\t\tS_Raw");
+		//printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
+		//printf("\t\tS_Raw");
 		s_free(&cmd->command.sraw);
-		printf("\r\t"__VALID_FREED"\n");
-		db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
+		//printf("\r\t"__VALID_FREED"\n");
+		//db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
 		free_tab(cmd->command.raw, tablen(cmd->command.raw));
-		printf("\r\t"__VALID_FREED"\n");
+		//printf("\r\t"__VALID_FREED"\n");
 		if (cmd->command.prefixes)
 		{
-			db_tabstr_display(cmd->command.prefixes, "\t\tPrefixes", -1);
+			//db_tabstr_display(cmd->command.prefixes, "\t\tPrefixes", -1);
 			free_tab(cmd->command.prefixes, tablen(cmd->command.prefixes));
-			printf("\r\t"__VALID_FREED"\n");
+			//printf("\r\t"__VALID_FREED"\n");
 		}
 		if (cmd->command.args)
 		{
-			db_tabstr_display(cmd->command.args, "\t\tArgs", -1);
+			//db_tabstr_display(cmd->command.args, "\t\tArgs", -1);
 			free_tab(cmd->command.args, tablen(cmd->command.args));
-			printf("\r\t"__VALID_FREED"\n");
+			//printf("\r\t"__VALID_FREED"\n");
 		}
 		if (cmd->next)
 		{

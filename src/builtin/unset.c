@@ -6,13 +6,29 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/16 16:32:40 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:30:42 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-int		weird_cmp(char *str, char *cmp)
+int	weird_cmp_export(char *str, char *cmp)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && cmp[i] && cmp[i] != '=')
+	{
+		if (str[i] != cmp[i])
+			return (0);
+		i++;
+	}
+	if (str[i] && str[i] == '=')
+		return (1);
+	return (0);
+}
+
+int	weird_cmp(char *str, char *cmp)
 {
 	int	i;
 
@@ -28,40 +44,55 @@ int		weird_cmp(char *str, char *cmp)
 	return (0);
 }
 
-void	ft_unset(t_linux *shell, char *src)
+void	unset_cmd(t_linux *shell, int i, t_env *buff, t_env *prev)
 {
-	t_env	*buf;
-	int		i;
-	t_env	*prev;
-
-	i = 0;
-	prev = NULL;
-	buf = shell->env;
-	while (buf != NULL && i == 0 && src!=NULL)
+	buff = shell->env;
+	while (buff != NULL)
 	{
-		if (weird_cmp(buf->str, src) == 1)
+		i = 0;
+		while (shell->head->next->command.prefixes[++i])
 		{
-			if (!prev)
+			if (weird_cmp(buff->str, shell->head->next->command.prefixes[i]))
 			{
-				shell->env = shell->env->next;
-				free(buf->str);
-				free(buf);
+				if (!prev)
+				{
+					shell->env = shell->env->next;
+					total_free(buff);
+					buff = shell->env;
+				}
+				else
+				{
+					prev->next = buff->next;
+					total_free(buff);
+					buff = prev;
+				}
 			}
-			else
-			{
-				prev->next = buf->next;
-				free(buf->str);
-				free(buf);
-			}
-			i = 1;
 		}
-		else
-		{
-			prev = buf;
-			buf = buf->next;
-		}
+		prev = buff;
+		buff = buff->next;
 	}
 }
 
-//va falloir mettre a la norme et le changer de maniere a ce que ca le fasse bien dans l'env
-//et faire en sorte que ca unset chaque argument passer
+void	unset_export(t_linux *shell, char *str)
+{
+	t_env	*buff;
+
+	buff = shell->env;
+	while (buff != NULL)
+	{
+		if (weird_cmp_export(buff->str, str))
+		{
+			free(buff->str);
+			buff->str = put_in(str);
+		}
+		buff = buff->next;
+	}
+}
+
+void	ft_unset(t_linux *shell, char *str)
+{
+	if (str != NULL)
+		unset_export(shell, str);
+	else
+		unset_cmd(shell, 0, NULL, NULL);
+}

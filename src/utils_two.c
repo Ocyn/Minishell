@@ -6,11 +6,27 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:06:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/16 14:42:09 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/29 14:39:56 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+char	*get_home(t_env *env)
+{
+	t_env	*buf;
+
+	buf = env;
+	while (buf != NULL)
+	{
+		if (weird_cmp(buf->str, "HOME"))
+		{
+			return (ft_strdup(ft_strchr(buf->str, '=') + 1));
+		}
+		buf = buf->next;
+	}
+	return (put_in(NULL));
+}
 
 void	change_env(t_linux *shell, char **env)
 {
@@ -21,8 +37,14 @@ void	change_env(t_linux *shell, char **env)
 	shell->env = malloc(sizeof(t_env));
 	if (!shell->env)
 		return ;
-	shell->env->str = put_in(env[i]);
 	shell->env->next = NULL;
+	if (env[i])
+		shell->env->str = put_in(env[i]);
+	else
+	{
+		shell->env->str = put_in(NULL);
+		return ;
+	}
 	current = shell->env;
 	while (env[++i])
 	{
@@ -33,7 +55,6 @@ void	change_env(t_linux *shell, char **env)
 		current->str = put_in(env[i]);
 		current->next = NULL;
 	}
-	return ;
 }
 
 int	is_space(char c)
@@ -52,8 +73,13 @@ void	free_env(t_env *env)
 	while (buf)
 	{
 		next = buf->next;
-		s_free(&buf->str);
-		free(buf);
+		total_free(buf);
 		buf = next;
 	}
+}
+
+void	total_free(t_env *chain)
+{
+	s_free(&chain->str);
+	free(chain);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/17 13:11:43 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:34:15 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	change_to_home(t_linux	*shell)
 	char	*home;
 	char	*pwd;
 
-	home = getenv("HOME");
+	home = get_home(shell->env);
 	pwd = getcwd(NULL, 0);
 	if (pwd)
 	{
 		if (home != NULL)
 		{
 			if (chdir(home) != 0)
-				perror("chdir");
+				printf ("bash: cd: HOME not set\n");
 			else
 			{
 				if (shell->oldpwd)

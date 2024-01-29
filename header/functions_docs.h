@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   functions_docs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 05:18:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/04 08:47:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/29 14:38:17 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FUNCTIONS_DOCS
-# define FUNCTIONS_DOCS
+#ifndef FUNCTIONS_DOCS_H
+# define FUNCTIONS_DOCS_H
 
 /**
  * @brief Structure representing the data for a string.

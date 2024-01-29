@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/26 06:33:49 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/29 14:56:14 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
-	//return (db_debug(), 0);
 	shell.input = NULL;
 	init_struct(&shell);
 	create_signal(ctrl_c);
