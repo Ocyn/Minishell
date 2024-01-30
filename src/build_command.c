@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/20 14:57:09 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/20 14:57:09 by jcuzin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	get_prefixes(int type, char **src, char ***prefixes)
 		stop = find_str_in_tab(0, "<<", src);
 	else if (type == OUTFILE_ADDER)
 		stop = find_str_in_tab(1, ">>", src);
-	printf("\n\t\tStop_len [%d]\n", stop);
+	/*DEBUG*/	printf("\n\t\tStop_len [%d]\n", stop);
 	*prefixes = tab_dup(src, stop);
 	return (tablen(*prefixes));
 }
@@ -45,9 +45,7 @@ char	**get_args(char **token, int start, int type)
 	printf("\n\tlen_Token [%d] - Start [%d] == ArgLen [%d]\n", tablen(token), start, args_len);
 	args_len -= (special_char(token[args_len + start], type) == type);
 	if (token && token[start] && args_len)
-	{
 		full = tab_dup(token + start, args_len);
-	}
 	return (full);
 }
 
@@ -110,7 +108,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		&& !command->command.raw && !command->command.sraw && !command->command.env_var)
 			cmd_rm_unit(command);
 		i += token_len;
-		db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
+		/*DEBUG*/	db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
 		/*DEBUG*/	printf("i [%d] | input_len [%d]\n", i, input_len);
 	}
 	return (command);

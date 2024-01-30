@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/12 13:42:08 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 21:21:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*put_in(char *str)
 	src = malloc(sizeof(char) * size + 1);
 	if (!src)
 		return (NULL);
-	while (str[i])
+	while (size > 0 && str[i])
 	{
 		src[i] = str[i];
 		i++;

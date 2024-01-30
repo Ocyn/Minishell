@@ -3,10 +3,10 @@
 /*														:::	  ::::::::   */
 /*   minishell.h										:+:	  :+:	:+:   */
 /*													+:+ +:+		 +:+	 */
-/*   By: ocyn <ocyn@student.42.fr>				  +#+  +:+	   +#+		*/
+/*   By: jcuzin <jcuzin@student.42.fr>				  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2023/11/20 10:59:46 by aammirat		  #+#	#+#			 */
-/*   Updated: 2024/01/17 12:52:56 by ocyn			 ###   ########.fr	   */
+/*   Updated: 2024/01/17 12:52:56 by jcuzin			 ###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "define_structs.h"
 # include "define_syntax.h"
 # include "functions_docs.h"
-
-extern int      g_sign;
 
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
@@ -94,30 +92,19 @@ void		ft_echo(char **str);
 void		ft_unset(t_linux *shell, char *src);
 void		ft_export(t_linux *shell);
 void		change_oldpwd(t_linux *shell);
-/**
- * @file very_sure.c
- * @brief An experimental version of the secured memory handle overlay.  
- * The major difference is that the data are store in a struct
- * filled of the variable informations, like their allocation state.
- * 
- * @param data The data in the experimental s_data format.
- * @param size Set a positive integer to malloc SIZE bytes at data 
- * | Set to 0 to free the data.
- */
-void		very_sure(t_sdata *data, unsigned long size);
 
 void		change_env(t_linux *shell, char **env);
 int			is_space(char c);
 void		free_env(t_env *env);
 
 void		exit_end(int launch, t_linux *shell);
-void		exit_forkfailure(int launch, t_linux *shell, int *pip);
+void		exit_forkfailure(int launch, t_linux *shell, int *pip, char **path);
 void		exit_prompt(int launch, t_linux *shell);
 int			weird_cmp(char *str, char *cmp);
 int			weird_cmp_export(char *str, char *cmp);
 void		total_free(t_env *chain);
 char		*get_var(t_env *env, char *str);
-void		create_signal();
-void		let_signal_cook();
+void		create_signal(void);
+void		let_signal_cook(void);
 
 #endif

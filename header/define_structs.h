@@ -3,27 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   define_structs.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/29 14:54:14 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:25:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_STRUCTS_H
 # define DEFINE_STRUCTS_H
 
+extern int	g_sign;
+
 typedef struct s_env
 {
 	char			*str;
 	struct s_env	*next;
 }				t_env;
-
-typedef struct s_sdata
-{
-	int				sstr;
-	char			**str;
-}					t_sdata;
 
 typedef struct s_redi
 {

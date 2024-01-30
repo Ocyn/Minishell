@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_two.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:06:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 09:07:23 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:47:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ char	*get_var(t_env *env, char *str)
 	while (buf != NULL)
 	{
 		if (weird_cmp(buf->str, str))
-		{
 			return (ft_strdup(ft_strchr(buf->str, '=') + 1));
-		}
 		buf = buf->next;
 	}
 	return (put_in(NULL));
@@ -30,8 +28,8 @@ char	*get_var(t_env *env, char *str)
 
 void	change_env(t_linux *shell, char **env)
 {
-	int		i;
 	t_env	*current;
+	int		i;
 
 	i = 0;
 	shell->env = malloc(sizeof(t_env));

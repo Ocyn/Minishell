@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 14:32:32 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:47:00 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	nothing(int sig, siginfo_t *inf, void *gain)
 	(void)sig;
 }
 
-void	create_signal()
+void	create_signal(void)
 {
 	struct sigaction	sa;
 
@@ -44,7 +44,7 @@ void	create_signal()
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void let_signal_cook()
+void	let_signal_cook(void)
 {
 	struct sigaction	sa;
 

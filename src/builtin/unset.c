@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/29 14:30:42 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:41:19 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,21 @@ void	unset_export(t_linux *shell, char *str)
 
 void	ft_unset(t_linux *shell, char *str)
 {
+	int	i;
+
 	if (str != NULL)
 		unset_export(shell, str);
 	else
-		unset_cmd(shell, 0, NULL, NULL);
+	{
+		i = 0;
+		while (shell->head->next->command.prefixes[i])
+			i++;
+		if (i > 1)
+		{
+			unset_cmd(shell, 0, NULL, NULL);
+			g_sign = 0;
+		}
+		else
+			g_sign = 1;
+	}
 }

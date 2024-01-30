@@ -3,39 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 16:13:39 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 21:43:16 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+void	change_ret_signal(int c)
+{
+	if (WIFEXITED(c))
+		g_sign = WEXITSTATUS(c);
+	else if (WIFSIGNALED(c))
+	{
+		if (WTERMSIG(c) == SIGQUIT)
+			g_sign = 131;
+		if (WTERMSIG(c) == SIGINT)
+			g_sign = 130;
+	}
+}
 
 void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 {
 	char	*path;
 
 	path = NULL;
-	(void)pip;
-	(void)shell;
 	*fk = fork();
 	if (*fk == -1)
 		return ;
 	if (*fk == 0)
 	{
-		printf("%s%d Execution Of %s%s :%s\n", FE_UND, cmd->id, FE_BOL, cmd->command.prefixes[0], FRR);
 		path = get_path(cmd->command.prefixes[0], cmd->command.env_var);
-		db_tabstr_display(cmd->command.prefixes, "args", -1);
-		printf(", Env[Too long])\n\n");
-		printf("%s", BND_DARK_GRAY);
 		execve(path, cmd->command.prefixes, cmd->command.env_var);
 		perror("bash");
-		exit_forkfailure(1, shell, pip);
-		s_free(&path);
-		exit (EXIT_FAILURE);
+		exit_forkfailure(1, shell, pip, &path);
 	}
-	printf ("%s", FRR);
 }
 
 void	redirection(int fd, int todup)
@@ -68,16 +72,18 @@ void	launch_command(t_linux *shell)
 	command = shell->head->next;
 	while (command)
 	{
-		pipe(pip);
-		if (!pip[0] || !pip[1])
-			return ;
+		if (pipe(pip) || !pip[0] || !pip[1])
+			break ;
 		command->command.env_var = shell->envi;
 		select_dup(pip, command);
-		if (!is_builtin(command->command.prefixes[0], shell))
+		if (command->command.prefixes[0] \
+		&& !is_builtin(command->command.prefixes[0], shell))
 			exe_command(command, &fork_id, pip, shell);
 		close(pip[1]);
 		close(pip[0]);
-		waitpid(fork_id, &g_sign, 0);
+		if (waitpid(fork_id, &g_sign, 0) == -1)
+			break ;
+		change_ret_signal(g_sign);
 		command = command->next;
 	}
 	create_signal();

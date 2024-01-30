@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/29 14:42:46 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 21:00:11 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	db_display_redi(t_redi redi, char *message)
 	printf("\t\t%s%s : %s", FE_BOL, message, FRR);
 	printf("\n\t\t\tToken : [%s]", redi.token);
 	printf("\n\t\t\tFd : [%d]", redi.fd);
+	printf("\n");
 }
 
 void	db_display_list(t_cmd *list, char *message)

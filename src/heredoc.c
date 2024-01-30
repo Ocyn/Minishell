@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/17 15:46:53 by ocyn             ###   ########.fr       */
+/*   Updated: 2024/01/17 15:46:53 by jcuzin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**get_heredoc(char *src)
 	heredoc.prompt = ft_strdup("heredoc>");
 	read_prompt(&heredoc, delim, hd_parse);
 	out = list_to_tab(heredoc.head);
-	db_display_list(heredoc.head, "\nHeredoc: ");
+	/*DEBUG*/	db_display_list(heredoc.head, "\nHeredoc: ");
 	s_free(&heredoc.prompt);
 	cmd_free_list(heredoc.head);
 	free(heredoc.head);

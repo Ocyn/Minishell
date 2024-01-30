@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shutdown.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocyn <ocyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 14:26:29 by ocyn              #+#    #+#             */
-/*   Updated: 2024/01/17 15:48:03 by ocyn             ###   ########.fr       */
+/*   Created: 2024/01/17 14:26:29 by jcuzin              #+#    #+#             */
+/*   Updated: 2024/01/17 15:48:03 by jcuzin             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exit_prompt(int launch, t_linux *shell)
 	}
 }
 
-void	exit_forkfailure(int launch, t_linux *shell, int *pip)
+void	exit_forkfailure(int launch, t_linux *shell, int *pip, char **path)
 {
 	if (launch)
 	{
@@ -52,5 +52,7 @@ void	exit_forkfailure(int launch, t_linux *shell, int *pip)
 		free(shell->head);
 		free_env(shell->env);
 		s_free(&shell->oldpwd);
+		s_free(path);
+		exit (EXIT_FAILURE);
 	}
 }

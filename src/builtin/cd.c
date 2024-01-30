@@ -6,11 +6,17 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 09:09:25 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:36:47 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+void	error_cd(char *str)
+{
+	printf ("%s",str);
+	g_sign = 1;
+}
 
 char	*search_path(char **str)
 {
@@ -41,12 +47,13 @@ void	change_to_home(t_linux	*shell)
 		if (home != NULL)
 		{
 			if (chdir(home) != 0)
-				printf ("bash: cd: HOME not set\n");
+				error_cd("bash: cd: HOME not set\n");
 			else
 			{
 				if (shell->oldpwd)
 					s_free(&shell->oldpwd);
 				shell->oldpwd = put_in(pwd);
+				g_sign = 0;
 			}
 			s_free(&home);
 		}
@@ -84,8 +91,6 @@ void	ft_cd(t_linux *shell, char **str)
 	char	*path;
 	char	*pwd;
 
-	if (!str)
-		return ;
 	path = what_path(shell, str);
 	if (path != NULL)
 	{
@@ -99,11 +104,12 @@ void	ft_cd(t_linux *shell, char **str)
 				if (shell->oldpwd != NULL)
 					s_free(&shell->oldpwd);
 				shell->oldpwd = put_in(pwd);
+				g_sign = 0;
 			}
 			free(path);
 			free(pwd);
 		}
 		else
-			printf ("i'm in the middle of nowere\n");
+			error_cd("i'm in the middle of nowere\n");
 	}
 }

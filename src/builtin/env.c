@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 16:15:34 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/15 14:19:52 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:36:58 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	ft_env(t_linux *shell)
 		buf = buf->next;
 	}
 	printf ("%s\n", buf->str);
+	g_sign = 0;
 }
