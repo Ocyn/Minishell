@@ -18,6 +18,8 @@
 # include "define_syntax.h"
 # include "functions_docs.h"
 
+
+
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
@@ -117,7 +119,7 @@ void		exit_prompt(int launch, t_linux *shell);
 int			weird_cmp(char *str, char *cmp);
 int			weird_cmp_export(char *str, char *cmp);
 void		total_free(t_env *chain);
-char		*get_home(t_env *env);
+char		*get_var(t_env *env, char *str);
 void		create_signal(void *c);
 
 #endif

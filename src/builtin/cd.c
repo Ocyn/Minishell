@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/29 14:34:15 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 09:09:25 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	change_to_home(t_linux	*shell)
 	char	*home;
 	char	*pwd;
 
-	home = get_home(shell->env);
+	home = get_var(shell->env, "HOME");
 	pwd = getcwd(NULL, 0);
 	if (pwd)
 	{
@@ -48,6 +48,7 @@ void	change_to_home(t_linux	*shell)
 					s_free(&shell->oldpwd);
 				shell->oldpwd = put_in(pwd);
 			}
+			s_free(&home);
 		}
 		free(pwd);
 	}

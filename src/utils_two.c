@@ -6,20 +6,20 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:06:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/29 14:39:56 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 09:07:23 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*get_home(t_env *env)
+char	*get_var(t_env *env, char *str)
 {
 	t_env	*buf;
 
 	buf = env;
 	while (buf != NULL)
 	{
-		if (weird_cmp(buf->str, "HOME"))
+		if (weird_cmp(buf->str, str))
 		{
 			return (ft_strdup(ft_strchr(buf->str, '=') + 1));
 		}
