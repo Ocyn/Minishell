@@ -6,11 +6,13 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/29 14:56:14 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 10:29:21 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+int	g_sign;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -20,7 +22,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	shell.input = NULL;
 	init_struct(&shell);
-	create_signal(ctrl_c);
+	create_signal();
 	change_env(&shell, env);
 	shell.envi = env;
 	shell.prompt = prompt_tuning("[Minishell |", "#", "FC_PUR BN_GRA FE_BOL");

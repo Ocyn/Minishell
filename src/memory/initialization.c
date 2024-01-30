@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by ocyn              #+#    #+#             */
-/*   Updated: 2024/01/29 14:56:09 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 09:23:30 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_struct(t_linux *shell)
 	if (!shell->head)
 		return ;
 	cmd_init(shell->head);
+	g_sign = 0;
 	shell->oldpwd = NULL;
 	shell->prompt = NULL;
 	shell->head->next = NULL;

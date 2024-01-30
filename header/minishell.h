@@ -18,17 +18,14 @@
 # include "define_syntax.h"
 # include "functions_docs.h"
 
-int      g_sign;
+extern int	g_sign;
 
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_cmd *list, char *message);
 
-void		get_signal(t_linux *ssystem, void (*action)(int));
 void		ctrl_c(int sig, siginfo_t *inf, void *gain);
-void		ctrl_slash(int sig, siginfo_t *inf, void *gain);
-void		nothing(int sig, siginfo_t *inf, void *gain);
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 
@@ -120,6 +117,7 @@ int			weird_cmp(char *str, char *cmp);
 int			weird_cmp_export(char *str, char *cmp);
 void		total_free(t_env *chain);
 char		*get_var(t_env *env, char *str);
-void		create_signal(void *c);
+void		create_signal();
+void		let_signal_cook();
 
 #endif

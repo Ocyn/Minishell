@@ -60,8 +60,6 @@ OBJ_PATH 		= $(SRCC_DIR)$(OBJ_DIR)
 SRCS			+= $(BUILTIN)
 SRCS			+= $(MEMORY)
 OBJ 			= $(patsubst %.c, $(OBJ_PATH)%.o, $(SRCS))
-OBJ_BUILTIN		= $(patsubst %.c, $(OBJ_PATH)%.o, $(BUILTIN))
-OBJ_MEMORY		= $(patsubst %.c, $(OBJ_PATH)%.o, $(MEMORY))
 
 all : $(NAME)
 

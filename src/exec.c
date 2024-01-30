@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/29 15:08:00 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:13:39 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 
 	path = NULL;
 	(void)pip;
+	(void)shell;
 	*fk = fork();
 	if (*fk == -1)
 		return ;
 	if (*fk == 0)
 	{
-		printf("%s%d Execution Of %s%s :%s\n", FE_UND, cmd->id, FE_BOL, cmd->command.prefixes[0] ,FRR);
+		printf("%s%d Execution Of %s%s :%s\n", FE_UND, cmd->id, FE_BOL, cmd->command.prefixes[0], FRR);
 		path = get_path(cmd->command.prefixes[0], cmd->command.env_var);
-		//printf("execve(%s, ", path);
 		db_tabstr_display(cmd->command.prefixes, "args", -1);
 		printf(", Env[Too long])\n\n");
 		printf("%s", BND_DARK_GRAY);
@@ -33,9 +33,9 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 		perror("bash");
 		exit_forkfailure(1, shell, pip);
 		s_free(&path);
-		exit (0);
+		exit (EXIT_FAILURE);
 	}
-	printf("%s", FRR);
+	printf ("%s", FRR);
 }
 
 void	redirection(int fd, int todup)
@@ -63,23 +63,22 @@ void	launch_command(t_linux *shell)
 	int		pip[2];
 
 	fork_id = 0;
+	let_signal_cook();
 	ft_memset(pip, 0, 2);
-	pipe(pip);
-	if (!pip[0] || !pip[1])
-		return ;
 	command = shell->head->next;
 	while (command)
 	{
-		create_signal(nothing);
+		pipe(pip);
+		if (!pip[0] || !pip[1])
+			return ;
 		command->command.env_var = shell->envi;
 		select_dup(pip, command);
 		if (!is_builtin(command->command.prefixes[0], shell))
 			exe_command(command, &fork_id, pip, shell);
+		close(pip[1]);
+		close(pip[0]);
+		waitpid(fork_id, &g_sign, 0);
 		command = command->next;
-		create_signal(ctrl_c);
 	}
-	close(pip[1]);
-	close(pip[0]);
-	waitpid(fork_id - 1, 0, 0);
-	waitpid(fork_id, 0, 0);
+	create_signal();
 }
