@@ -12,6 +12,8 @@
 
 #include "../header/minishell.h"
 
+int	g_sign;
+
 int	main(int argc, char **argv, char **env)
 {
 	t_linux		shell;
