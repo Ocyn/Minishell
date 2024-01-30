@@ -18,7 +18,7 @@
 # include "define_syntax.h"
 # include "functions_docs.h"
 
-
+int      g_sign;
 
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
