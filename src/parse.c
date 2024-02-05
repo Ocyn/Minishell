@@ -12,26 +12,6 @@
 
 #include "../header/minishell.h"
 
-void	resplit_infile(char ***tab)
-{
-	char	**temp_tab;
-	int		i;
-
-	temp_tab = NULL;
-	i = -1;
-	while ((*tab) && (*tab)[++i])
-	{
-		if (find_str_in_str((*tab)[i], "<") \
-		&& !find_str_in_str((*tab)[i], "<<"))
-		{
-			str_edit(&(*tab)[i], "<", " < ");
-			temp_tab = ft_split((*tab)[i], ' ');
-			insert_tab_in_tab(temp_tab, &(*tab), i + 1);
-			free_tab(temp_tab, tablen(temp_tab));
-		}
-	}
-}
-
 void	whitespaces_to_space(char **entry)
 {
 	str_edit(entry, "\t", " ");
@@ -54,7 +34,6 @@ char	**get_token(char *cmd_in)
 	tab = split_command(temp, ' ');
 	//commande de nono
 	s_free(&temp);
-	resplit_infile(&tab);
 	return (tab);
 }
 
@@ -77,7 +56,7 @@ void	parse(t_linux *shell)
 	command = build_commands(shell->head, token);
 	shell->token = token;
 	/*DEBUG*/ db_display_list(shell->head, "\nTotal Memory Data\n");
-	launch_command(shell);
+	//launch_command(shell);
 	free_tab(token, tablen(token));
 	cmd_free_list(shell->head);
 }

@@ -65,26 +65,26 @@ void	cut_and_paste(void **cut, void **paste, size_t sizeof_cut)
 	*cut = NULL;
 }
 
-char	**list_to_tab(t_cmd *list)
-{
-	char	**tab;
-	int		len;
-	int		i;
+// char	**list_to_tab(t_cmd *list)
+// {
+// 	char	**tab;
+// 	int		len;
+// 	int		i;
 
-	i = -1;
-	len = list_len(*list);
-	tab = NULL;
-	if (!list || !list->next)
-		return (NULL);
-	if (list->id == 0)
-		list = list->next;
-	tab = s_malloc(sizeof(char *) * len);
-	if (!tab)
-		return (NULL);
-	while (++i > -1 && list)
-	{
-		tab[i] = ft_strdup(list->command.sraw);
-		list = list->next;
-	}
-	return (tab);
-}
+// 	i = -1;
+// 	len = list_len(*list);
+// 	tab = NULL;
+// 	if (!list || !list->next)
+// 		return (NULL);
+// 	if (list->id == 0)
+// 		list = list->next;
+// 	tab = s_malloc(sizeof(char *) * len);
+// 	if (!tab)
+// 		return (NULL);
+// 	while (++i > -1 && list)
+// 	{
+// 		tab[i] = ft_strdup(list->command.sraw);
+// 		list = list->next;
+// 	}
+// 	return (tab);
+// }

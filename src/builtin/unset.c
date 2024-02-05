@@ -50,9 +50,9 @@ void	unset_cmd(t_linux *shell, int i, t_env *buff, t_env *prev)
 	while (buff != NULL)
 	{
 		i = 0;
-		while (shell->head->next->command.prefixes[++i])
+		while (shell->head->next->command.exec_cmd[++i])
 		{
-			if (weird_cmp(buff->str, shell->head->next->command.prefixes[i]))
+			if (weird_cmp(buff->str, shell->head->next->command.exec_cmd[i]))
 			{
 				if (!prev)
 				{
@@ -98,7 +98,7 @@ void	ft_unset(t_linux *shell, char *str)
 	else
 	{
 		i = 0;
-		while (shell->head->next->command.prefixes[i])
+		while (shell->head->next->command.exec_cmd[i])
 			i++;
 		if (i > 1)
 		{

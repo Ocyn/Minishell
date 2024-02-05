@@ -6,8 +6,8 @@
 
 /*
 !Makefile
-!Docx.md
 !ignore_readline.supp
 !src/
 !header/
 !lib/
+!add_content/

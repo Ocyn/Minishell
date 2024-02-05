@@ -79,12 +79,12 @@ void	ft_export(t_linux *shell)
 
 	i = 0;
 	g_sign = 0;
-	while (shell->head->next->command.prefixes[++i])
+	while (shell->head->next->command.exec_cmd[++i])
 	{
-		if (test_valid(shell->head->next->command.prefixes[i]))
+		if (test_valid(shell->head->next->command.exec_cmd[i]))
 		{
-			if (is_in_env(shell->head->next->command.prefixes[i], shell->env))
-				ft_unset(shell, shell->head->next->command.prefixes[i]);
+			if (is_in_env(shell->head->next->command.exec_cmd[i], shell->env))
+				ft_unset(shell, shell->head->next->command.exec_cmd[i]);
 			else
 			{
 				buf = shell->env;
@@ -95,7 +95,7 @@ void	ft_export(t_linux *shell)
 					return ;
 				buf = buf->next;
 				buf->next = NULL;
-				buf->str = put_in(shell->head->next->command.prefixes[i]);
+				buf->str = put_in(shell->head->next->command.exec_cmd[i]);
 			}
 		}
 	}

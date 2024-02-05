@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 18:25:07 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/04 00:24:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ typedef struct s_redi
 
 typedef struct s_execve
 {
-	char			*sraw;
 	char			**raw;
-	char			**prefixes;
-	char			**args;
+	char			**exec_cmd;
 	char			**env_var;
 }					t_execve;
 

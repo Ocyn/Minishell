@@ -68,9 +68,7 @@ void	db_display_list(t_cmd *list, char *message)
 		db_display_redi(list->outfile, "Outfile");
 		db_tabstr_display(list->command.raw, "\t\tRaw", -1);
 		printf("\n");
-		db_tabstr_display(list->command.prefixes, "\t\tPrefixes", -1);
-		printf("\n");
-		db_tabstr_display(list->command.args, "\t\tArgs", -1);
+		db_tabstr_display(list->command.exec_cmd, "\t\tExec_Cmd", -1);
 		printf("\n");
 		db_print_custom_font("\t\tPrev :", FE_BOL);
 		printf("\t[%p]\n", list->prev);
@@ -87,24 +85,14 @@ void	db_display_list(t_cmd *list, char *message)
 void	safemode_parse(t_linux *syst)
 {
 	t_cmd	*command;
-	char	**heredoc;
 	char	*line;
 
-	heredoc = NULL;
 	command = syst->command;
 	line = syst->input;
 	command = cmd_add_unit(command);
-	command->command.sraw = ft_strdup(line);
-	command->command.prefixes = ft_split(line, ' ');
-	heredoc = get_heredoc(command->command.sraw);
-	if (heredoc)
-	{
-		insert_tab_in_tab(heredoc, &command->command.args, \
-			find_str_in_tab(0, "<<", command->command.args) + 1);
-		free_tab(heredoc, tablen(heredoc));
-	}
-	printf("\n\tSaved to cell %d: [%s] ", command->id, command->command.sraw);
-	db_tabstr_display(command->command.prefixes, "\n\tPrefixes\t", -1);
+	command->command.exec_cmd= ft_split(line, ' ');
+	printf("\n\tSaved to cell %d: ", command->id);
+	db_tabstr_display(command->command.exec_cmd, "\n\tFinal Command\t", -1);
 	printf("\n\n");
 	syst->command = command;
 }

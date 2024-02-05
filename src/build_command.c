@@ -14,41 +14,6 @@
 
 int	skip_until(char **tab, int mode, int (*stop)(char *, int));
 
-int	get_prefixes(int type, char **src, char ***prefixes)
-{
-	int		stop;
-
-	if (!src)
-		return (0);
-	stop = tablen(src);
-	if (type == INFILE_CMD || type == OUTFILE_CMD)
-		stop = 1;
-	else if (type == PIPE_CMD)
-		stop = find_str_in_tab(1, (char *)&type, src);
-	else if (type == HEREDOC)
-		stop = find_str_in_tab(0, "<<", src);
-	else if (type == OUTFILE_ADDER)
-		stop = find_str_in_tab(1, ">>", src);
-	/*DEBUG*/	printf("\n\t\tStop_len [%d]\n", stop);
-	*prefixes = tab_dup(src, stop);
-	return (tablen(*prefixes));
-}
-
-char	**get_args(char **token, int start, int type)
-{
-	char	**full;
-	int		args_len;
-
-	args_len = 0;
-	full = NULL;
-	args_len = tablen(token) - start;
-	printf("\n\tlen_Token [%d] - Start [%d] == ArgLen [%d]\n", tablen(token), start, args_len);
-	args_len -= (special_char(token[args_len + start], type) == type);
-	if (token && token[start] && args_len)
-		full = tab_dup(token + start, args_len);
-	return (full);
-}
-
 int	type_identifier(char **src, int len)
 {
 	char	**raw;
@@ -74,17 +39,17 @@ int	type_identifier(char **src, int len)
 	return (type);
 }
 
+// ft_function_to_get_infile_and_outfile
+
 t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 {
-	int		prefixes_len;
 	int		type;
 
-	prefixes_len = 0;
+	(void)type;
 	type = type_identifier(token + i, len);
 	cmd->command.raw = tab_dup(token + i, len);
-	get_prefixes(type, cmd->command.raw, &cmd->command.prefixes);
-	prefixes_len = tablen(cmd->command.prefixes);
-	cmd->command.args = get_args(cmd->command.raw, prefixes_len, type);
+	//Infile & outfile include function
+	cmd->command.exec_cmd = tab_dup(cmd->command.raw + 1, len);
 	return (cmd);
 }
 
@@ -104,8 +69,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		token_len = skip_until(token + i, 0, special_char);
 		command = cmd_add_unit(command);
 		command = define_command_pattern(command, token, i, token_len);
-		if (!command->command.args && !command->command.prefixes \
-		&& !command->command.raw && !command->command.sraw && !command->command.env_var)
+		if (!command->command.exec_cmd && !command->command.raw && !command->command.env_var)
 			cmd_rm_unit(command);
 		i += token_len;
 		/*DEBUG*/	db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
