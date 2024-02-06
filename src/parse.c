@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/06 09:26:07 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:28:48 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char	**get_token(char *cmd_in)
 	whitespaces_to_space(&temp);
 	str_edit(&temp, ">", " > ");
 	str_edit(&temp, ">  >", " >> ");
-	str_edit(&temp, "<", " < ");
-	str_edit(&temp, "<  <", " << ");
+	// str_edit(&temp, "<", " < ");
+	// str_edit(&temp, "<  <", " << ");
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
 	//commande de nono
