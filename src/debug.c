@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 21:00:11 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 05:56:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,13 @@ void	db_display_list(t_cmd *list, char *message)
 	while (list)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
-		db_display_redi(list->infile, "Infile");
-		db_display_redi(list->outfile, "Outfile");
-		db_tabstr_display(list->command.raw, "\t\tRaw", -1);
+		db_display_redi(list->meta.infile, "Infile");
+		db_display_redi(list->meta.outfile, "Outfile");
+		printf("\t\tSraw : [%s]", list->meta.sraw);
 		printf("\n");
-		db_tabstr_display(list->command.exec_cmd, "\t\tExec_Cmd", -1);
+		db_tabstr_display(list->meta.raw, "\t\tRaw", -1);
+		printf("\n");
+		db_tabstr_display(list->meta.exec_cmd, "\t\tExec_Cmd", -1);
 		printf("\n");
 		db_print_custom_font("\t\tPrev :", FE_BOL);
 		printf("\t[%p]\n", list->prev);
@@ -90,9 +92,9 @@ void	safemode_parse(t_linux *syst)
 	command = syst->command;
 	line = syst->input;
 	command = cmd_add_unit(command);
-	command->command.exec_cmd= ft_split(line, ' ');
+	command->meta.exec_cmd= ft_split(line, ' ');
 	printf("\n\tSaved to cell %d: ", command->id);
-	db_tabstr_display(command->command.exec_cmd, "\n\tFinal Command\t", -1);
+	db_tabstr_display(command->meta.exec_cmd, "\n\tFinal Command\t", -1);
 	printf("\n\n");
 	syst->command = command;
 }

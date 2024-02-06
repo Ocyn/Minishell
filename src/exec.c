@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/03 23:35:12 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 05:51:47 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 		return ;
 	if (*fk == 0)
 	{
-		path = get_path(cmd->command.exec_cmd[0], shell->envi);
-		execve(path, cmd->command.exec_cmd, shell->envi);
+		path = get_path(cmd->meta.exec_cmd[0], shell->envi);
+		execve(path, cmd->meta.exec_cmd, shell->envi);
 		perror("bash");
 		exit_forkfailure(1, shell, pip, &path);
 	}
@@ -54,8 +54,8 @@ int	select_dup(int *pip, t_cmd *command)
 {
 	if (!pip)
 	{
-		redirection(command->infile.fd, STDERR_FILENO);
-		redirection(command->outfile.fd, STDOUT_FILENO);
+		redirection(command->meta.infile.fd, STDERR_FILENO);
+		redirection(command->meta.outfile.fd, STDOUT_FILENO);
 	}
 	return (1);
 }
@@ -74,10 +74,9 @@ void	launch_command(t_linux *shell)
 	{
 		if (pipe(pip) || !pip[0] || !pip[1])
 			break ;
-		command->command.env_var = shell->envi;
 		select_dup(pip, command);
-		if (command->command.exec_cmd \
-		&& !is_builtin(command->command.exec_cmd[0], shell))
+		if (command->meta.exec_cmd \
+		&& !is_builtin(command->meta.exec_cmd[0], shell))
 			exe_command(command, &fork_id, pip, shell);
 		close(pip[1]);
 		close(pip[0]);

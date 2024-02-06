@@ -47,9 +47,9 @@ t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
 
 	(void)type;
 	type = type_identifier(token + i, len);
-	cmd->command.raw = tab_dup(token + i, len);
+	cmd->meta.raw = tab_dup(token + i, len);
 	//Infile & outfile include function
-	cmd->command.exec_cmd = tab_dup(cmd->command.raw + 1, len);
+	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw + 1, len);
 	return (cmd);
 }
 
@@ -69,7 +69,7 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 		token_len = skip_until(token + i, 0, special_char);
 		command = cmd_add_unit(command);
 		command = define_command_pattern(command, token, i, token_len);
-		if (!command->command.exec_cmd && !command->command.raw && !command->command.env_var)
+		if (!command->meta.exec_cmd && !command->meta.raw)
 			cmd_rm_unit(command);
 		i += token_len;
 		/*DEBUG*/	db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);

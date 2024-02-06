@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/04 00:24:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 05:52:22 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define DEFINE_STRUCTS_H
 
 extern int	g_sign;
+
+typedef struct s_lst
+{
+	int				id;
+	void			*data;
+	struct s_lst	*next;
+	struct s_lst	*prev;
+}					t_lst;
 
 typedef struct s_env
 {
@@ -27,30 +35,22 @@ typedef struct s_redi
 	int				fd;
 }					t_redi;
 
-typedef struct s_execve
+typedef struct s_metadatas
 {
+	char			*sraw;
 	char			**raw;
 	char			**exec_cmd;
-	char			**env_var;
-}					t_execve;
+	t_redi			infile;
+	t_redi			outfile;
+}					t_metadatas;
 
 typedef struct s_cmd
 {
 	int				id;
-	t_execve		command;
-	t_redi			infile;
-	t_redi			outfile;
+	t_metadatas		meta;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;
-
-typedef struct s_lst
-{
-	int				id;
-	void			*data;
-	struct s_lst	*next;
-	struct s_lst	*prev;
-}					t_lst;
 
 typedef struct s_linux
 {

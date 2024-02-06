@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:10:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 06:00:06 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	cmd_init(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	cmd->command.raw = NULL;
-	cmd->command.exec_cmd = NULL;
-	cmd->command.env_var = NULL;
-	cmd->infile = init_redi();
-	cmd->outfile = init_redi();
 	cmd->id = 0;
+	cmd->meta.raw = NULL;
+	cmd->meta.sraw = NULL;
+	cmd->meta.exec_cmd = NULL;
+	cmd->meta.infile = init_redi();
+	cmd->meta.outfile = init_redi();
 }
 
 int	list_len(t_cmd list)
@@ -62,14 +62,14 @@ void	cmd_rm_unit(t_cmd *cmd)
 
 	tprev = cmd->prev;
 	tnext = cmd->next;
-	if (cmd->command.raw)
-		free_tab(cmd->command.raw, tablen(cmd->command.raw));
-	if (cmd->command.exec_cmd)
-		free_tab(cmd->command.exec_cmd, tablen(cmd->command.exec_cmd));
-	s_free(&cmd->infile.token);
-	s_free(&cmd->outfile.token);
-	close(cmd->outfile.fd);
-	close(cmd->infile.fd);
+	if (cmd->meta.raw)
+		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
+	if (cmd->meta.exec_cmd)
+		free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
+	s_free(&cmd->meta.infile.token);
+	s_free(&cmd->meta.outfile.token);
+	close(cmd->meta.outfile.fd);
+	close(cmd->meta.infile.fd);
 	if (tprev)
 		tprev->next = cmd->next;
 	if (tnext)
@@ -90,13 +90,13 @@ void	*cmd_free_list(t_cmd *cmd)
 	{
 		//printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
 		//printf("\r\t"__VALID_FREED"\n");
-		//db_tabstr_display(cmd->command.raw, "\t\tRaw", -1);
-		free_tab(cmd->command.raw, tablen(cmd->command.raw));
+		//db_tabstr_display(cmd->meta.raw, "\t\tRaw", -1);
+		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
 		//printf("\r\t"__VALID_FREED"\n");
-		if (cmd->command.exec_cmd)
+		if (cmd->meta.exec_cmd)
 		{
-			//db_tabstr_display(cmd->command.exec_cmd, "\t\texec_cmd", -1);
-			free_tab(cmd->command.exec_cmd, tablen(cmd->command.exec_cmd));
+			//db_tabstr_display(cmd->meta.exec_cmd, "\t\texec_cmd", -1);
+			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
 			//printf("\r\t"__VALID_FREED"\n");
 		}
 		if (cmd->next)
