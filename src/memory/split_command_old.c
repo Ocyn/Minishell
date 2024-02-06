@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   split_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:47:35 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 09:20:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/01/04 09:00:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
 static char	**initialization(int *i, int *t, int *quote, char **tab);
-static char	**tab_init(const char *s, char *keys);
+static char	**tab_init(const char *s, char c);
 static int	quote_checking(int *quote);
 static void	quote_setting(int *quote, char check);
 
-char	**split_command(const char *s, char *keys)
+char	**split_command(const char *s, char c)
 {
 	char		**tab;
 	int			quote[3];
@@ -25,12 +25,12 @@ char	**split_command(const char *s, char *keys)
 	int			len;
 	int			i;
 
-	tab = initialization(&i, &t, quote, tab_init(s, keys));
+	tab = initialization(&i, &t, quote, tab_init(s, c));
 	while (tab && ++i < (int)ft_strlen(s))
 	{
 		len = -1;
 		while (s[i] && ++len > -1 && s[i + len] \
-		&& (!ft_strchr(keys, s[i + len]) || quote_checking(quote)))
+		&& (s[i + len] != c || quote_checking(quote)))
 			quote_setting(quote, s[i + len]);
 		if (len > 0)
 		{
@@ -40,6 +40,7 @@ char	**split_command(const char *s, char *keys)
 			i += len;
 		}
 	}
+	printf("\n");
 	return (tab);
 }
 
@@ -72,7 +73,7 @@ static char	**initialization(int *i, int *t, int *quote, char **tab)
 	return (tab);
 }
 
-static char	**tab_init(const char *s, char *keys)
+static char	**tab_init(const char *s, char c)
 {
 	char	**init;
 	int		quote[2];
@@ -90,7 +91,7 @@ static char	**tab_init(const char *s, char *keys)
 	{
 		quote[0] += (s[i] == '\'');
 		quote[1] += (s[i] == '\"');
-		cmd += (ft_strchr(keys, s[i]) && s[i + 1] && !ft_strchr(keys, s[i + 1]));
+		cmd += (s[i] == c && s[i + 1] && s[i + 1] != c);
 	}
 	cmd += (quote[0] / 2);
 	cmd += (quote[1] / 2);

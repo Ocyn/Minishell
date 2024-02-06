@@ -22,6 +22,7 @@ void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_cmd *list, char *message);
+void		*db_cmd_free_list(t_cmd *cmd);
 
 void		ctrl_c(int sig, siginfo_t *inf, void *gain);
 
@@ -40,7 +41,7 @@ int			str_occur(const char *src, const char *seek);
 int			special_char(char *seek, int mode);
 
 void		parse(t_linux *shell);
-char		**split_command(const char *s, char c);
+char		**split_command(const char *s, char *keys);
 
 t_cmd		*build_commands(t_cmd *command, char **all_token);
 

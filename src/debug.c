@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 05:56:03 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 06:02:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,41 @@ void	db_display_list(t_cmd *list, char *message)
 			break ;
 	}
 	printf("\n");
+}
+
+void	*db_cmd_free_list(t_cmd *cmd)
+{
+	db_print_custom_font("\nFree List\n\n", FE_UND);
+	if (cmd->id == 0)
+	{
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", cmd->id, cmd);
+		cmd = cmd->next;
+	}
+	while (cmd)
+	{
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
+		printf("\r\t"__VALID_FREED"\n");
+		db_tabstr_display(cmd->meta.raw, "\t\tRaw", -1);
+		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
+		printf("\r\t"__VALID_FREED"\n");
+		if (cmd->meta.exec_cmd)
+		{
+			db_tabstr_display(cmd->meta.exec_cmd, "\t\texec_cmd", -1);
+			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
+			printf("\r\t"__VALID_FREED"\n");
+		}
+		if (cmd->next)
+		{
+			cmd = cmd->next;
+			free(cmd->prev);
+			cmd->prev = NULL;
+		}
+		else
+			break ;
+	}
+	free(cmd);
+	cmd = NULL;
+	return (NULL);
 }
 
 void	safemode_parse(t_linux *syst)
