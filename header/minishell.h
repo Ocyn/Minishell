@@ -41,7 +41,7 @@ int			str_occur(const char *src, const char *seek);
 int			special_char(char *seek, int mode);
 
 void		parse(t_linux *shell);
-char		**split_command(const char *s, char *keys);
+char		**multisplit(const char *s, char *keys);
 
 t_cmd		*build_commands(t_cmd *command, char **all_token);
 

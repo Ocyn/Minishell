@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/06 09:17:12 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:26:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**get_token(char *cmd_in)
 	str_edit(&temp, "<", " < ");
 	str_edit(&temp, "<  <", " << ");
 	str_edit(&temp, "|", " | ");
-	tab = split_command(temp, "|");
+	tab = multisplit(temp, "|");
 	//commande de nono
 	s_free(&temp);
 	return (tab);

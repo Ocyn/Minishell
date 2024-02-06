@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:47:35 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 09:20:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:22:39 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	**tab_init(const char *s, char *keys);
 static int	quote_checking(int *quote);
 static void	quote_setting(int *quote, char check);
 
-char	**split_command(const char *s, char *keys)
+char	**multisplit(const char *s, char *keys)
 {
 	char		**tab;
 	int			quote[3];

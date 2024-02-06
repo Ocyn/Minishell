@@ -19,7 +19,7 @@ MEMORY			= cmd_lists.c \
 				quick_checking.c \
 				memory_edit.c \
 				memory_scan.c \
-				split_command.c \
+				multisplit.c \
 				initialization.c
 
 SRCS			= main.c \
