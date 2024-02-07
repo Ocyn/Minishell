@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 09:42:28 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 14:49:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ char	*get_file_name(char *token)
 	name = NULL;
 	if (token)
 	{
-		len = ft_strchr(token, "<");
-		// Missing "<<" alias Heredoc case
 		while (token[0] && token[0] == ' ')
 			token++;
-		ft_substr()
+		if (!token || !token[0])
+			return (NULL);
+		while (token[len] && token[len] != ' ')
+			len++;
+		name = ft_substr(token, 0, len);
+		if (!name)
+			return (NULL);
 	}
-	printf("[]")
 	return (name);
 }
 

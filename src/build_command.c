@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 09:42:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 14:37:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ int	get_type(char *src)
 
 t_cmd	*get_redirection(t_cmd *cmd, char *token)
 {
-	char	*redi;
+	int	i;
 
-	redi = NULL;
-	if (get_type(token) == INFILE_CMD)
-	{
-		
-		printf("\nGet_Redirection\n");
+	i = 0;
+	printf("\nGet_Redirection\n");
+	
+	if (get_type(token) == '<')
+	{	
 		cmd->meta.infile = set_infile();
 		
 	}
