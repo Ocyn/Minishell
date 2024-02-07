@@ -6,19 +6,22 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 21:22:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 07:04:02 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-t_redi	init_redi(void)
+void	cmd_init(t_cmd *cmd)
 {
-	t_redi	template;
-
-	template.fd = 0;
-	template.token = NULL;
-	return (template);
+	if (!cmd)
+		return ;
+	cmd->id = 0;
+	cmd->meta.raw = NULL;
+	cmd->meta.sraw = NULL;
+	cmd->meta.exec_cmd = NULL;
+	cmd->metainfile = init_redi();
+	cmd->meta.outfile = init_redi();
 }
 
 void	init_struct(t_linux *shell)

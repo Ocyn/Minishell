@@ -3,57 +3,61 @@
 /*                                                        :::      ::::::::   */
 /*   build_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/20 14:57:09 by jcuzin             ###   ########.fr       */
+/*   Updated: 2024/02/07 09:42:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	skip_until(char **tab, int mode, int (*stop)(char *, int));
-
-int	type_identifier(char **src, int len)
+int	get_type(char *src)
 {
-	char	**raw;
-	int		type;
+	int	type;
 
 	type = -1;
-	raw = tab_dup(src, len);
-	if (find_str_in_tab(1, "<", raw) != -1)
+	if (find_str_in_str(src, "<") != -1)
 		type = INFILE_CMD;
-	else if (find_str_in_tab(1, ">", raw) != -1)
+	else if (find_str_in_str(src, ">") != -1)
 		type = OUTFILE_CMD;
-	else if (find_str_in_tab(1, "|", raw) != -1)
+	else if (find_str_in_str(src, "|") != -1)
 		type = PIPE_CMD;
-	else if (find_str_in_tab(1, "$", raw) != -1)
+	else if (find_str_in_str(src, "$") != -1)
 		type = DOLLARSIGN_CMD;
-	else if (find_str_in_tab(1, ">>", raw) != -1)
+	else if (find_str_in_str(src, ">>") != -1)
 		type = OUTFILE_ADDER;
-	else if (find_str_in_tab(0, "<<", raw) != -1)
+	else if (find_str_in_str(src, "<<") != -1)
 		type = HEREDOC;
-	else if (raw && raw[0])
-		type = SINGLE_CMD;
-	free_tab(raw, len);
 	return (type);
 }
 
-// ft_function_to_get_infile_and_outfile
-
-t_cmd	*define_command_pattern(t_cmd *cmd, char **token, int i, int len)
+t_cmd	*get_redirection(t_cmd *cmd, char *token)
 {
-	int		type;
+	char	*redi;
 
-	(void)type;
-	type = type_identifier(token + i, len);
-	cmd->meta.raw = tab_dup(token + i, len);
-	//Infile & outfile include function
-	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw + 1, len);
+	redi = NULL;
+	if (get_type(token) == INFILE_CMD)
+	{
+		
+		printf("\nGet_Redirection\n");
+		cmd->meta.infile = set_infile();
+		
+	}
+	// Missing ">>" alias outfile append (no overwrite) case
 	return (cmd);
 }
 
-t_cmd	*build_commands(t_cmd *command, char **token)
+t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
+{
+	cmd->meta.raw = tab_dup(token, len);
+	//get_redirection(cmd, token);
+	//Infile & outfile include function
+	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw, len);
+	return (cmd);
+}
+
+t_cmd	*build_commands(t_cmd *command, char **tokens)
 {
 	int		i;
 	int		input_len;
@@ -62,13 +66,12 @@ t_cmd	*build_commands(t_cmd *command, char **token)
 	/*DEBUG*/	db_print_custom_font("Build command\n", FE_UND);
 	i = 0;
 	token_len = 0;
-	input_len = tablen(token);
-	while (i <= input_len && token && token[i])
+	input_len = tablen(tokens);
+	while (i <= input_len && tokens && tokens[i])
 	{
-		/*DEBUG*/	db_tabstr_display(token, "\n\tToken Input (i)", i);
-		token_len = skip_until(token + i, 0, special_char);
+		/*DEBUG*/	db_tabstr_display(tokens, "\n\tToken Input (i)", i);
 		command = cmd_add_unit(command);
-		command = define_command_pattern(command, token, i, token_len);
+		command = set_command_metadatas(command, tokens[i]);
 		if (!command->meta.exec_cmd && !command->meta.raw)
 			cmd_rm_unit(command);
 		i += token_len;

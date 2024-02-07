@@ -30,7 +30,7 @@ char		*prompt_tuning(char *name, char *suffix, char *profile);
 
 void		read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *));
 void		init_struct(t_linux *shell);
-t_redi		init_redi(void);
+void		cmd_init(t_cmd *cmd);
 
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 int			is_builtin(char *cmd_in, t_linux *shell);
@@ -51,7 +51,7 @@ void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
 char		*get_path(char *command, char **env);
 char		*put_in(char *str);
-int			set_infile(char *file);
+int			set_infile(char *file, int heredoc);
 int			set_outfile(char *file, int overwrite);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
@@ -71,7 +71,7 @@ int			find_str_in_tab(int strict_mode, char *find, char **tab);
 int			ft_strcmp(char *s1, char *s2);
 
 void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
-int			skip_until(char **tab, int mode, int (*stop)(char *, int));
+int			skip_until_tab(char **tab, int mode, int (*stop)(char *, int));
 char		**tab_dup(char **token_tab, int token_len);
 void		insert_tab_in_tab(char **insert, char ***tab, int where);
 char		*tab_to_str(char **tab, int size, int add_sep, int freed);

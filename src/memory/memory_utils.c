@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:14:08 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 09:12:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 00:55:10 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**tab_dup(char **token_tab, int token_len)
 	raw = s_malloc(sizeof(char *) * (token_len + 1));
 	while (++i < token_len)
 		raw[i] = ft_strdup(token_tab[i]);
-	db_tabstr_display(raw, "\n\t\tTabDup", token_len);
+	/*DEBUG*/	//db_tabstr_display(raw, "\n\t\tTabDup", token_len);
 	return (raw);
 }
 

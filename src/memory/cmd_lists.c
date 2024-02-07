@@ -6,23 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 06:03:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 07:08:53 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-
-void	cmd_init(t_cmd *cmd)
-{
-	if (!cmd)
-		return ;
-	cmd->id = 0;
-	cmd->meta.raw = NULL;
-	cmd->meta.sraw = NULL;
-	cmd->meta.exec_cmd = NULL;
-	cmd->meta.infile = init_redi();
-	cmd->meta.outfile = init_redi();
-}
 
 int	list_len(t_cmd list)
 {
@@ -66,10 +54,8 @@ void	cmd_rm_unit(t_cmd *cmd)
 		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
 	if (cmd->meta.exec_cmd)
 		free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
-	s_free(&cmd->meta.infile.token);
-	s_free(&cmd->meta.outfile.token);
-	close(cmd->meta.outfile.fd);
-	close(cmd->meta.infile.fd);
+	close(cmd->meta.outfile);
+	close(cmd->meta.infile);
 	if (tprev)
 		tprev->next = cmd->next;
 	if (tnext)

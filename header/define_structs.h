@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 05:52:22 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/07 09:53:31 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,21 @@ typedef struct s_env
 	struct s_env	*next;
 }				t_env;
 
-typedef struct s_redi
-{
-	char			*token;
-	int				fd;
-}					t_redi;
-
 typedef struct s_metadatas
 {
 	char			*sraw;
 	char			**raw;
 	char			**exec_cmd;
-	t_redi			infile;
-	t_redi			outfile;
+	int				infile;
+	int				outfile;
 }					t_metadatas;
 
 typedef struct s_cmd
 {
 	int				id;
 	t_metadatas		meta;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
+	t_cmd			*next;
+	t_cmd			*prev;
 }					t_cmd;
 
 typedef struct s_linux
