@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/06 05:51:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/09 03:30:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	select_dup(int *pip, t_cmd *command)
 {
 	if (!pip)
 	{
-		redirection(command->meta.infile.fd, STDERR_FILENO);
-		redirection(command->meta.outfile.fd, STDOUT_FILENO);
+		redirection(command->meta.infile, STDERR_FILENO);
+		redirection(command->meta.outfile, STDOUT_FILENO);
 	}
 	return (1);
 }

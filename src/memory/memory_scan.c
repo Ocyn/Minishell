@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_scan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 02:49:05 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 08:34:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:58:04 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	find_str_in_str(const char *src, const char *seek)
 	int	len_src;
 	int	len_seek;
 
-	i = -1;
+	i = -2;
 	if (!src || !seek)
 		return (0);
 	len_src = (int)ft_strlen(src);
@@ -46,7 +46,7 @@ int	find_str_in_str(const char *src, const char *seek)
 		while (++find <= len_seek && src[find + i] == seek[find])
 		{
 			if (find == len_seek - 1)
-				return (i + 1);
+				return (i);
 		}
 	}
 	return (0);

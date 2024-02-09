@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:49:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/09 12:12:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ char	*get_file_name(char *token)
 	name = NULL;
 	if (token)
 	{
+		name = token;
 		while (token[0] && token[0] == ' ')
 			token++;
 		if (!token || !token[0])
 			return (NULL);
 		while (token[len] && token[len] != ' ')
 			len++;
-		name = ft_substr(token, 0, len);
+		name[len] = 0;
+		//name = ft_substr(token, 0, len);
 		if (!name)
 			return (NULL);
 	}
@@ -36,10 +38,11 @@ char	*get_file_name(char *token)
 
 int	set_infile(char *file, int heredoc)
 {
-	int	fd;
+	int		fd;
 
-	(void)heredoc;
+
 	fd = 0;
+	(void)heredoc;
 	if (!file)
 		return (0);
 	if (!access(file, F_OK) && !access(file, R_OK))

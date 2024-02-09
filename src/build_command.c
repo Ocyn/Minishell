@@ -6,30 +6,23 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:37:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/09 14:04:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	get_type(char *src)
+int	get_type(char *src, char *type)
 {
-	int	type;
+	int	i;
 
-	type = -1;
-	if (find_str_in_str(src, "<") != -1)
-		type = INFILE_CMD;
-	else if (find_str_in_str(src, ">") != -1)
-		type = OUTFILE_CMD;
-	else if (find_str_in_str(src, "|") != -1)
-		type = PIPE_CMD;
-	else if (find_str_in_str(src, "$") != -1)
-		type = DOLLARSIGN_CMD;
-	else if (find_str_in_str(src, ">>") != -1)
-		type = OUTFILE_ADDER;
-	else if (find_str_in_str(src, "<<") != -1)
-		type = HEREDOC;
-	return (type);
+	i = -1;
+	i = find_str_in_str(src, type);
+	if (!src || !type || i == -1)
+		return (0);
+	// Checker si y'a au moins un char imprimable apres le type
+	// Renvoyer erreur "parse" si echec
+	return (1);
 }
 
 t_cmd	*get_redirection(t_cmd *cmd, char *token)
@@ -37,23 +30,33 @@ t_cmd	*get_redirection(t_cmd *cmd, char *token)
 	int	i;
 
 	i = 0;
+	(void)cmd;
+	(void)token;
+	(void)i;
 	printf("\nGet_Redirection\n");
+	// DISCONNECTED TO PREVENT CRASH ON COMPILING
+	/*	
+	if (get_type(token, "<"))
+		cmd->meta.infile = set_infile(ft_strrchr(token, '<'), 0);
+	if (get_type(token, "<<"))
+		cmd->meta.infile = set_outfile(ft_strrchr(token, '<'), 0);
+	*/
 	
-	if (get_type(token) == '<')
-	{	
-		cmd->meta.infile = set_infile();
-		
-	}
+	// OUTFILE APPEND AND HEREDOC NOT DONE
+	// if (get_type(token, ">"))
+	// 	cmd->meta.infile = 
+	// if (get_type(token, ">>"))
+	// 	cmd->meta.infile = 
 	// Missing ">>" alias outfile append (no overwrite) case
 	return (cmd);
 }
 
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 {
-	cmd->meta.raw = tab_dup(token, len);
+	cmd->meta.raw = tab_dup(token, ft_strlen(token));
 	//get_redirection(cmd, token);
 	//Infile & outfile include function
-	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw, len);
+	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw, ft_strlen(token));
 	return (cmd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 09:53:31 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/09 03:30:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_cmd
 {
 	int				id;
 	t_metadatas		meta;
-	t_cmd			*next;
-	t_cmd			*prev;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }					t_cmd;
 
 typedef struct s_linux
