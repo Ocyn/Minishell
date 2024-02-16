@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/14 14:27:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:54:21 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,25 @@ void	whitespaces_to_space(char **entry)
 	str_edit(entry, "\r", " ");
 }
 
-char	**get_token(char *cmd_in)
+char	**split_pipeline(char *cmd_in)
 {
+	t_lst	*list;
+	t_lst	*head;
 	char	**tab;
 	char	*temp;
 
 	temp = NULL;
 	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
 	whitespaces_to_space(&temp);
-	// str_edit(&temp, ">", " > ");
-	// str_edit(&temp, ">  >", " >> ");
-	// str_edit(&temp, "<", " < ");
-	// str_edit(&temp, "<  <", " << ");
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
+	list = tab_to_list(tab);
+	head = list;
+	db_display_list(list, "pipeline splitted", 's');
+	//faire une fonction qui detecter les repetition consecutives de <, > ou | et envoyer parse error dans ce cas la
 	//commande de nono
 	s_free(&temp);
+	db_lst_free_list(head, 0, "pipeline splitted");
 	return (tab);
 }
 
@@ -54,7 +57,7 @@ void	parse(t_linux *shell)
 	if (!ft_strcmp(cmd_in, "exit"))
 		return (ft_exit(shell));
 	add_history(cmd_in);
-	token = get_token(cmd_in);
+	token = split_pipeline(cmd_in);
 	command = build_commands(shell->head, token);
 	shell->token = token;
 	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n");

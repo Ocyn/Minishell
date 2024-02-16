@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 14:45:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 18:51:40 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ t_lst	*tab_to_list(char **tab)
 int	find_str_in_list(t_lst *list_input, char *key)
 {
 	t_lst	*list;
-	int		i;
 
-	i = 0;
-	(void)i;
 	list = list_input;
 	if (!list || !key)
 		return (-1);
@@ -52,12 +49,10 @@ int	find_str_in_list(t_lst *list_input, char *key)
 
 int	get_type(t_lst *list)
 {
-	t_lst	*new;
 	int		type;
 
 	type = _TOK_EMPTY;
-	new = NULL;
-	if (!list)
+	if (!list || !list->data)
 		return (type);
 	if (find_str_in_str((char *)list->data, "<") != -1)
 	{
@@ -65,7 +60,7 @@ int	get_type(t_lst *list)
 		if (find_str_in_str((char *)list->data, "<<") != -1)
 			type = _TOK_HEREDOC;
 		if (ft_strlen((char *)list->data) > 1)
-			str_edit((char *)(&list->data), "<", "");
+			str_edit((char **)(&list->data), "<", "");
 	}
 	if (find_str_in_str((char *)list->data, ">") != -1)
 	{
@@ -73,28 +68,34 @@ int	get_type(t_lst *list)
 		if (find_str_in_str((char *)list->data, ">>") != -1)
 			type = _TOK_OUTFILE_APPEND;
 		if (ft_strlen((char *)list->data) > 1)
-			str_edit((char *)(&list->data), ">", "");
+			str_edit((char **)(&list->data), ">", "");
 	}
 	return (type);
 }
 
 t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 {
-	t_lst	*head;
+	int		err;
 
-	head = list;
+	err = 0;
 	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
 	db_display_list(list, "Key_words", 's');
-	(void)cmd;
-	while (list)
+	while (list && !err)
 	{
 		if (list->id > 0)
 		{
 			if (get_type(list) == _TOK_INFILE)
+				err += set_infile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type(list) == _TOK_OUTFILE)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type(list) == _TOK_OUTFILE_APPEND)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 1);
 		}
 		list = list->next;
 	}
-	// Missing ">>" alias outfile append (no overwrite) case
 	return (cmd);
 }
 
