@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/14 15:02:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:54:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 
 void	db_display_list(t_lst *list, char *message, char type)
 {
-	db_print_custom_font(message, FE_UND);
-	printf("\n");
+	printf("\n%sDisplay [%s%s%s%s] list:%s\n\n", FE_UND, FE_BOL, message, FRR, FE_UND, FRR);
 	if (list->next)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", list->id, list);
@@ -58,9 +57,9 @@ void	db_display_list(t_lst *list, char *message, char type)
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_print_custom_font("\t\tData :", FE_BOL);
 		// if (type == 'd')
-		// 	printf("\t[%d]\n", (int)list->data);
+		// 	printf("\t[%d]\n", (int *)(&list->data));
 		// if (type == 'c')
-		// 	printf("\t[%c]\n", (char)list->data);
+		// 	printf("\t[%c]\n", (char *)(&list->data));
 		if (type == 's')
 			printf("\t[%s]\n", (char *)list->data);
 		db_print_custom_font("\t\tPrev :", FE_BOL);
@@ -74,6 +73,35 @@ void	db_display_list(t_lst *list, char *message, char type)
 	}
 	printf("\n");
 }
+
+void	*db_lst_free_list(t_lst *lst, int keep_head, char *title)
+{
+	printf("\n%sFree [%s] List:%s\n\n", FE_UND, title ,FRR);
+	if (lst->id == 0 && keep_head)
+	{
+		printf("\tSkipping Cell %d [%p]: HEAD\n\n", lst->id, lst);
+		lst = lst->next;
+	}
+	while (lst)
+	{
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", lst->id, lst);
+		printf("\t\tData: [%s]", (char *)lst->data);
+		s_free((char **)(&lst->data));
+		printf("\r\t%s\n", __VALID_FREED);
+		if (lst->next)
+		{
+			lst = lst->next;
+			free(lst->prev);
+			lst->prev = NULL;
+		}
+		else
+			break ;
+	}
+	free(lst);
+	lst = NULL;
+	return (NULL);
+}
+
 
 void	db_display_list_cmd(t_cmd *list, char *message)
 {

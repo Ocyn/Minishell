@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 12:46:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:22:59 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ t_lst	*lst_init(void)
 	lst->next = NULL;
 	lst->prev = NULL;
 	lst->id = 0;
-	if (lst->prev)
-		lst->id = lst->prev->id + 1;
 	return (lst);
 }
 
@@ -55,6 +53,7 @@ t_lst	*lst_add(t_lst *last)
 	last = last->next;
 	last->next = NULL;
 	last->prev = temp_prev;
+	last->id = temp_prev->id + 1;
 	return (last);
 }
 
@@ -77,18 +76,11 @@ void	lst_rm(t_lst *list)
 
 void	*lst_free_list(t_lst *lst, int keep_head)
 {
-	printf("\nFree List:\n\n");
-	if (lst->id == 0 || keep_head)
-	{
-		printf("\tSkipping Cell %d [%p]: HEAD\n\n", lst->id, lst);
+	if (lst->id == 0 && keep_head)
 		lst = lst->next;
-	}
 	while (lst)
 	{
-		printf("\tFree Cell %d [%p]: \n", lst->id, lst);
-		printf("\t\tData: [%p]", lst->data);
-		s_free((char **)lst->data);
-		printf("\r\t  "__VALID_FREED"\n");
+		s_free((char **)(&lst->data));
 		if (lst->next)
 		{
 			lst = lst->next;

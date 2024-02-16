@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 12:49:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 13:52:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ t_lst	*tab_to_list(char **tab)
 	t_lst	*head;
 
 	head = lst_init();
-	head->next = lst_add(head);
-	list = head->next;
+	list = head;
 	while (tab && tab[0] && tab[0][0])
 	{
-		list = lst_add(list);
+		if (list->id == 0)
+			list = lst_add(head);
+		else
+			list = lst_add(list);
 		list->data = ft_strdup(tab[0]);
 		tab++;
 	}
@@ -69,7 +71,7 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *key_words)
 
 	i = 0;
 	db_print_custom_font("\n\nGet_Redirection\n", FE_UND);
-	db_display_list(key_words, "\nKey_words List", 's');
+	db_display_list(key_words, "Key_words", 's');
 	(void)cmd;
 	(void)i;
 	// Missing ">>" alias outfile append (no overwrite) case
@@ -79,13 +81,16 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *key_words)
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 {
 	t_lst	*key_words;
+	t_lst	*head;
 
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
-	key_words = tab_to_list(cmd->meta.raw);
+	head = tab_to_list(cmd->meta.raw);
+	key_words = head->next;
+	(void)key_words;
 	//Infile & outfile include function
-	cmd = get_redirection(cmd, key_words);
-	lst_free_list(key_words, 0);
+	cmd = get_redirection(cmd, head);
+	db_lst_free_list(head, 0, "Key_Words");
 	return (cmd);
 }
 

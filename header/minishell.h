@@ -24,6 +24,8 @@ void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_lst *list, char *message, char type);
 void		db_display_list_cmd(t_cmd *list, char *message);
 void		*db_cmd_free_list(t_cmd *cmd);
+void		*db_lst_free_list(t_lst *lst, int keep_head, char *title);
+void		*lst_free_list(t_lst *lst, int keep_head);
 
 void		ctrl_c(int sig, siginfo_t *inf, void *gain);
 
@@ -67,9 +69,11 @@ int			lst_len(t_lst list);
 t_lst		*lst_init(void);
 void		lst_rm(t_lst *list);
 void		*lst_free_list(t_lst *lst, int keep_head);
+t_lst		*tab_to_list(char **tab);
 
 int			find_str_in_str(const char *src, const char *seek);
 int			find_str_in_tab(int strict_mode, char *find, char **tab);
+int			find_str_in_list(t_lst *list_input, char *key);
 int			how_many_occur(char *src, char *seek);
 int			ft_strcmp(char *s1, char *s2);
 
