@@ -3,23 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/07 01:18:31 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 12:46:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-void	list_init(t_lst *lst)
+t_lst	*lst_init(void)
 {
+	t_lst	*lst;
+
+	lst = NULL;
+	lst = s_malloc(sizeof(t_lst));
 	if (!lst)
-		return ;
+		return (NULL);
 	lst->data = NULL;
+	lst->next = NULL;
+	lst->prev = NULL;
 	lst->id = 0;
 	if (lst->prev)
 		lst->id = lst->prev->id + 1;
+	return (lst);
 }
 
 int	lst_len(t_lst list)
@@ -42,13 +49,12 @@ t_lst	*lst_add(t_lst *last)
 
 	temp_prev = NULL;
 	temp_prev = last;
-	last->next = s_malloc(sizeof(t_lst));
+	last->next = lst_init();
 	if (!last->next)
 		return (NULL);
 	last = last->next;
 	last->next = NULL;
 	last->prev = temp_prev;
-	list_init(last);
 	return (last);
 }
 
@@ -69,10 +75,10 @@ void	lst_rm(t_lst *list)
 	list = NULL;
 }
 
-void	*lst_free_list(t_lst *lst)
+void	*lst_free_list(t_lst *lst, int keep_head)
 {
 	printf("\nFree List:\n\n");
-	if (lst->id == 0)
+	if (lst->id == 0 || keep_head)
 	{
 		printf("\tSkipping Cell %d [%p]: HEAD\n\n", lst->id, lst);
 		lst = lst->next;

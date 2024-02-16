@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 02:49:05 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/09 13:58:04 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/14 06:55:24 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,22 @@ int	find_str_in_str(const char *src, const char *seek)
 {
 	int	i;
 	int	find;
-	int	len_src;
-	int	len_seek;
 
-	i = -2;
+	i = 0;
 	if (!src || !seek)
-		return (0);
-	len_src = (int)ft_strlen(src);
-	len_seek = (int)ft_strlen(seek);
-	while (++i < len_src && src[i])
+		return (-1);
+	while (src[i])
 	{
-		find = -1;
-		while (++find <= len_seek && src[find + i] == seek[find])
+		find = 0;
+		while (src[find + i] && src[find + i] == seek[find])
 		{
-			if (find == len_seek - 1)
+			find++;
+			if (!seek[find])
 				return (i);
 		}
+		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 char	*find_var_in_env(char *find, char **env)
@@ -72,4 +70,23 @@ char	*find_var_in_env(char *find, char **env)
 		return (NULL);
 	s_free(&temp);
 	return (g_variable);
+}
+
+int	how_many_occur(char *src, char *seek)
+{
+	char	*temp;
+	int		occur;
+	int		i;
+
+	occur = 0;
+	temp = src;
+	while (temp && temp[0] && seek)
+	{
+		i = find_str_in_str(temp, seek);
+		if (i == -1)
+			break ;
+		temp += (i + ft_strlen(seek));
+		occur++;
+	}
+	return (occur);
 }

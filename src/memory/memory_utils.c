@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:14:08 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 00:55:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/14 14:27:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,3 @@ char	**tab_dup(char **token_tab, int token_len)
 	return (raw);
 }
 
-int	skip_until(char **tab, int mode, int (*stop)(char *, int))
-{
-	int	len;
-	int	i;
-
-	i = 0;
-	len = tablen(tab);
-	while (i < len && tab[i] && !stop(tab[i], mode))
-		i++;
-	i += (stop(tab[i], 0) != 0);
-	return (i);
-}

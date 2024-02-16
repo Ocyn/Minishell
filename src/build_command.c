@@ -6,57 +6,86 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/09 14:04:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/16 12:49:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	get_type(char *src, char *type)
+t_lst	*tab_to_list(char **tab)
+{
+	t_lst	*list;
+	t_lst	*head;
+
+	head = lst_init();
+	head->next = lst_add(head);
+	list = head->next;
+	while (tab && tab[0] && tab[0][0])
+	{
+		list = lst_add(list);
+		list->data = ft_strdup(tab[0]);
+		tab++;
+	}
+	return (head);
+}
+
+int	find_str_in_list(t_lst *list_input, char *key)
+{
+	t_lst	*list;
+	int		i;
+
+	i = 0;
+	(void)i;
+	list = list_input;
+	if (!list || !key)
+		return (-1);
+	while (list)
+	{
+		if (find_str_in_str((char *)list->data, key) != -1)
+			return (list->id);
+		list = list->next;
+	}
+	return (-1);
+}
+
+int	get_type(char **src, char *type)
 {
 	int	i;
 
 	i = -1;
-	i = find_str_in_str(src, type);
 	if (!src || !type || i == -1)
 		return (0);
+	i = find_str_in_tab(0, type, src);
+	if (i == -1)
+		return (1);
 	// Checker si y'a au moins un char imprimable apres le type
-	// Renvoyer erreur "parse" si echec
-	return (1);
+	// Renvoyer erreur de syntaxe si echex puis interdire la partie de l'execution et juste revenir à readline
+	return (0);
 }
 
-t_cmd	*get_redirection(t_cmd *cmd, char *token)
+t_cmd	*get_redirection(t_cmd *cmd, t_lst *key_words)
 {
-	int	i;
+	int		i;
 
 	i = 0;
+	db_print_custom_font("\n\nGet_Redirection\n", FE_UND);
+	db_display_list(key_words, "\nKey_words List", 's');
 	(void)cmd;
-	(void)token;
 	(void)i;
-	printf("\nGet_Redirection\n");
-	// DISCONNECTED TO PREVENT CRASH ON COMPILING
-	/*	
-	if (get_type(token, "<"))
-		cmd->meta.infile = set_infile(ft_strrchr(token, '<'), 0);
-	if (get_type(token, "<<"))
-		cmd->meta.infile = set_outfile(ft_strrchr(token, '<'), 0);
-	*/
-	
-	// OUTFILE APPEND AND HEREDOC NOT DONE
-	// if (get_type(token, ">"))
-	// 	cmd->meta.infile = 
-	// if (get_type(token, ">>"))
-	// 	cmd->meta.infile = 
 	// Missing ">>" alias outfile append (no overwrite) case
 	return (cmd);
 }
 
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 {
-	cmd->meta.raw = tab_dup(token, ft_strlen(token));
-	//get_redirection(cmd, token);
+	t_lst	*key_words;
+
+	cmd->meta.sraw = ft_strdup(token);
+	cmd->meta.raw = multisplit(token, " ");
+	key_words = tab_to_list(cmd->meta.raw);
 	//Infile & outfile include function
-	cmd->meta.exec_cmd = tab_dup(cmd->meta.raw, ft_strlen(token));
+	cmd = get_redirection(cmd, key_words);
+	lst_free_list(key_words, 0);
 	return (cmd);
 }
 
@@ -64,11 +93,9 @@ t_cmd	*build_commands(t_cmd *command, char **tokens)
 {
 	int		i;
 	int		input_len;
-	int		token_len;
 
 	/*DEBUG*/	db_print_custom_font("Build command\n", FE_UND);
 	i = 0;
-	token_len = 0;
 	input_len = tablen(tokens);
 	while (i <= input_len && tokens && tokens[i])
 	{
@@ -77,7 +104,7 @@ t_cmd	*build_commands(t_cmd *command, char **tokens)
 		command = set_command_metadatas(command, tokens[i]);
 		if (!command->meta.exec_cmd && !command->meta.raw)
 			cmd_rm_unit(command);
-		i += token_len;
+		i++;
 		/*DEBUG*/	db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
 		/*DEBUG*/	printf("i [%d] | input_len [%d]\n", i, input_len);
 	}

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/07 07:08:53 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/12 16:36:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	cmd_rm_unit(t_cmd *cmd)
 	tnext = cmd->next;
 	if (cmd->meta.raw)
 		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
+	s_free(&cmd->meta.sraw);
 	if (cmd->meta.exec_cmd)
 		free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
 	close(cmd->meta.outfile);
@@ -71,6 +72,7 @@ void	*cmd_free_list(t_cmd *cmd)
 	while (cmd)
 	{
 		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
+		s_free(&cmd->meta.sraw);
 		if (cmd->meta.exec_cmd)
 			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
 		if (cmd->next)

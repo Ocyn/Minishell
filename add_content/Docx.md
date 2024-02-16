@@ -67,3 +67,5 @@ $
 cat -e "t1" <<hd "t2"
 
 cat -e <<hd <<hd <<hd
+
+< Makefile ls | cat -e > out

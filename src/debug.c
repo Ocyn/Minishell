@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/06 06:02:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/14 15:02:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	printf(" |");
 }
 
-void	db_display_redi(t_redi redi, char *message)
-{
-	printf("\t\t%s%s : %s", FE_BOL, message, FRR);
-	printf("\n\t\t\tToken : [%s]", redi.token);
-	printf("\n\t\t\tFd : [%d]", redi.fd);
-	printf("\n");
-}
-
-void	db_display_list(t_cmd *list, char *message)
+void	db_display_list(t_lst *list, char *message, char type)
 {
 	db_print_custom_font(message, FE_UND);
 	printf("\n");
@@ -64,8 +56,41 @@ void	db_display_list(t_cmd *list, char *message)
 	while (list)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
-		db_display_redi(list->meta.infile, "Infile");
-		db_display_redi(list->meta.outfile, "Outfile");
+		db_print_custom_font("\t\tData :", FE_BOL);
+		// if (type == 'd')
+		// 	printf("\t[%d]\n", (int)list->data);
+		// if (type == 'c')
+		// 	printf("\t[%c]\n", (char)list->data);
+		if (type == 's')
+			printf("\t[%s]\n", (char *)list->data);
+		db_print_custom_font("\t\tPrev :", FE_BOL);
+		printf("\t[%p]\n", list->prev);
+		db_print_custom_font("\t\tNext :", FE_BOL);
+		printf("\t[%p]\n", list->next);
+		if (list->next)
+			list = list->next;
+		else
+			break ;
+	}
+	printf("\n");
+}
+
+void	db_display_list_cmd(t_cmd *list, char *message)
+{
+	db_print_custom_font(message, FE_UND);
+	printf("\n");
+	if (list->next)
+	{
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: HEAD\n\n", list->id, list);
+		list = list->next;
+	}
+	while (list)
+	{
+		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
+		db_print_custom_font("\t\tInfile :", FE_BOL);
+		printf("\t[%d]\n", list->meta.infile);
+		db_print_custom_font("\t\tOutfile :", FE_BOL);
+		printf("\t[%d]\n", list->meta.outfile);
 		printf("\t\tSraw : [%s]", list->meta.sraw);
 		printf("\n");
 		db_tabstr_display(list->meta.raw, "\t\tRaw", -1);
@@ -95,8 +120,11 @@ void	*db_cmd_free_list(t_cmd *cmd)
 	while (cmd)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
-		printf("\r\t"__VALID_FREED"\n");
 		db_tabstr_display(cmd->meta.raw, "\t\tRaw", -1);
+		printf("\r\t"__VALID_FREED"\n");
+		db_print_custom_font("\t\tSraw : ", FE_BOL);
+		printf("[%s]", cmd->meta.sraw);
+		s_free(&cmd->meta.sraw);
 		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
 		printf("\r\t"__VALID_FREED"\n");
 		if (cmd->meta.exec_cmd)
@@ -142,7 +170,7 @@ void	db_debug(void)
 	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV FE_BOL");
 	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);
-	db_display_list(safesystem.head, "\nSafe System: ");
+	db_display_list_cmd(safesystem.head, "\nSafe System: ");
 	cmd_free_list(safesystem.head);
 	free(safesystem.head);
 	return ;

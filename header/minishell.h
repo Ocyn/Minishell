@@ -21,7 +21,8 @@
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
-void		db_display_list(t_cmd *list, char *message);
+void		db_display_list(t_lst *list, char *message, char type);
+void		db_display_list_cmd(t_cmd *list, char *message);
 void		*db_cmd_free_list(t_cmd *cmd);
 
 void		ctrl_c(int sig, siginfo_t *inf, void *gain);
@@ -49,6 +50,7 @@ char		**get_heredoc(char *src);
 
 void		launch_command(t_linux *shell);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
+char		*get_file_name(char *token, char type);
 char		*get_path(char *command, char **env);
 char		*put_in(char *str);
 int			set_infile(char *file, int heredoc);
@@ -62,12 +64,13 @@ int			list_len(t_cmd list);
 
 t_lst		*lst_add(t_lst *last);
 int			lst_len(t_lst list);
-void		list_init(t_lst *lst);
+t_lst		*lst_init(void);
 void		lst_rm(t_lst *list);
-void		*lst_free_list(t_lst *lst);
+void		*lst_free_list(t_lst *lst, int keep_head);
 
 int			find_str_in_str(const char *src, const char *seek);
 int			find_str_in_tab(int strict_mode, char *find, char **tab);
+int			how_many_occur(char *src, char *seek);
 int			ft_strcmp(char *s1, char *s2);
 
 void		cut_and_paste(void **cut, void **paste, size_t sizeof_cut);
