@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 23:16:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 23:49:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	set_infile(char *file, int heredoc)
 	(void)heredoc;
 	if (!file)
 		return (-1);
-	/*DEBUG*/	printf("\n\t\tinfile to open : [%s]\n", file);
 	if (!access(file, F_OK) && !access(file, R_OK))
 		fd = open(file, O_RDONLY);
 	if (!fd)
@@ -61,7 +60,6 @@ int	set_outfile(char *file, int overwrite)
 	fd = 0;
 	if (!file)
 		return (-1);
-	/*DEBUG*/	printf("\n\t\toutfile to open : [%s]\n", file);
 	if (overwrite)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
 	else

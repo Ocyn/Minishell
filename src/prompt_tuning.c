@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 04:31:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 18:46:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 23:51:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,9 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	prompt = NULL;
 	settings = NULL;
 	set_index = -1;
-	/*DEBUG*/	db_print_custom_font("\nPrompt_Tuning", FE_UND);
 	if (!init_all(&settings, profile, &suffix))
 		return (ft_strdup("> "));
 	prompt = ft_strjoin(" ", name);
-	/*DEBUG*/	printf("\n\tPrompt: [%s]\n\tSuffix: [%s]", prompt, suffix);
-	/*DEBUG*/	db_tabstr_display(settings, "\n\tSettings: ", -1);
 	while (name && settings[++set_index])
 		prompt = apply_setting(prompt, ft_split(settings[set_index], '_'));
 	free_tab(settings, tablen(settings));
@@ -131,6 +128,5 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	prompt = ft_strjoin(profile, suffix);
 	s_free(&profile);
 	s_free(&suffix);
-	/*DEBUG*/	printf("\n\tNew Prompt: [%s]\n", prompt);
 	return (prompt);
 }

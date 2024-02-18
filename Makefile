@@ -34,7 +34,6 @@ SRCS			= main.c \
 				build_command.c \
 				heredoc.c \
 				prompt_tuning.c \
-				debug.c \
 				utils_two.c \
 				shutdown.c \
 				env_var.c

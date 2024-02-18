@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 03:44:24 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/17 22:16:42 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 23:51:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	read_prompt(t_linux *ssystem, char *exit, void (*pa)(t_linux *))
 {
 	if (!exit)
 		return ;
-	/*DEBUG*/	printf("\nType\t");
-	/*DEBUG*/	printf(""HIGHLIGHT_TEXT"%s"FONT_RESET" to exit\n\n", exit);
 	while (ssystem->end != 1 && exit)
 	{
 		ssystem->input = readline(ssystem->prompt);
