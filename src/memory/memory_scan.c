@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 02:49:05 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 08:32:32 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 08:47:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,4 @@ int	how_many_occur(char *src, char *seek)
 		occur++;
 	}
 	return (occur);
-}
-
-int	quote_state(char *input)
-{
-	int	out;
-
-	out = 0;
-	if (input[0])
-		
-	return (out);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_syntax.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 06:46:05 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 09:06:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 //	Special Characters part
 # define _TOK_EMPTY						70000
-# define _TOK_SINGLE_CMD 				70010
+# define _TOK_CMD 						70010
 # define _TOK_INFILE					70021
 # define _TOK_OUTFILE					70022
 # define _TOK_HEREDOC 					70023
-# define _TOK_OUTFILE_APPEND			70024
-# define _TOK_DOLLARSIGN				70030
+# define _TOK_OUTFILE_APP				70024
+# define _TOK_EXPAND					70030
 # define _TOK_PIPE						70040
-# define _TOK_SIMPLEQUOTE 				70051
-# define _TOK_DOUBLEQUOTE 				70052
-# define _TOK_SINGLE_WORD 				70060
+# define _TOK_SP_QUOTE 					70051
+# define _TOK_DB_QUOTE 					70052
+# define _TOK_WORD 						70060
 
 //	Exit codes
 # define EXIT_FINISH				"EX001"

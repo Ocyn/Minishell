@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   build_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 06:48:51 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:30:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-t_lst	*tab_to_list(char **tab)
-{
-	t_lst	*list;
-	t_lst	*head;
-
-	head = lst_init();
-	list = head;
-	while (tab && tab[0] && tab[0][0])
-	{
-		if (list->id == 0)
-			list = lst_add(head);
-		else
-			list = lst_add(list);
-		list->data = ft_strdup(tab[0]);
-		tab++;
-	}
-	return (head);
-}
 
 int	find_str_in_list(t_lst *list_input, char *key)
 {
@@ -66,7 +47,7 @@ int	get_type(t_lst *list)
 	{
 		type = _TOK_OUTFILE;
 		if (find_str_in_str((char *)list->data, ">>") != -1)
-			type = _TOK_OUTFILE_APPEND;
+			type = _TOK_OUTFILE_APP;
 		if (ft_strlen((char *)list->data) > 1)
 			str_edit((char **)(&list->data), ">", "");
 	}
@@ -90,7 +71,7 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 			if (get_type(list) == _TOK_OUTFILE)
 				err += set_outfile((char *)list->next->data \
 				, &cmd->meta.infile, 0);
-			if (get_type(list) == _TOK_OUTFILE_APPEND)
+			if (get_type(list) == _TOK_OUTFILE_APP)
 				err += set_outfile((char *)list->next->data \
 				, &cmd->meta.infile, 1);
 		}
@@ -102,16 +83,14 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 {
 	t_lst	*key_words;
-	t_lst	*head;
 
+	(void)key_words;
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
-	head = tab_to_list(cmd->meta.raw);
-	key_words = head->next;
-	(void)key_words;
+	key_words = lst_tab_to_list(cmd->meta.raw);
 	//Infile & outfile include function
-	cmd = get_redirection(cmd, head);
-	db_lst_free_list(head, 0, "Key_Words");
+	cmd = get_redirection(cmd, key_words);
+	db_lst_free_list(key_words, 0, "Key_Words");
 	return (cmd);
 }
 

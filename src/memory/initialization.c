@@ -6,11 +6,18 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/12 16:33:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 08:54:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+void	change_oldpwd(t_linux *shell)
+{
+	if (shell->oldpwd)
+		s_free(&shell->oldpwd);
+	shell->oldpwd = getcwd(NULL, 0);
+}
 
 void	cmd_init(t_cmd *cmd)
 {

@@ -14,6 +14,7 @@ BUILTIN 		= pwd.c \
 
 MEMORY			= cmd_lists.c \
 				lists.c \
+				lists_utils.c \
 	 			memory_allocation.c \
 				memory_utils.c \
 				quick_checking.c \
@@ -48,7 +49,7 @@ HEADERS			= header/minishell.h \
 				header/define_structs.h \
 				header/define_syntax.h \
 				header/functions_docs.h \
-				lib.h
+				header/lib.h
 
 LIB_DIR = lib/libft/
 LIB = lib/libft.a

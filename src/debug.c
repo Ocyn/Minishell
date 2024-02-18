@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 13:54:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 11:49:57 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	}
 	if (tab && i == highlight)
 		printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
-	printf(" |");
+	printf(" |\n");
 }
 
 void	db_display_list(t_lst *list, char *message, char type)
@@ -74,14 +74,11 @@ void	db_display_list(t_lst *list, char *message, char type)
 	printf("\n");
 }
 
-void	*db_lst_free_list(t_lst *lst, int keep_head, char *title)
+void	*db_lst_free_list(t_lst *lst, int fromhere, char *title)
 {
-	printf("\n%sFree [%s] List:%s\n\n", FE_UND, title ,FRR);
-	if (lst->id == 0 && keep_head)
-	{
-		printf("\tSkipping Cell %d [%p]: HEAD\n\n", lst->id, lst);
-		lst = lst->next;
-	}
+	printf("\n%sFree [%s] List:%s\n\n", FE_UND, title, FRR);
+	if (lst && lst->id > 0 && !fromhere && lst->prev)
+		lst = lst_go_to(lst, -1);
 	while (lst)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", lst->id, lst);
@@ -102,7 +99,6 @@ void	*db_lst_free_list(t_lst *lst, int keep_head, char *title)
 	return (NULL);
 }
 
-
 void	db_display_list_cmd(t_cmd *list, char *message)
 {
 	db_print_custom_font(message, FE_UND);
@@ -119,12 +115,11 @@ void	db_display_list_cmd(t_cmd *list, char *message)
 		printf("\t[%d]\n", list->meta.infile);
 		db_print_custom_font("\t\tOutfile :", FE_BOL);
 		printf("\t[%d]\n", list->meta.outfile);
-		printf("\t\tSraw : [%s]", list->meta.sraw);
+		db_print_custom_font("\t\tSraw :", FE_BOL);
+		printf("\t[%s]", list->meta.sraw);
 		printf("\n");
 		db_tabstr_display(list->meta.raw, "\t\tRaw", -1);
-		printf("\n");
 		db_tabstr_display(list->meta.exec_cmd, "\t\tExec_Cmd", -1);
-		printf("\n");
 		db_print_custom_font("\t\tPrev :", FE_BOL);
 		printf("\t[%p]\n", list->prev);
 		db_print_custom_font("\t\tNext :", FE_BOL);

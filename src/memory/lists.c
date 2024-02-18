@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 06:49:02 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 11:17:25 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,6 @@ t_lst	*lst_init(void)
 	lst->prev = NULL;
 	lst->id = 0;
 	return (lst);
-}
-
-int	lst_len(t_lst list)
-{
-	t_lst	*len;
-	int		i;
-
-	i = -1;
-	len = &list;
-	if (!len || !len->next)
-		return (0);
-	while (++i >= 0 && len)
-		len = len->next;
-	return (i);
 }
 
 t_lst	*lst_add(t_lst *last)
@@ -74,10 +60,10 @@ void	lst_rm(t_lst *list)
 	list = NULL;
 }
 
-void	*lst_free_list(t_lst *lst, int keep_head)
+void	*lst_free_list(t_lst *lst, int fromhere)
 {
-	if (lst->id == 0 && keep_head)
-		lst = lst->next;
+	if (!fromhere && lst->prev)
+		lst = lst_go_to(lst, -1);
 	while (lst)
 	{
 		s_free((char **)(&lst->data));

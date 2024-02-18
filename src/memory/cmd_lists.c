@@ -6,25 +6,11 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 13:15:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 11:08:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
-
-int	list_len(t_cmd list)
-{
-	t_cmd	*len;
-	int		i;
-
-	i = -1;
-	len = &list;
-	if (!len || !len->next)
-		return (0);
-	while (++i >= 0 && len)
-		len = len->next;
-	return (i);
-}
 
 t_cmd	*cmd_add_unit(t_cmd *last)
 {
