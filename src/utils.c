@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 21:21:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/17 22:48:36 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,18 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-char	*get_path(char *command, char **env)
+char	*get_path(char *command, t_env *env)
 {
 	char	*cmd_path;
 	char	*check;
 	char	**var;
 	int		i;
 
-	i = 0;
-	while (env[i] && ft_strncmp(env[i], "PATH=", 5) != 0)
-		i++;
-	if (ft_strncmp(env[i], "PATH=", 5) != 0)
-		return (ft_strdup(command));
-	cmd_path = ft_strtrim(env[i], "PATH=");
+	while (env && ft_strncmp(env->str, "PATH=", 5) != 0)
+		env = env->next;
+	if (!env || ft_strncmp(env->str, "PATH=", 5) != 0)
+		return (path_not_found(command));
+	cmd_path = ft_strtrim(env->str, "PATH=");
 	var = ft_split(cmd_path, ':');
 	s_free(&cmd_path);
 	i = -1;
@@ -98,7 +97,7 @@ char	*get_path(char *command, char **env)
 		s_free(&cmd_path);
 	}
 	if (!cmd_path)
-		cmd_path = ft_strdup(command);
+		cmd_path = path_not_found(command);
 	return (free_tab(var, tablen(var)), s_free(&check), cmd_path);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 18:47:00 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 05:18:01 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	create_signal(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	let_signal_cook(void)
+void	let_signal_through(void)
 {
 	struct sigaction	sa;
 
@@ -53,4 +53,12 @@ void	let_signal_cook(void)
 	sa.sa_sigaction = nothing;
 	sigaction(SIGINT, &sa, 0);
 	sigaction(SIGQUIT, &sa, 0);
+}
+
+char	*path_not_found(char *str)
+{
+	if (!access(str, F_OK))
+		return (ft_strdup(str));
+	printf ("%s: command not found\n", str);
+	return (NULL);
 }

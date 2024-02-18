@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 08:43:27 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 08:45:32 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ char	**split_pipeline(char *cmd_in)
 	tab = multisplit(temp, "|");.
 	//Supprimer double quotes
 	//faire une fonction qui detecter les repetition consecutives de <, > ou | et envoyer parse error dans ce cas la
-	//commande de nono qui fait l'expansion
-	//supprimer simple quotes
+	//commande de nono
 	s_free(&temp);
 	return (tab);
 }
@@ -57,7 +56,8 @@ void	parse(t_linux *shell)
 	command = build_commands(shell->head, token);
 	shell->token = token;
 	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n");
-	//launch_command(shell);
+	change_env_arg(shell->head->next->meta.raw, shell->env); //demander comment on sait si on a une simple quote
+	launch_command(shell, NULL);
 	free_tab(token, tablen(token));
 	db_cmd_free_list(shell->head);
 }

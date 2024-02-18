@@ -35,7 +35,8 @@ SRCS			= main.c \
 				prompt_tuning.c \
 				debug.c \
 				utils_two.c \
-				shutdown.c
+				shutdown.c \
+				env_var.c
 
 CC 				= cc
 
@@ -43,7 +44,11 @@ CFLAGS			= -Wextra -Wall -Werror -gdwarf-4
 
 LINK 			= -lreadline
 
-HEADERS			= header/minishell.h
+HEADERS			= header/minishell.h \
+				header/define_structs.h \
+				header/define_syntax.h \
+				header/functions_docs.h \
+				lib.h
 
 LIB_DIR = lib/libft/
 LIB = lib/libft.a

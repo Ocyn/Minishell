@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/06 05:58:12 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 01:26:46 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	unset_cmd(t_linux *shell, int i, t_env *buff, t_env *prev)
 	while (buff != NULL)
 	{
 		i = 0;
-		while (shell->head->next->meta.exec_cmd[++i])
+		while (shell->head->next->meta.raw[++i])
 		{
-			if (weird_cmp(buff->str, shell->head->next->meta.exec_cmd[i]))
+			if (weird_cmp(buff->str, shell->head->next->meta.raw[i]))
 			{
 				if (!prev)
 				{
@@ -98,7 +98,7 @@ void	ft_unset(t_linux *shell, char *str)
 	else
 	{
 		i = 0;
-		while (shell->head->next->meta.exec_cmd[i])
+		while (shell->head->next->meta.raw[i])
 			i++;
 		if (i > 1)
 		{

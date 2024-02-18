@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quick_checking.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 03:22:23 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/11 06:28:22 by jcuzin             ###   ########.fr       */
+/*   Updated: 2024/02/18 06:49:22 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_empty(char *str)
 
 int	special_char(char *seek, int mode)
 {
-	if (!seek || !seek[0])
+	if (!seek || !seek[0])	
 		return (_TOK_EMPTY);
 	if ((mode <= 0 || mode == _TOK_INFILE) \
 	&& (str_occur(seek, "<") && !str_occur(seek, "<<")))
