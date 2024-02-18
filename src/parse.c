@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/16 18:54:21 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 08:43:27 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	whitespaces_to_space(char **entry)
 
 char	**split_pipeline(char *cmd_in)
 {
-	t_lst	*list;
-	t_lst	*head;
 	char	**tab;
 	char	*temp;
 
@@ -31,14 +29,12 @@ char	**split_pipeline(char *cmd_in)
 	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
 	whitespaces_to_space(&temp);
 	str_edit(&temp, "|", " | ");
-	tab = multisplit(temp, "|");
-	list = tab_to_list(tab);
-	head = list;
-	db_display_list(list, "pipeline splitted", 's');
+	tab = multisplit(temp, "|");.
+	//Supprimer double quotes
 	//faire une fonction qui detecter les repetition consecutives de <, > ou | et envoyer parse error dans ce cas la
-	//commande de nono
+	//commande de nono qui fait l'expansion
+	//supprimer simple quotes
 	s_free(&temp);
-	db_lst_free_list(head, 0, "pipeline splitted");
 	return (tab);
 }
 
