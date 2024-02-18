@@ -21,10 +21,10 @@
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
-void		db_display_list(t_lst *list, char *message, char type);
+void		db_display_list(t_lst *list, char *message);
 void		db_display_list_cmd(t_cmd *list, char *message);
 void		*db_cmd_free_list(t_cmd *cmd);
-void		*db_lst_free_list(t_lst *lst, int fromhere, char *title);
+void		*db_lst_free_list(t_lst *lst, char *title);
 
 char		*prompt_tuning(char *name, char *suffix, char *profile);
 
@@ -33,6 +33,7 @@ void		init_struct(t_linux *shell);
 void		cmd_init(t_cmd *cmd);
 
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
+char		*ft_strtok(char *src, char delim);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			white_space(const char seek);
 int			is_empty(char *str);
@@ -49,8 +50,11 @@ char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
 char		**get_heredoc(char *src);
-int			set_infile(char *file, int *fd, int heredoc);
-int			set_outfile(char *file, int *fd, int overwrite);
+int			set_infile(char *file, int heredoc);
+int			set_outfile(char *file, int overwrite);
+int			check_type(t_lst *list);
+t_lst		*token_format(t_lst *list, int *redi, int type \
+, int (*set_redi)(char *, int));
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd);
@@ -62,7 +66,7 @@ t_lst		*lst_init(void);
 t_lst		*lst_add(t_lst *last);
 int			lst_len(t_lst *list, int fromhere);
 void		lst_rm(t_lst *list);
-void		*lst_free_list(t_lst *lst, int fromhere);
+void		*lst_free_list(t_lst *lst);
 t_lst		*lst_tab_to_list(char **tab);
 t_lst		*lst_go_to(t_lst *list, int firstorlast);
 char		**lst_list_to_tab(t_lst *list);

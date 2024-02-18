@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 16:27:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 23:00:14 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,8 @@ void	whitespaces_to_space(char **entry)
 	str_edit(entry, "\n", " ");
 	str_edit(entry, "\v", " ");
 	str_edit(entry, "\r", " ");
-}
-
-char	**rm_quotes_in_tab(char **tab, char quote)
-{
-	t_lst	*list;
-	char	**temp;
-	char	*tok;
-	int		id;
-
-	temp = NULL;
-	tok = NULL;
-	/*DEBUG*/	db_tabstr_display(tab, "\t\tTab input", -1);
-	if (!tab || !quote)
-		return (NULL);
-	list = lst_tab_to_list(tab);
-	db_display_list(list, "List of tab", 's');
-	while (list)
-	{
-		temp = multisplit((char *)list->data, " ");
-		id = -1;
-		while (temp && temp[++id])
-		{
-			tok = ft_strtok(temp[id], quote);
-			
-				
-		}
-		
-	}
-	return (tab);
+	str_edit(entry, "<", " < ");
+	str_edit(entry, ">", " > ");
 }
 
 char	**split_pipeline(char *cmd_in)
@@ -75,11 +48,6 @@ char	**split_pipeline(char *cmd_in)
 	whitespaces_to_space(&temp);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
-	//Supprimer double quotes
-	db_tabstr_display(tab, "Input splitted before rm DB", 0);
-	tab = rm_quotes_in_tab(tab, '\"');
-	db_tabstr_display(tab, "Input splitted afte rm DB", 0);
-	//faire une fonction qui detecter les repetition consecutives de <, > ou | et envoyer parse error dans ce cas la
 	s_free(&temp);
 	return (tab);
 }

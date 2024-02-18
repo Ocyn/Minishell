@@ -6,91 +6,64 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 11:30:08 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 23:23:48 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	find_str_in_list(t_lst *list_input, char *key)
+char	*rm_quotes(char *data, char quote)
 {
-	t_lst	*list;
+	char	*new;
+	int		len;
 
-	list = list_input;
-	if (!list || !key)
-		return (-1);
-	while (list)
-	{
-		if (find_str_in_str((char *)list->data, key) != -1)
-			return (list->id);
-		list = list->next;
-	}
-	return (-1);
+	len = 0;
+	new = NULL;
+	if (!data || !data[0] || !quote || data[0] != quote)
+		return (data);
+	len = ft_strlen(data);
+	new = ft_substr(data, 1, len - ((len > 0) * 2));
+	if (!new)
+		return (data);
+	s_free(&data);
+	return (new);
 }
 
-int	get_type(t_lst *list)
+t_lst	*get_redirection(t_lst *list, int *redi)
 {
-	int		type;
-
-	type = _TOK_EMPTY;
-	if (!list || !list->data)
-		return (type);
-	if (find_str_in_str((char *)list->data, "<") != -1)
-	{
-		type = _TOK_INFILE;
-		if (find_str_in_str((char *)list->data, "<<") != -1)
-			type = _TOK_HEREDOC;
-		if (ft_strlen((char *)list->data) > 1)
-			str_edit((char **)(&list->data), "<", "");
-	}
-	if (find_str_in_str((char *)list->data, ">") != -1)
-	{
-		type = _TOK_OUTFILE;
-		if (find_str_in_str((char *)list->data, ">>") != -1)
-			type = _TOK_OUTFILE_APP;
-		if (ft_strlen((char *)list->data) > 1)
-			str_edit((char **)(&list->data), ">", "");
-	}
-	return (type);
-}
-
-t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
-{
-	int		err;
-
-	err = 0;
 	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
-	db_display_list(list, "Key_words", 's');
-	while (list && !err)
-	{
-		if (list->id > 0)
-		{
-			if (get_type(list) == _TOK_INFILE)
-				err += set_infile((char *)list->next->data \
-				, &cmd->meta.infile, 0);
-			if (get_type(list) == _TOK_OUTFILE)
-				err += set_outfile((char *)list->next->data \
-				, &cmd->meta.infile, 0);
-			if (get_type(list) == _TOK_OUTFILE_APP)
-				err += set_outfile((char *)list->next->data \
-				, &cmd->meta.infile, 1);
-		}
-		list = list->next;
-	}
-	return (cmd);
+	if (((char *)list->data)[0] != '>' && ((char *)list->data)[0] != '<')
+		return (list);
+	token_format(list, redi, _TOK_INFILE, set_infile);
+	token_format(list, redi, _TOK_HEREDOC, set_infile);
+	token_format(list, redi, _TOK_OUTFILE, set_outfile);
+	token_format(list, redi, _TOK_OUTFILE_APP, set_outfile);
+	return (list);
 }
 
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 {
-	t_lst	*key_words;
+	t_lst	*keys;
+	int		redi[2];
 
-	(void)key_words;
+	ft_memset(redi, 0, sizeof(int) * 2);
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
-	key_words = lst_tab_to_list(cmd->meta.raw);
-	//Infile & outfile include function
-	cmd = get_redirection(cmd, key_words);
-	db_lst_free_list(key_words, 0, "Key_Words");
+	keys = lst_tab_to_list(cmd->meta.raw);
+	db_display_list(keys, "keys of cmd");
+	while (keys->next)
+	{
+		keys = keys->next;
+		keys->data = rm_quotes((char *)keys->data, '\"');
+		keys = get_redirection(keys, redi);
+	}
+	cmd->meta.infile = redi[0];
+	cmd->meta.outfile = redi[1];
+	keys = lst_go_to(keys, -1);
+	db_display_list(keys, "New keys of cmd");
+	cmd->meta.exec_cmd = lst_list_to_tab(keys);
+	db_tabstr_display(cmd->meta.exec_cmd, "List to tab New", -1);
+	db_lst_free_list(keys, "Key Of CMD");
 	return (cmd);
 }
 
@@ -115,3 +88,4 @@ t_cmd	*build_commands(t_cmd *command, char **tokens)
 	}
 	return (command);
 }
+ 

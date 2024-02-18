@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 11:17:25 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 19:13:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	lst_rm(t_lst *list)
 	list = NULL;
 }
 
-void	*lst_free_list(t_lst *lst, int fromhere)
+void	*lst_free_list(t_lst *lst)
 {
-	if (!fromhere && lst->prev)
+	if (lst && lst->prev)
 		lst = lst_go_to(lst, -1);
 	while (lst)
 	{

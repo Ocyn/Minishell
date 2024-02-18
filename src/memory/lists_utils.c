@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 11:57:01 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 18:09:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,20 @@ char	**lst_list_to_tab(t_lst *list)
 		id++;
 	}
 	return (tab);
+}
+
+int	find_str_in_list(t_lst *list_input, char *key)
+{
+	t_lst	*list;
+
+	list = list_input;
+	if (!list || !key)
+		return (-1);
+	while (list)
+	{
+		if (find_str_in_str((char *)list->data, key) != -1)
+			return (list->id);
+		list = list->next;
+	}
+	return (-1);
 }

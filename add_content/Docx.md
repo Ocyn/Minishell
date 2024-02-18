@@ -69,3 +69,57 @@ cat -e "t1" <<hd "t2"
 cat -e <<hd <<hd <<hd
 
 < Makefile ls | cat -e > out
+
+
+int	get_type(char *data)
+{
+	int		type;
+
+	type = _TOK_EMPTY;
+	if (!data)
+		return (type);
+	if (find_str_in_str(data, "<") != -1)
+	{
+		type = _TOK_INFILE;
+		if (find_str_in_str(data, "<<") != -1)
+			type = _TOK_HEREDOC;
+		if (ft_strlen(data) > 1)
+			str_edit(&data, "<", "");
+	}
+	if (find_str_in_str(data, ">") != -1)
+	{
+		type = _TOK_OUTFILE;
+		if (find_str_in_str(data, ">>") != -1)
+			type = _TOK_OUTFILE_APP;
+		if (ft_strlen(data) > 1)
+			str_edit(&data, ">", "");
+	}
+	return (type);
+}
+
+t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
+{
+	int		err;
+
+	err = 0;
+	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
+	db_display_list(list, "Key_words");
+	while (list && !err)
+	{
+		if (list->id > 0)
+		{
+			if (get_type((char *)list->data) == _TOK_INFILE)
+				err += set_infile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type((char *)list->data) == _TOK_OUTFILE)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type((char *)list->data) == _TOK_OUTFILE_APP)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 1);
+		}
+		list = list->next;
+	}
+	return (cmd);
+}
+

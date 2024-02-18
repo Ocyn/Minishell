@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 11:49:57 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 19:57:39 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	}
 	if (tab && i == highlight)
 		printf(" [%d "HIGHLIGHT_TEXT"[End]"FONT_RESET"", highlight);
-	printf(" |\n");
+	printf(" |");
 }
 
-void	db_display_list(t_lst *list, char *message, char type)
+void	db_display_list(t_lst *list, char *message)
 {
 	printf("\n%sDisplay [%s%s%s%s] list:%s\n\n", FE_UND, FE_BOL, message, FRR, FE_UND, FRR);
 	if (list->next)
@@ -56,12 +56,7 @@ void	db_display_list(t_lst *list, char *message, char type)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_print_custom_font("\t\tData :", FE_BOL);
-		// if (type == 'd')
-		// 	printf("\t[%d]\n", (int *)(&list->data));
-		// if (type == 'c')
-		// 	printf("\t[%c]\n", (char *)(&list->data));
-		if (type == 's')
-			printf("\t[%s]\n", (char *)list->data);
+		printf("\t[%s]\n", (char *)list->data);
 		db_print_custom_font("\t\tPrev :", FE_BOL);
 		printf("\t[%p]\n", list->prev);
 		db_print_custom_font("\t\tNext :", FE_BOL);
@@ -74,10 +69,10 @@ void	db_display_list(t_lst *list, char *message, char type)
 	printf("\n");
 }
 
-void	*db_lst_free_list(t_lst *lst, int fromhere, char *title)
+void	*db_lst_free_list(t_lst *lst, char *title)
 {
 	printf("\n%sFree [%s] List:%s\n\n", FE_UND, title, FRR);
-	if (lst && lst->id > 0 && !fromhere && lst->prev)
+	if (lst && lst->prev)
 		lst = lst_go_to(lst, -1);
 	while (lst)
 	{
@@ -119,7 +114,9 @@ void	db_display_list_cmd(t_cmd *list, char *message)
 		printf("\t[%s]", list->meta.sraw);
 		printf("\n");
 		db_tabstr_display(list->meta.raw, "\t\tRaw", -1);
+		printf("\n");
 		db_tabstr_display(list->meta.exec_cmd, "\t\tExec_Cmd", -1);
+		printf("\n");
 		db_print_custom_font("\t\tPrev :", FE_BOL);
 		printf("\t[%p]\n", list->prev);
 		db_print_custom_font("\t\tNext :", FE_BOL);
@@ -144,12 +141,12 @@ void	*db_cmd_free_list(t_cmd *cmd)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]: \n", cmd->id, cmd);
 		db_tabstr_display(cmd->meta.raw, "\t\tRaw", -1);
-		printf("\r\t"__VALID_FREED"\n");
+		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
+		printf("\r\t%s\n", __VALID_FREED);
 		db_print_custom_font("\t\tSraw : ", FE_BOL);
 		printf("[%s]", cmd->meta.sraw);
 		s_free(&cmd->meta.sraw);
-		free_tab(cmd->meta.raw, tablen(cmd->meta.raw));
-		printf("\r\t"__VALID_FREED"\n");
+		printf("\r\t%s\n", __VALID_FREED);
 		if (cmd->meta.exec_cmd)
 		{
 			db_tabstr_display(cmd->meta.exec_cmd, "\t\texec_cmd", -1);
