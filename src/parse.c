@@ -6,11 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/02/18 06:40:45 by aammirat         ###   ########.fr       */
-=======
-/*   Updated: 2024/02/16 18:54:21 by jcuzin           ###   ########.fr       */
->>>>>>> ed2317f0f06ad048777e716939336f8260d6be0d
+/*   Updated: 2024/02/18 06:48:35 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +20,6 @@ void	whitespaces_to_space(char **entry)
 	str_edit(entry, "\r", " ");
 }
 
-char	**split_pipeline(char *cmd_in)
-{
-	t_lst	*list;
-	t_lst	*head;
-	char	**tab;
-	char	*temp;
-
-	temp = NULL;
-	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
-	whitespaces_to_space(&temp);
-	str_edit(&temp, "|", " | ");
-	tab = multisplit(temp, "|");
-<<<<<<< HEAD
-=======
-	list = tab_to_list(tab);
-	head = list;
-	db_display_list(list, "pipeline splitted", 's');
-	//faire une fonction qui detecter les repetition consecutives de <, > ou | et envoyer parse error dans ce cas la
-	//commande de nono
->>>>>>> ed2317f0f06ad048777e716939336f8260d6be0d
-	s_free(&temp);
-	db_lst_free_list(head, 0, "pipeline splitted");
-	return (tab);
-}
 char	**split_pipeline(char *cmd_in)
 {
 	t_lst	*list;
