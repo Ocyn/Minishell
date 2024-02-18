@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 18:36:47 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 05:12:14 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_cd(char *str)
 {
-	printf ("%s",str);
+	printf ("%s", str);
 	g_sign = 1;
 }
 
@@ -78,6 +78,7 @@ char	*what_path(t_linux	*shell, char **str)
 		{
 			oldpwd = put_in(shell->oldpwd);
 			free(path);
+			printf ("%s \n", oldpwd);
 			return (oldpwd);
 		}
 		else

@@ -50,10 +50,10 @@ t_cmd		*build_commands(t_cmd *command, char **all_token);
 
 char		**get_heredoc(char *src);
 
-void		launch_command(t_linux *shell);
+void		launch_command(t_linux *shell, t_cmd *command);
 t_cmd		*fd_redirection(t_cmd *command, char **token);
 char		*get_file_name(char *token, char type);
-char		*get_path(char *command, char **env);
+char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
 int			set_infile(char *file, int heredoc);
 int			set_outfile(char *file, int overwrite);
@@ -113,6 +113,10 @@ int			weird_cmp_export(char *str, char *cmp);
 void		total_free(t_env *chain);
 char		*get_var(t_env *env, char *str);
 void		create_signal(void);
-void		let_signal_cook(void);
+void		let_signal_through(void);
+
+void		basic_env(t_env *env);
+void		change_env_arg(char **tab, t_env *env);
+char		*path_not_found(char *str);
 
 #endif

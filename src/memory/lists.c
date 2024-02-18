@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 13:22:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 06:42:34 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	lst_rm(t_lst *list)
 	tprev = list->prev;
 	tnext = list->next;
 	if (list)
-		s_free((char **)list->data);
+		s_free((char **)(&list->data));
 	if (tprev)
 		tprev->next = list->next;
 	if (tnext)

@@ -35,7 +35,8 @@ SRCS			= main.c \
 				prompt_tuning.c \
 				debug.c \
 				utils_two.c \
-				shutdown.c
+				shutdown.c \
+				env_var.c
 
 CC 				= cc
 

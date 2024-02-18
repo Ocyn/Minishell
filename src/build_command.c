@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/16 13:52:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/18 06:44:29 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ t_lst	*tab_to_list(char **tab)
 int	find_str_in_list(t_lst *list_input, char *key)
 {
 	t_lst	*list;
-	int		i;
 
-	i = 0;
-	(void)i;
 	list = list_input;
 	if (!list || !key)
 		return (-1);
@@ -50,31 +47,55 @@ int	find_str_in_list(t_lst *list_input, char *key)
 	return (-1);
 }
 
-int	get_type(char **src, char *type)
+int	get_type(t_lst *list)
 {
-	int	i;
+	int		type;
 
-	i = -1;
-	if (!src || !type || i == -1)
-		return (0);
-	i = find_str_in_tab(0, type, src);
-	if (i == -1)
-		return (1);
-	// Checker si y'a au moins un char imprimable apres le type
-	// Renvoyer erreur de syntaxe si echex puis interdire la partie de l'execution et juste revenir à readline
-	return (0);
+	type = _TOK_EMPTY;
+	if (!list || !list->data)
+		return (type);
+	if (find_str_in_str((char *)list->data, "<") != -1)
+	{
+		type = _TOK_INFILE;
+		if (find_str_in_str((char *)list->data, "<<") != -1)
+			type = _TOK_HEREDOC;
+		if (ft_strlen((char *)list->data) > 1)
+			str_edit((char **)(&list->data), "<", "");
+	}
+	if (find_str_in_str((char *)list->data, ">") != -1)
+	{
+		type = _TOK_OUTFILE;
+		if (find_str_in_str((char *)list->data, ">>") != -1)
+			type = _TOK_OUTFILE_APPEND;
+		if (ft_strlen((char *)list->data) > 1)
+			str_edit((char **)(&list->data), ">", "");
+	}
+	return (type);
 }
 
-t_cmd	*get_redirection(t_cmd *cmd, t_lst *key_words)
+t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 {
-	int		i;
+	int		err;
 
-	i = 0;
-	db_print_custom_font("\n\nGet_Redirection\n", FE_UND);
-	db_display_list(key_words, "Key_words", 's');
-	(void)cmd;
-	(void)i;
-	// Missing ">>" alias outfile append (no overwrite) case
+	err = 0;
+	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
+	db_display_list(list, "Key_words", 's');
+	while (list && !err)
+	{
+		if (list->id > 0)
+		{
+			if (get_type(list) == _TOK_INFILE)
+				err += set_infile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type(list) == _TOK_OUTFILE)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 0);
+			if (get_type(list) == _TOK_OUTFILE_APPEND)
+				err += set_outfile((char *)list->next->data \
+				, &cmd->meta.infile, 1);
+		}
+		list = list->next;
+	}
 	return (cmd);
 }
 

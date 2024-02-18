@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:22:27 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 18:23:20 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/16 18:00:25 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,47 @@ int	test_option(char *str)
 	{
 		if (i == 0 && str[i] != '-')
 			return (0);
-		else if (i == 1 && str[i] != 'n')
+		else if (i > 0 && str[i] != 'n')
 			return (0);
 		i++;
 	}
-	if (i == 2)
-		return (1);
-	return (0);
+	return (1);
+}
+
+int	write_to_shell(int writed, int i, char **str)
+{
+	if (writed == 0)
+		printf(" ");
+	if (!ft_strcmp(str[i], "$?"))
+	{
+		writed = 0;
+		printf ("%d", g_sign);
+	}
+	else if (str[i][0] != '$')
+	{
+		printf ("%s", str[i]);
+		writed = 0;
+	}
+	return (writed);
 }
 
 void	ft_echo(char **str)
 {
 	int	i;
 	int	option;
+	int	writed;
 
 	i = 0;
+	writed = 1;
 	option = 0;
 	while (str[i])
 	{
 		if (i > 0)
 		{
-			if (i > 2 || (i == 2 && option == 0))
-				printf(" ");
-			if (!ft_strcmp(str[i], "$?"))
-				printf ("%d", g_sign);
-			else if (i == 1 && test_option(str[i]))
+			if (writed == 1 && test_option(str[i]))
 				option = 1;
 			else
-				printf ("%s", str[i]);
+				writed = write_to_shell(writed, i, str);
 		}
 		i++;
 	}
