@@ -28,7 +28,11 @@ int	is_empty(char *str)
 
 int	special_char(char *seek, int mode)
 {
+<<<<<<< HEAD
 	if (!seek || !seek[0])	
+=======
+	if (!seek || !seek[0])
+>>>>>>> ed2317f0f06ad048777e716939336f8260d6be0d
 		return (_TOK_EMPTY);
 	if ((mode <= 0 || mode == _TOK_INFILE) \
 	&& (str_occur(seek, "<") && !str_occur(seek, "<<")))

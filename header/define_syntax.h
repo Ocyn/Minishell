@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 05:11:06 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/18 06:46:05 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 # define DEFINE_SYNTAX_H
 
 //	Special Characters part
-# define EMPTY_CMD 					-1
-# define SINGLE_CMD 				 0
-# define PIPE_CMD 					'|'
-# define INFILE_CMD 				'<'
-# define OUTFILE_CMD 				'>'
-# define HEREDOC 					6060
-# define OUTFILE_ADDER				6262
-# define DOLLARSIGN_CMD 			'$'
-# define UNDEFINED_CMD 				99
-# define SIMPLEQUOTE 				'\''
-# define DOUBLEQUOTE 				'\"'
+# define _TOK_EMPTY						70000
+# define _TOK_SINGLE_CMD 				70010
+# define _TOK_INFILE					70021
+# define _TOK_OUTFILE					70022
+# define _TOK_HEREDOC 					70023
+# define _TOK_OUTFILE_APPEND			70024
+# define _TOK_DOLLARSIGN				70030
+# define _TOK_PIPE						70040
+# define _TOK_SIMPLEQUOTE 				70051
+# define _TOK_DOUBLEQUOTE 				70052
+# define _TOK_SINGLE_WORD 				70060
 
 //	Exit codes
 # define EXIT_FINISH				"EX001"

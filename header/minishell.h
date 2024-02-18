@@ -55,8 +55,8 @@ t_cmd		*fd_redirection(t_cmd *command, char **token);
 char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
-int			set_infile(char *file, int heredoc);
-int			set_outfile(char *file, int overwrite);
+int			set_infile(char *file, int *fd, int heredoc);
+int			set_outfile(char *file, int *fd, int overwrite);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd);
