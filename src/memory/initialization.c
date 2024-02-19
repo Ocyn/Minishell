@@ -50,3 +50,30 @@ void	init_struct(t_linux *shell)
 	shell->command = shell->head;
 	change_oldpwd(shell);
 }
+
+void	basic_env(t_env *env)
+{
+	t_env	*buf;
+	char	*str;
+
+	buf = env;
+	str = get_var(env, "SHLVL");
+	if (!str)
+	{
+		if (!buf->str)
+		{
+			buf->str = put_in("SHLVL=1");
+			return ;
+		}
+		while (buf != NULL)
+			buf = buf->next;
+		buf = malloc(sizeof(t_env));
+		if (!buf->next)
+			return ;
+		buf = buf->next;
+		buf->next = NULL;
+		buf->str = put_in("SHLVL=1");
+	}
+	else
+		s_free(&str);
+}
