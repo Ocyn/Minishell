@@ -85,7 +85,7 @@ void	change_env_arg(char **tab, t_env *env)
 	i = 0;
 	while (tab[i])
 	{
-		if (ft_strcmp(tab[i], "$")\
+		if (ft_strcmp(tab[i], "$") &&\
 			ft_strcmp(tab[i], "$?") && ft_strchr(tab[i], '$') != NULL)
 		{
 			new = replace_var(env, ft_strchr(tab[i], '$'));
