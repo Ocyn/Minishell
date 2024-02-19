@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 19:13:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/19 04:31:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_lst	*lst_add(t_lst *last)
 	return (last);
 }
 
-void	lst_rm(t_lst *list)
+t_lst	*lst_rm(t_lst *list)
 {
 	t_lst	*tprev;
 	t_lst	*tnext;
@@ -58,6 +58,11 @@ void	lst_rm(t_lst *list)
 		tnext->prev = list->prev;
 	free(list);
 	list = NULL;
+	if (tprev->next)
+		return (tprev->next);
+	if (tnext->prev)
+		return (tnext->prev);
+	return (list);
 }
 
 void	*lst_free_list(t_lst *lst)

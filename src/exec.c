@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 06:44:36 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/19 04:21:16 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,38 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 	}
 }
 
-void	redirection(int fd, int todup)
+void	redirection(int fd, int todup, int toclose)
 {
 	if (fd)
+	{
 		dup2(fd, todup);
+		if (toclose)
+			close(toclose);
+	}
 	else
 		close(fd);
 }
 
-int	select_dup(int *pip, t_cmd *command)
+int	select_dup(int *pip, t_cmd *cmd)
 {
-	if (!pip)
+	if (pip)
 	{
-		redirection(command->meta.infile, STDERR_FILENO);
-		redirection(command->meta.outfile, STDOUT_FILENO);
+		if (cmd->meta.infile)
+		{
+			if (cmd->meta.infile)
+				redirection(cmd->meta.infile, STDIN_FILENO, 0);
+			redirection(pip[0], STDIN_FILENO, pip[1]);
+		}
+		if (cmd->meta.outfile)
+		{
+			if (cmd->meta.outfile)
+				redirection(cmd->meta.outfile, STDOUT_FILENO, 0);
+			if (cmd->next)
+				redirection(pip[1], STDOUT_FILENO, pip[0]);
+		}
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	launch_command(t_linux *shell, t_cmd *command)
@@ -77,7 +93,7 @@ void	launch_command(t_linux *shell, t_cmd *command)
 	{
 		if (!is_builtin(command->meta.raw[0], shell))
 		{
-			if (pipe(pip) || !pip[0] || !pip[1])
+			if (pipe(pip) == -1 || !pip[0] || !pip[1])
 				break ;
 			select_dup(pip, command);
 			if (command->meta.raw[0])

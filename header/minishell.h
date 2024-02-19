@@ -21,8 +21,8 @@
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
-void		db_display_list(t_lst *list, char *message);
-void		db_display_list_cmd(t_cmd *list, char *message);
+void		db_display_list(t_lst *list, char *message, int alldata);
+void		db_display_list_cmd(t_cmd *list, char *message, int alldata);
 void		*db_cmd_free_list(t_cmd *cmd);
 void		*db_lst_free_list(t_lst *lst, char *title);
 
@@ -52,9 +52,8 @@ char		*put_in(char *str);
 char		**get_heredoc(char *src);
 int			set_infile(char *file, int heredoc);
 int			set_outfile(char *file, int overwrite);
-int			check_type(t_lst *list);
-t_lst		*token_format(t_lst *list, int *redi, int type \
-, int (*set_redi)(char *, int));
+int			check_type(char cmp);
+t_lst		*token_format(t_lst *list, int *redi, int type);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd);
@@ -65,7 +64,7 @@ int			list_len(t_cmd list);
 t_lst		*lst_init(void);
 t_lst		*lst_add(t_lst *last);
 int			lst_len(t_lst *list, int fromhere);
-void		lst_rm(t_lst *list);
+t_lst		*lst_rm(t_lst *list);
 void		*lst_free_list(t_lst *lst);
 t_lst		*lst_tab_to_list(char **tab);
 t_lst		*lst_go_to(t_lst *list, int firstorlast);

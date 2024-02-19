@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 23:23:48 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/19 05:13:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ char	*rm_quotes(char *data, char quote)
 
 t_lst	*get_redirection(t_lst *list, int *redi)
 {
-	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
-	if (((char *)list->data)[0] != '>' && ((char *)list->data)[0] != '<')
+	if (check_type(((char *)list->data)[0]))
 		return (list);
-	token_format(list, redi, _TOK_INFILE, set_infile);
-	token_format(list, redi, _TOK_HEREDOC, set_infile);
-	token_format(list, redi, _TOK_OUTFILE, set_outfile);
-	token_format(list, redi, _TOK_OUTFILE_APP, set_outfile);
+	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
+	list = token_format(list, redi, _TOK_INFILE);
+	list = token_format(list, redi, _TOK_HEREDOC);
+	list = token_format(list, redi, _TOK_OUTFILE);
+	list = token_format(list, redi, _TOK_OUTFILE_APP);
 	return (list);
 }
 
@@ -50,7 +50,7 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
 	keys = lst_tab_to_list(cmd->meta.raw);
-	db_display_list(keys, "keys of cmd");
+	db_display_list(keys, "keys of cmd", 0);
 	while (keys->next)
 	{
 		keys = keys->next;
@@ -60,7 +60,7 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
 	cmd->meta.infile = redi[0];
 	cmd->meta.outfile = redi[1];
 	keys = lst_go_to(keys, -1);
-	db_display_list(keys, "New keys of cmd");
+	db_display_list(keys, "New keys of cmd", 0);
 	cmd->meta.exec_cmd = lst_list_to_tab(keys);
 	db_tabstr_display(cmd->meta.exec_cmd, "List to tab New", -1);
 	db_lst_free_list(keys, "Key Of CMD");

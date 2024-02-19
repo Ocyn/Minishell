@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 23:00:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/19 03:51:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strtok(char *src, char delim)
 	if (src && delim)
 	{
 		src = ft_strchr(src, delim);
-		src += (src && src[0] &&src[1]);
+		src += (src && src[0] && src[1]);
 		while (src && src[id] && src[id] != delim)
 			id++;
 		src[id] = 0;
@@ -70,10 +70,10 @@ void	parse(t_linux *shell)
 	token = split_pipeline(cmd_in);
 	command = build_commands(shell->head, token);
 	shell->token = token;
-	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n");
+	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 0);
 	change_env_arg(shell->head->next->meta.raw, shell->env);
 	//supprimer simples
-	//launch_command(shell, NULL);
+	launch_command(shell, NULL);
 	free_tab(token, tablen(token));
 	db_cmd_free_list(shell->head);
 }

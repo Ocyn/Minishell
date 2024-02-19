@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 19:57:39 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/19 03:54:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 	printf(" |");
 }
 
-void	db_display_list(t_lst *list, char *message)
+void	db_display_list(t_lst *list, char *message, int alldata)
 {
 	printf("\n%sDisplay [%s%s%s%s] list:%s\n\n", FE_UND, FE_BOL, message, FRR, FE_UND, FRR);
 	if (list->next)
@@ -57,10 +57,13 @@ void	db_display_list(t_lst *list, char *message)
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_print_custom_font("\t\tData :", FE_BOL);
 		printf("\t[%s]\n", (char *)list->data);
-		db_print_custom_font("\t\tPrev :", FE_BOL);
-		printf("\t[%p]\n", list->prev);
-		db_print_custom_font("\t\tNext :", FE_BOL);
-		printf("\t[%p]\n", list->next);
+		if (alldata)
+		{
+			db_print_custom_font("\t\tPrev :", FE_BOL);
+			printf("\t[%p]\n", list->prev);
+			db_print_custom_font("\t\tNext :", FE_BOL);
+			printf("\t[%p]\n", list->next);
+		}
 		if (list->next)
 			list = list->next;
 		else
@@ -94,7 +97,7 @@ void	*db_lst_free_list(t_lst *lst, char *title)
 	return (NULL);
 }
 
-void	db_display_list_cmd(t_cmd *list, char *message)
+void	db_display_list_cmd(t_cmd *list, char *message, int alldata)
 {
 	db_print_custom_font(message, FE_UND);
 	printf("\n");
@@ -117,10 +120,13 @@ void	db_display_list_cmd(t_cmd *list, char *message)
 		printf("\n");
 		db_tabstr_display(list->meta.exec_cmd, "\t\tExec_Cmd", -1);
 		printf("\n");
-		db_print_custom_font("\t\tPrev :", FE_BOL);
-		printf("\t[%p]\n", list->prev);
-		db_print_custom_font("\t\tNext :", FE_BOL);
-		printf("\t[%p]\n", list->next);
+		if (alldata)
+		{
+			db_print_custom_font("\t\tPrev :", FE_BOL);
+			printf("\t[%p]\n", list->prev);
+			db_print_custom_font("\t\tNext :", FE_BOL);
+			printf("\t[%p]\n", list->next);
+		}
 		if (list->next)
 			list = list->next;
 		else
@@ -190,7 +196,7 @@ void	db_debug(void)
 	safesystem.prompt = prompt_tuning("##SafeMode_Minishell |", "#", "FE_REV FE_BOL");
 	read_prompt(&safesystem, "##", safemode_parse);
 	s_free(&safesystem.prompt);
-	db_display_list_cmd(safesystem.head, "\nSafe System: ");
+	db_display_list_cmd(safesystem.head, "\nSafe System: ", 0);
 	cmd_free_list(safesystem.head);
 	free(safesystem.head);
 	return ;
