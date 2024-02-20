@@ -6,11 +6,24 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 08:54:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:01:40 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+void	change_ret_signal(int c)
+{
+	if (WIFEXITED(c))
+		g_sign = WEXITSTATUS(c);
+	else if (WIFSIGNALED(c))
+	{
+		if (WTERMSIG(c) == SIGQUIT)
+			g_sign = 131;
+		if (WTERMSIG(c) == SIGINT)
+			g_sign = 130;
+	}
+}
 
 void	change_oldpwd(t_linux *shell)
 {
@@ -28,7 +41,7 @@ void	cmd_init(t_cmd *cmd)
 	cmd->meta.sraw = NULL;
 	cmd->meta.exec_cmd = NULL;
 	cmd->meta.infile = 0;
-	cmd->meta.outfile = 0;
+	cmd->meta.outfile = 1;
 }
 
 void	init_struct(t_linux *shell)

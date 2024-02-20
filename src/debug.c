@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 16:59:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:30:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,19 +160,21 @@ void	*db_cmd_free_list(t_cmd *cmd)
 			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
 			printf("\r\t"__VALID_FREED"\n");
 		}
-		if (cmd->meta.infile > 1)
+		if (cmd->meta.infile > 2)
 		{
 			db_print_custom_font("\t\tInfile : ", FE_BOL);
 			printf("[%d]", cmd->meta.infile);
-			if (close(cmd->meta.infile) != -1)
+			if (s_close(cmd->meta.infile) != -1)
 				printf("\r\t"__VALID_FREED"\n");
+			fflush(stdout);
 		}
-		if (cmd->meta.outfile > 1)
+		if (cmd->meta.outfile > 2)
 		{
 			db_print_custom_font("\t\tOutfile : ", FE_BOL);
 			printf("[%d]", cmd->meta.outfile);
-			if (close(cmd->meta.outfile) != -1)
+			if (s_close(cmd->meta.outfile) != -1)
 				printf("\r\t"__VALID_FREED"\n");
+			fflush(stdout);
 		}
 		if (cmd->next)
 		{

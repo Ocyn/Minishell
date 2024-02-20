@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:26:29 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/19 03:58:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:21:29 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@ void	exit_prompt(int launch, t_linux *shell)
 	}
 }
 
-void	exit_forkfailure(int launch, t_linux *shell, int *pip, char **path)
+void	exit_forkfailure(int e_sig, t_linux *shell, int *pip, char **path)
 {
-	(void)pip;
 	close(pip[1]);
 	close(pip[0]);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	s_free(&shell->input);
 	s_free(&shell->prompt);
 	free_tab(shell->token, tablen(shell->token));
@@ -51,5 +48,5 @@ void	exit_forkfailure(int launch, t_linux *shell, int *pip, char **path)
 	free_env(shell->env);
 	s_free(&shell->oldpwd);
 	s_free(path);
-	exit (launch);
+	exit (e_sig);
 }

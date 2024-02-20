@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 17:01:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:45:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	set_infile(char *file, int heredoc, int oldfd)
 	if (oldfd > 1)
 	{
 		if (fd > 1)
-			close(oldfd);
+			s_close(oldfd);
 		else
 			fd = oldfd;
 	}
@@ -95,9 +95,9 @@ int	set_outfile(char *file, int append, int oldfd)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
 	else
 		fd = open(file, O_CREAT | O_WRONLY, 00700);
-	if (fd > 1 && oldfd > 1)
-		close(oldfd);
-	if (fd < 1 && oldfd > 1)
+	if (fd > 2 && oldfd > 2)
+		s_close(oldfd);
+	if (fd <= 2 && oldfd > 2)
 		fd = oldfd;
 	return (fd);
 }

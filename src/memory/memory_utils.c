@@ -6,11 +6,18 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:14:08 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 20:21:59 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 22:35:39 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+int	s_close(int fd)
+{
+	if (fd != 0 && fd != 1 && fd != 2 && fd != -1)
+		return (close(fd));
+	return (0);
+}
 
 char	**tab_dup(char **token_tab, int token_len)
 {
@@ -22,7 +29,6 @@ char	**tab_dup(char **token_tab, int token_len)
 	raw = s_malloc(sizeof(char *) * (token_len + 1));
 	while (++i < token_len)
 		raw[i] = ft_strdup(token_tab[i]);
-	/*DEBUG*/	//db_tabstr_display(raw, "\n\t\tTabDup", token_len);
 	return (raw);
 }
 

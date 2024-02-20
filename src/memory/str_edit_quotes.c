@@ -6,13 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 21:09:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:56:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-char	*str_edit_init(char **src, char *seek, char *replace, int *llen);
+static char	*str_edit_init(char **src, char *seek, char *replace, int *llen);
 
 void	str_edit_quotes(char **src, char *seek, char *replace)
 {
@@ -42,7 +42,7 @@ void	str_edit_quotes(char **src, char *seek, char *replace)
 	*src = new;
 }
 
-char	*str_edit_init(char **src, char *seek, char *replace, int *llen)
+static char	*str_edit_init(char **src, char *seek, char *replace, int *llen)
 {
 	char	*new;
 	char	*str;

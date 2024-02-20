@@ -90,6 +90,7 @@ int			tablen(char **tab);
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
+int			s_close(int fd);
 
 void		ft_pwd(void);
 void		ft_cd(t_linux *shell, char **str);
@@ -102,6 +103,7 @@ void		change_oldpwd(t_linux *shell);
 
 char		*get_var(t_env *env, char *str);
 void		change_env(t_linux *shell, char **env);
+void		change_ret_signal(int c);
 int			is_space(char c);
 void		free_env(t_env *env);
 void		basic_env(t_env *env);
@@ -112,7 +114,7 @@ void		err_custom(int launch, char *message);
 void		err_parse_token(int launch);
 
 void		exit_end(int launch, t_linux *shell);
-void		exit_forkfailure(int launch, t_linux *shell, int *pip, char **path);
+void		exit_forkfailure(int e_sig, t_linux *shell, int *pip, char **path);
 void		exit_prompt(int launch, t_linux *shell);
 
 int			weird_cmp(char *str, char *cmp);

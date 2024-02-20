@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 17:02:56 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 23:19:08 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_lst	*lst_tab_to_list(char **tab)
 {
 	t_lst	*list;
 
+	if (!tab || !tab[0] || !tab[0][0])
+		return (NULL);
 	list = lst_init();
 	while (tab && tab[0] && tab[0][0])
 	{
