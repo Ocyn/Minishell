@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 12:56:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 15:56:47 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,30 @@ int	is_redi(char *cmp)
 	return (0);
 }
 
-t_lst	*token_format(t_lst *list, int *redi, char *token_type)
+t_lst	*token_format(t_lst *list, int *redi, char *id)
 {
 	int	mode;
 
 	mode = 0;
 	/* DEBUG */	printf("\t\t[%s%s%s] : ", FE_UND, ((char *)list->data), FRR);
-	if (!ft_strcmp(((char *)list->data), token_type))
+	if (!ft_strcmp(((char *)list->data), id))
 	{
-		/* DEBUG */	printf("Redirection (%s)\n", token_type);
+		/* DEBUG */	printf("Matching == (%s)\n", id);
 		list = lst_rm(list);
-		mode += (list && !ft_strcmp(((char *)list->data), token_type));
-		if (list && !ft_strcmp(((char *)list->data), token_type))
+		mode = (list && !ft_strcmp(((char *)list->data), id));
+		if (!list || (!list->next && is_redi((char *)list->data)))
+			return ((void)printf("\nERROR 1\n"), list);	// Erreur de token -> annulation execve
+		if (list && !ft_strcmp(((char *)list->data), id))
 			list = lst_rm(list);
-		if (list && list->data && ft_strcmp(((char *)list->data), token_type))
+		if (list && ft_strcmp(((char *)list->data), id) && !is_redi((char *)list->data))
 		{
-			if (!ft_strcmp(token_type, "<"))
+			if (!ft_strcmp(id, "<"))
 				redi[0] = set_infile((char *)list->data, mode, redi[0]);
-			if (!ft_strcmp(token_type, ">"))
+			if (!ft_strcmp(id, ">"))
 				redi[1] = set_outfile((char *)list->data, mode, redi[1]);
-			list = lst_rm(list);
+			list = list->prev;
+			lst_rm(list->next);
+			printf("\n\t\tCell %d after the prev one has been removed\n", list->id);
 		}
 	}
 	return (list);
@@ -71,10 +75,13 @@ int	set_infile(char *file, int heredoc, int oldfd)
 	/*DEBUG*/	printf("\t\tInfile to open : [%s] | Heredoc : [%d]\n", file, heredoc);
 	if (access(file, F_OK) != -1 && access(file, R_OK) != -1)
 		fd = open(file, O_RDONLY);
-	if (fd > 0 && oldfd > 0)
-		close(oldfd);
-	if (fd < 0 && oldfd > 0)
-		fd = oldfd;
+	if (oldfd > 1)
+	{
+		if (fd > 1)
+			close(oldfd);
+		else
+			fd = oldfd;
+	}
 	return (fd);
 }
 
@@ -90,9 +97,9 @@ int	set_outfile(char *file, int append, int oldfd)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
 	else
 		fd = open(file, O_CREAT | O_WRONLY, 00700);
-	if (fd > 0 && oldfd > 0)
+	if (fd > 1 && oldfd > 1)
 		close(oldfd);
-	if (fd < 0 && oldfd > 0)
+	if (fd < 1 && oldfd > 1)
 		fd = oldfd;
 	return (fd);
 }

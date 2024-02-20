@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 12:56:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:25:05 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,23 @@ t_lst	*lst_rm(t_lst *list)
 	t_lst	*tprev;
 	t_lst	*tnext;
 
-	tprev = list->prev;
-	tnext = list->next;
-	if (list)
-		s_free((char **)(&list->data));
-	if (tprev)
+	tprev = NULL;
+	tnext = NULL;
+	if (!list)
+		return (list);
+	if (list->prev)
+		tprev = list->prev;
+	if (list->next)
+		tnext = list->next;
+	s_free((char **)(&list->data));
+	if (tprev && tprev->next)
 		tprev->next = list->next;
-	if (tnext)
+	if (tnext && tnext->prev)
 		tnext->prev = list->prev;
 	free(list);
 	list = NULL;
 	if (tprev->next)
 		list = tprev->next;
-	if (tnext->prev)
-		list = tnext->prev;
 	return (list);
 }
 

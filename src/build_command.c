@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 12:24:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:49:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ t_cmd	*build_commands(t_cmd *command, char **tokens)
 	input_len = tablen(tokens);
 	while (i <= input_len && tokens && tokens[i])
 	{
-		/*DEBUG*/	db_tabstr_display(tokens, "\n\tToken Input (i)", i);
+		/*DEBUG*/	db_tabstr_display(tokens, "\n\n\tToken Input (i)", i);
 		command = cmd_add_unit(command);
 		command = set_command_metadatas(command, tokens[i], &error);
-		if (error || (!command->meta.exec_cmd && !command->meta.raw))
+		if (error || (!command->meta.exec_cmd))
 			cmd_rm_unit(command);
 		i++;
 	}
