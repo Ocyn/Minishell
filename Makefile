@@ -37,6 +37,7 @@ SRCS			= main.c \
 				debug.c \
 				utils_two.c \
 				shutdown.c \
+				error.c \
 				env_var.c
 
 CC 				= cc

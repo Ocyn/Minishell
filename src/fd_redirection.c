@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 15:56:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 17:01:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,23 @@ t_lst	*token_format(t_lst *list, int *redi, char *id)
 	int	mode;
 
 	mode = 0;
-	/* DEBUG */	printf("\t\t[%s%s%s] : ", FE_UND, ((char *)list->data), FRR);
-	if (!ft_strcmp(((char *)list->data), id))
+	/* DEBUG */	printf("\t\t[%s%s%s] : \n", FE_UND, list->data, FRR);
+	if (!ft_strcmp(list->data, id))
 	{
-		/* DEBUG */	printf("Matching == (%s)\n", id);
 		list = lst_rm(list);
-		mode = (list && !ft_strcmp(((char *)list->data), id));
-		if (!list || (!list->next && is_redi((char *)list->data)))
-			return ((void)printf("\nERROR 1\n"), list);	// Erreur de token -> annulation execve
-		if (list && !ft_strcmp(((char *)list->data), id))
+		mode = (list && !ft_strcmp(list->data, id));
+		if (!list || (!list->next && is_redi(list->data)))
+			return (err_parse_token(1), list);	// Erreur de token -> annulation execve
+		if (list && !ft_strcmp(list->data, id))
 			list = lst_rm(list);
-		if (list && ft_strcmp(((char *)list->data), id) && !is_redi((char *)list->data))
+		if (list && ft_strcmp(list->data, id) && !is_redi(list->data))
 		{
 			if (!ft_strcmp(id, "<"))
-				redi[0] = set_infile((char *)list->data, mode, redi[0]);
+				redi[0] = set_infile(list->data, mode, redi[0]);
 			if (!ft_strcmp(id, ">"))
-				redi[1] = set_outfile((char *)list->data, mode, redi[1]);
+				redi[1] = set_outfile(list->data, mode, redi[1]);
 			list = list->prev;
 			lst_rm(list->next);
-			printf("\n\t\tCell %d after the prev one has been removed\n", list->id);
 		}
 	}
 	return (list);
@@ -53,9 +51,9 @@ t_lst	*get_redirection(t_lst *list, int *redi, int *err)
 	char	*token_type;
 
 	token_type = 0;
-	if (!list || !is_redi(((char *)list->data)))
+	if (!list || !is_redi(list->data))
 		return (list);
-	token_type = ft_strdup((char *)list->data);
+	token_type = ft_strdup(list->data);
 	printf("\n\tGet_Redirection at Cell %d\n", list->id);
 	list = token_format(list, redi, token_type);
 	if (!list)

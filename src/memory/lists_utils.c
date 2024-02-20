@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 11:28:38 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 17:02:56 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**lst_list_to_tab(t_lst *list)
 		list = list->next;
 		if (list->data)
 		{
-			tab[id] = ft_strdup(((char *)list->data));
+			tab[id] = ft_strdup(list->data);
 			if (!tab[id])
 				return (free_tab(tab, id), NULL);
 		}
@@ -90,7 +90,7 @@ int	find_str_in_list(t_lst *list_input, char *key)
 		return (-1);
 	while (list)
 	{
-		if (find_str_in_str((char *)list->data, key) != -1)
+		if (find_str_in_str(list->data, key) != -1)
 			return (list->id);
 		list = list->next;
 	}

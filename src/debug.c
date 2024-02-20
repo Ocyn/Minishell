@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 15:55:42 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:59:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	db_display_list(t_lst *list, char *message, int alldata)
 	{
 		printf("\t"FE_REV""FE_BOL"Cell %d"FRR" [%p]:\n", list->id, list);
 		db_print_custom_font("\t\tData :", FE_BOL);
-		printf("\t[%s]\n", (char *)list->data);
+		printf("\t[%s]\n", list->data);
 		if (alldata)
 		{
 			db_print_custom_font("\t\tPrev :", FE_BOL);

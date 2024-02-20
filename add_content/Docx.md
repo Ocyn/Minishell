@@ -108,14 +108,14 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 	{
 		if (list->id > 0)
 		{
-			if (get_type((char *)list->data) == _TOK_INFILE)
-				err += set_infile((char *)list->next->data \
+			if (get_type(list->data) == _TOK_INFILE)
+				err += set_infile(list->next->data \
 				, &cmd->meta.infile, 0);
-			if (get_type((char *)list->data) == _TOK_OUTFILE)
-				err += set_outfile((char *)list->next->data \
+			if (get_type(list->data) == _TOK_OUTFILE)
+				err += set_outfile(list->next->data \
 				, &cmd->meta.infile, 0);
-			if (get_type((char *)list->data) == _TOK_OUTFILE_APP)
-				err += set_outfile((char *)list->next->data \
+			if (get_type(list->data) == _TOK_OUTFILE_APP)
+				err += set_outfile(list->next->data \
 				, &cmd->meta.infile, 1);
 		}
 		list = list->next;

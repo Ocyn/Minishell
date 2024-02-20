@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/09 03:30:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 16:58:47 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ extern int	g_sign;
 typedef struct s_lst
 {
 	int				id;
-	void			*data;
+	char			*data;
 	struct s_lst	*next;
 	struct s_lst	*prev;
 }					t_lst;

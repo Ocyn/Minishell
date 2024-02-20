@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/20 12:42:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 18:00:13 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,30 @@ char	*ft_strtok(char *src, char delim)
 	return (src);
 }
 
-void	whitespaces_to_space(char **entry)
+int	preliminary(char **entry)
 {
+	int		i;
+	int		pipe_rep;
+
+	i = -1;
+	pipe_rep = 0;
 	str_edit(entry, "\t", " ");
 	str_edit(entry, "\n", " ");
 	str_edit(entry, "\v", " ");
 	str_edit(entry, "\r", " ");
 	str_edit(entry, "<", " < ");
 	str_edit(entry, ">", " > ");
+	while ((*entry)[++i])
+	{
+		while ((*entry)[i] && (*entry)[i] == ' ')
+			i++;
+		pipe_rep += ((*entry)[i] == '|');
+		if ((*entry)[i] != '|' && (*entry)[i] != ' ')
+			pipe_rep = 0;
+		if (pipe_rep >= 2)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 char	**split_pipeline(char *cmd_in)
@@ -45,7 +61,8 @@ char	**split_pipeline(char *cmd_in)
 
 	temp = NULL;
 	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
-	whitespaces_to_space(&temp);
+	if (preliminary(&temp) == EXIT_FAILURE)
+		return (err_parse_token(1), s_free(&temp), NULL);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
 	s_free(&temp);
@@ -55,19 +72,21 @@ char	**split_pipeline(char *cmd_in)
 void	parse(t_linux *shell)
 {
 	t_cmd	*command;
-	char	*cmd_in;
+	char	*raw_prompt;
 	char	**token;
 
 	(void)command;
 	command = shell->head;
 	token = NULL;
-	cmd_in = shell->input;
-	if (!cmd_in || !cmd_in[0] || is_empty(cmd_in))
+	raw_prompt = shell->input;
+	if (!raw_prompt || !raw_prompt[0] || is_empty(raw_prompt))
 		return ;
-	if (!ft_strcmp(cmd_in, "exit"))
+	if (!ft_strcmp(raw_prompt, "exit"))
 		return (ft_exit(shell));
-	add_history(cmd_in);
-	token = split_pipeline(cmd_in);
+	add_history(raw_prompt);
+	token = split_pipeline(raw_prompt);
+	if (!token)
+		return ;
 	shell->token = token;
 	command = build_commands(shell->head, token);
 	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 1);

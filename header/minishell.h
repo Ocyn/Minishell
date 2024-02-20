@@ -106,6 +106,9 @@ void		basic_env(t_env *env);
 void		change_env_arg(char **tab, t_env *env);
 char		*path_not_found(char *str);
 
+void		err_custom(int launch, char *message);
+void		err_parse_token(int launch);
+
 void		exit_end(int launch, t_linux *shell);
 void		exit_forkfailure(int launch, t_linux *shell, int *pip, char **path);
 void		exit_prompt(int launch, t_linux *shell);

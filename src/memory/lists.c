@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 14:25:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 17:02:42 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_lst	*lst_rm(t_lst *list)
 		tprev = list->prev;
 	if (list->next)
 		tnext = list->next;
-	s_free((char **)(&list->data));
+	s_free(&list->data);
 	if (tprev && tprev->next)
 		tprev->next = list->next;
 	if (tnext && tnext->prev)
@@ -74,7 +74,7 @@ void	*lst_free_list(t_lst *lst)
 		lst = lst_go_to(lst, -1);
 	while (lst)
 	{
-		s_free((char **)(&lst->data));
+		s_free(&lst->data);
 		if (lst->next)
 		{
 			lst = lst->next;

@@ -6,28 +6,31 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 14:49:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 17:58:57 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*rm_quotes(char *data, char quote)
-{
-	char	*new;
-	int		len;
+/*
+OUTDATED SO GOT COMMENTED
+*/
+// char	*rm_quotes(char *data, char quote)
+// {
+// 	char	*new;
+// 	int		len;
 
-	len = 0;
-	new = NULL;
-	if (!data || !data[0] || !quote || data[0] != quote)
-		return (data);
-	len = ft_strlen(data);
-	new = ft_substr(data, 1, len - ((len > 0) * 2));
-	if (!new)
-		return (data);
-	s_free(&data);
-	return (new);
-}
+// 	len = 0;
+// 	new = NULL;
+// 	if (!data || !data[0] || !quote || data[0] != quote)
+// 		return (data);
+// 	len = ft_strlen(data);
+// 	new = ft_substr(data, 1, len - ((len > 0) * 2));
+// 	if (!new)
+// 		return (data);
+// 	s_free(&data);
+// 	return (new);
+// }
 
 t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
 {
@@ -42,7 +45,6 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
 	while (keys && keys->next)
 	{
 		keys = keys->next;
-		keys->data = rm_quotes((char *)keys->data, '\"');
 		keys = get_redirection(keys, redi, error);
 	}
 	if (error)
@@ -50,7 +52,7 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
 	cmd->meta.infile = redi[0];
 	cmd->meta.outfile = redi[1];
 	cmd->meta.exec_cmd = lst_list_to_tab(lst_go_to(keys, -1));
-	db_tabstr_display(cmd->meta.exec_cmd, "\tList to tab New", -1);
+	/* DEBUG */	db_tabstr_display(cmd->meta.exec_cmd, "\tList to tab New", -1);
 	lst_free_list(keys);
 	return (cmd);
 }
