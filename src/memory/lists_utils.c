@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 18:09:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:28:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,19 @@ char	**lst_list_to_tab(t_lst *list)
 	id = 0;
 	tab = NULL;
 	tab = s_malloc(sizeof(char *) * lst_len(list, 0));
-	if (!tab)
+	if (!tab || !list)
 		return (NULL);
-	while (list)
+	while (list->next)
 	{
-		tab[id] = ft_strdup(((char *)list->data));
-		if (!tab[id])
-			return (free_tab(tab, id), NULL);
 		list = list->next;
+		if (list->data)
+		{
+			tab[id] = ft_strdup(((char *)list->data));
+			if (!tab[id])
+				return (free_tab(tab, id), NULL);
+		}
+		else
+			tab[id] = s_malloc(sizeof(char));
 		id++;
 	}
 	return (tab);

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/19 05:13:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 12:24:35 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,63 +29,50 @@ char	*rm_quotes(char *data, char quote)
 	return (new);
 }
 
-t_lst	*get_redirection(t_lst *list, int *redi)
-{
-	if (check_type(((char *)list->data)[0]))
-		return (list);
-	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
-	list = token_format(list, redi, _TOK_INFILE);
-	list = token_format(list, redi, _TOK_HEREDOC);
-	list = token_format(list, redi, _TOK_OUTFILE);
-	list = token_format(list, redi, _TOK_OUTFILE_APP);
-	return (list);
-}
-
-t_cmd	*set_command_metadatas(t_cmd *cmd, char *token)
+t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
 {
 	t_lst	*keys;
 	int		redi[2];
 
+	error = 0;
 	ft_memset(redi, 0, sizeof(int) * 2);
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
 	keys = lst_tab_to_list(cmd->meta.raw);
-	db_display_list(keys, "keys of cmd", 0);
-	while (keys->next)
+	while (keys && keys->next)
 	{
 		keys = keys->next;
 		keys->data = rm_quotes((char *)keys->data, '\"');
-		keys = get_redirection(keys, redi);
+		keys = get_redirection(keys, redi, error);
 	}
+	if (error)
+		return (cmd);
 	cmd->meta.infile = redi[0];
 	cmd->meta.outfile = redi[1];
-	keys = lst_go_to(keys, -1);
-	db_display_list(keys, "New keys of cmd", 0);
-	cmd->meta.exec_cmd = lst_list_to_tab(keys);
-	db_tabstr_display(cmd->meta.exec_cmd, "List to tab New", -1);
-	db_lst_free_list(keys, "Key Of CMD");
+	cmd->meta.exec_cmd = lst_list_to_tab(lst_go_to(keys, -1));
+	db_tabstr_display(cmd->meta.exec_cmd, "\tList to tab New", -1);
+	lst_free_list(keys);
 	return (cmd);
 }
 
 t_cmd	*build_commands(t_cmd *command, char **tokens)
 {
 	int		i;
+	int		error;
 	int		input_len;
 
 	/*DEBUG*/	db_print_custom_font("Build command\n", FE_UND);
 	i = 0;
+	error = 0;
 	input_len = tablen(tokens);
 	while (i <= input_len && tokens && tokens[i])
 	{
 		/*DEBUG*/	db_tabstr_display(tokens, "\n\tToken Input (i)", i);
 		command = cmd_add_unit(command);
-		command = set_command_metadatas(command, tokens[i]);
-		if (!command->meta.exec_cmd && !command->meta.raw)
+		command = set_command_metadatas(command, tokens[i], &error);
+		if (error || (!command->meta.exec_cmd && !command->meta.raw))
 			cmd_rm_unit(command);
 		i++;
-		/*DEBUG*/	db_print_custom_font("\n\tEnd loop\t: ", FE_BOL);
-		/*DEBUG*/	printf("i [%d] | input_len [%d]\n", i, input_len);
 	}
 	return (command);
 }
- 

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/19 03:54:43 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:09:58 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	db_tabstr_display(char **tab, char *message, int highlight)
 
 void	db_display_list(t_lst *list, char *message, int alldata)
 {
+	list = lst_go_to(list, -1);
 	printf("\n%sDisplay [%s%s%s%s] list:%s\n\n", FE_UND, FE_BOL, message, FRR, FE_UND, FRR);
 	if (list->next)
 	{
@@ -158,6 +159,20 @@ void	*db_cmd_free_list(t_cmd *cmd)
 			db_tabstr_display(cmd->meta.exec_cmd, "\t\texec_cmd", -1);
 			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
 			printf("\r\t"__VALID_FREED"\n");
+		}
+		if (cmd->meta.infile > 0)
+		{
+			db_print_custom_font("\t\tInfile : ", FE_BOL);
+			printf("[%d]", cmd->meta.infile);
+			if (close(cmd->meta.infile) != -1)
+				printf("\r\t"__VALID_FREED"\n");
+		}
+		if (cmd->meta.outfile > 0)
+		{
+			db_print_custom_font("\t\tOutfile : ", FE_BOL);
+			printf("[%d]", cmd->meta.outfile);
+			if (close(cmd->meta.outfile) != -1)
+				printf("\r\t"__VALID_FREED"\n");
 		}
 		if (cmd->next)
 		{

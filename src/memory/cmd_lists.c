@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 11:08:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:07:43 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void	*cmd_free_list(t_cmd *cmd)
 		s_free(&cmd->meta.sraw);
 		if (cmd->meta.exec_cmd)
 			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
+		if (cmd->meta.infile > 0)
+			close(cmd->meta.infile);
+		if (cmd->meta.outfile > 0)
+			close(cmd->meta.outfile);
 		if (cmd->next)
 		{
 			cmd = cmd->next;

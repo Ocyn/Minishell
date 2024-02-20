@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/19 04:21:16 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 07:44:33 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,14 @@ int	select_dup(int *pip, t_cmd *cmd)
 {
 	if (pip)
 	{
-		if (cmd->meta.infile)
-		{
-			if (cmd->meta.infile)
-				redirection(cmd->meta.infile, STDIN_FILENO, 0);
+		if (cmd->meta.infile > 0)
+			redirection(cmd->meta.infile, STDIN_FILENO, 0);
+		if (pip[0] > 0)
 			redirection(pip[0], STDIN_FILENO, pip[1]);
-		}
-		if (cmd->meta.outfile)
-		{
-			if (cmd->meta.outfile)
-				redirection(cmd->meta.outfile, STDOUT_FILENO, 0);
-			if (cmd->next)
-				redirection(pip[1], STDOUT_FILENO, pip[0]);
-		}
+		if (cmd->meta.outfile > 0)
+			redirection(cmd->meta.outfile, STDOUT_FILENO, 0);
+		if (cmd->next && pip[1] > 0)
+			redirection(pip[1], STDOUT_FILENO, pip[0]);
 		return (1);
 	}
 	return (0);

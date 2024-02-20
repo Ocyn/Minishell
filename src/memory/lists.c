@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/19 04:31:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 12:56:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_lst	*lst_rm(t_lst *list)
 	free(list);
 	list = NULL;
 	if (tprev->next)
-		return (tprev->next);
+		list = tprev->next;
 	if (tnext->prev)
-		return (tnext->prev);
+		list = tnext->prev;
 	return (list);
 }
 
