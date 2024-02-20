@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/20 18:00:13 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 19:24:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ char	**split_pipeline(char *cmd_in)
 		return (err_parse_token(1), s_free(&temp), NULL);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
+	if (is_tab_empty(tab))
+	{
+		free_tab(tab, tablen(tab));
+		return (err_parse_token(1), s_free(&temp), NULL);
+	}
 	s_free(&temp);
 	return (tab);
 }
@@ -73,26 +78,23 @@ void	parse(t_linux *shell)
 {
 	t_cmd	*command;
 	char	*raw_prompt;
-	char	**token;
 
 	(void)command;
 	command = shell->head;
-	token = NULL;
 	raw_prompt = shell->input;
-	if (!raw_prompt || !raw_prompt[0] || is_empty(raw_prompt))
+	if (!raw_prompt || !raw_prompt[0] || is_str_empty(raw_prompt))
 		return ;
 	if (!ft_strcmp(raw_prompt, "exit"))
 		return (ft_exit(shell));
 	add_history(raw_prompt);
-	token = split_pipeline(raw_prompt);
-	if (!token)
+	shell->token = split_pipeline(raw_prompt);
+	if (!shell->token)
 		return ;
-	shell->token = token;
-	command = build_commands(shell->head, token);
+	command = build_commands(shell->head, shell->token);
 	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 1);
 	change_env_arg(shell->head->next->meta.raw, shell->env);
 	//supprimer simples
 	//launch_command(shell, NULL);
-	free_tab(token, tablen(token));
+	free_tab(shell->token, tablen(shell->token));
 	db_cmd_free_list(shell->head);
 }

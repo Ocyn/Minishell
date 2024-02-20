@@ -35,11 +35,11 @@ void		cmd_init(t_cmd *cmd);
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 char		*ft_strtok(char *src, char delim);
 int			is_builtin(char *cmd_in, t_linux *shell);
-int			white_space(const char seek);
-int			is_empty(char *str);
+int			is_white_space(const char seek);
+int			is_str_empty(char *str);
+int			is_tab_empty(char **tab);
 int			heredoc_check(const char **token, int index, int *checker);
 int			str_occur(const char *src, const char *seek);
-int			special_char(char *seek, int mode);
 
 void		parse(t_linux *shell);
 char		**multisplit(const char *s, char *keys);
