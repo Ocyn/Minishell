@@ -19,6 +19,7 @@ MEMORY			= cmd_lists.c \
 				memory_utils.c \
 				quick_checking.c \
 				memory_edit.c \
+				str_edit_quotes.c \
 				memory_scan.c \
 				multisplit.c \
 				initialization.c

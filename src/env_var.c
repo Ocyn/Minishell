@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:59:33 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 09:49:27 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:42:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,12 @@ void	change_env_arg(char **tab, t_env *env)
 	char	*new;
 	char	*buf;
 
-	i = 0;
-	while (tab[i])
+	i = -1;
+	if (!tab)
+		return ;
+	while (tab[++i])
 	{
-		if (ft_strcmp(tab[i], "$") &&\
+		if (ft_strcmp(tab[i], "$") && \
 			ft_strcmp(tab[i], "$?") && ft_strchr(tab[i], '$') != NULL)
 		{
 			new = replace_var(env, ft_strchr(tab[i], '$'));
@@ -98,6 +100,5 @@ void	change_env_arg(char **tab, t_env *env)
 			if (new)
 				s_free(&new);
 		}
-		i++;
 	}
 }

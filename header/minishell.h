@@ -36,14 +36,15 @@ char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 char		*ft_strtok(char *src, char delim);
 int			is_builtin(char *cmd_in, t_linux *shell);
 int			is_white_space(const char seek);
-int			is_str_empty(char *str);
-int			is_tab_empty(char **tab);
+int			is_special_token(const char seek);
+int			is_str(char *str, int (*check)(const char));
+int			is_tab(char **tab, int (*check)(const char));
 int			heredoc_check(const char **token, int index, int *checker);
 int			str_occur(const char *src, const char *seek);
 
 void		parse(t_linux *shell);
 char		**multisplit(const char *s, char *keys);
-t_cmd		*build_commands(t_cmd *command, char **all_token);
+t_cmd		*build_commands(t_cmd *command, char **tokens, t_env *envv);
 t_lst		*get_redirection(t_lst *list, int *redi, int *err);
 void		launch_command(t_linux *shell, t_cmd *command);
 char		*get_file_name(char *token, char type);
@@ -82,6 +83,7 @@ char		*tab_to_str(char **tab, int size, int add_sep, int freed);
 void		whitespaces_to_space(char **entry);
 char		**cmd_list_to_tab(t_cmd *list);
 void		str_edit(char **src, char *seek, char *replace);
+void		str_edit_quotes(char **src, char *seek, char *replace);
 int			ft_strcat(char *dest, char *src);
 int			tablen(char **tab);
 

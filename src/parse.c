@@ -6,51 +6,48 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/20 19:24:20 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 21:09:56 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	*ft_strtok(char *src, char delim)
+int	token_repetition(char *str, char token, int max_rep)
 {
 	int	id;
+	int	rep_count;
 
-	id = 0;
-	if (src && delim)
+	id = -1;
+	rep_count = 0;
+	while (str && str[++id])
 	{
-		src = ft_strchr(src, delim);
-		src += (src && src[0] && src[1]);
-		while (src && src[id] && src[id] != delim)
+		while (str[id] && str[id] == ' ')
 			id++;
-		src[id] = 0;
+		rep_count += (str[id] == token);
+		if (str[id] != token && str[id] != ' ')
+			rep_count = 0;
+		if (rep_count >= max_rep)
+			return (EXIT_FAILURE);
 	}
-	return (src);
+	return (EXIT_SUCCESS);
 }
 
 int	preliminary(char **entry)
 {
-	int		i;
-	int		pipe_rep;
-
-	i = -1;
-	pipe_rep = 0;
+	if (is_str(*entry, is_white_space) || is_str(*entry, is_special_token))
+		return (EXIT_FAILURE);
 	str_edit(entry, "\t", " ");
 	str_edit(entry, "\n", " ");
 	str_edit(entry, "\v", " ");
 	str_edit(entry, "\r", " ");
 	str_edit(entry, "<", " < ");
 	str_edit(entry, ">", " > ");
-	while ((*entry)[++i])
-	{
-		while ((*entry)[i] && (*entry)[i] == ' ')
-			i++;
-		pipe_rep += ((*entry)[i] == '|');
-		if ((*entry)[i] != '|' && (*entry)[i] != ' ')
-			pipe_rep = 0;
-		if (pipe_rep >= 2)
-			return (EXIT_FAILURE);
-	}
+	if (token_repetition(*entry, '|', 2) \
+	|| token_repetition(*entry, '<', 3) \
+	|| token_repetition(*entry, '>', 3))
+		return (EXIT_FAILURE);
+	if ((*entry)[0] == '|')
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -60,12 +57,12 @@ char	**split_pipeline(char *cmd_in)
 	char	*temp;
 
 	temp = NULL;
-	temp = ft_strtrim(cmd_in, "  \n\v\r\t");
+	temp = ft_strtrim(cmd_in, " \n\v\r\t");
 	if (preliminary(&temp) == EXIT_FAILURE)
 		return (err_parse_token(1), s_free(&temp), NULL);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
-	if (is_tab_empty(tab))
+	if (is_tab(tab, is_white_space) || is_tab(tab, is_special_token))
 	{
 		free_tab(tab, tablen(tab));
 		return (err_parse_token(1), s_free(&temp), NULL);
@@ -82,7 +79,7 @@ void	parse(t_linux *shell)
 	(void)command;
 	command = shell->head;
 	raw_prompt = shell->input;
-	if (!raw_prompt || !raw_prompt[0] || is_str_empty(raw_prompt))
+	if (!raw_prompt || !raw_prompt[0] || is_str(raw_prompt, is_white_space))
 		return ;
 	if (!ft_strcmp(raw_prompt, "exit"))
 		return (ft_exit(shell));
@@ -90,10 +87,8 @@ void	parse(t_linux *shell)
 	shell->token = split_pipeline(raw_prompt);
 	if (!shell->token)
 		return ;
-	command = build_commands(shell->head, shell->token);
+	command = build_commands(shell->head, shell->token, shell->env);
 	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 1);
-	change_env_arg(shell->head->next->meta.raw, shell->env);
-	//supprimer simples
 	//launch_command(shell, NULL);
 	free_tab(shell->token, tablen(shell->token));
 	db_cmd_free_list(shell->head);

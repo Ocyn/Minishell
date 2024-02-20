@@ -6,33 +6,13 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 17:58:57 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:49:55 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-/*
-OUTDATED SO GOT COMMENTED
-*/
-// char	*rm_quotes(char *data, char quote)
-// {
-// 	char	*new;
-// 	int		len;
-
-// 	len = 0;
-// 	new = NULL;
-// 	if (!data || !data[0] || !quote || data[0] != quote)
-// 		return (data);
-// 	len = ft_strlen(data);
-// 	new = ft_substr(data, 1, len - ((len > 0) * 2));
-// 	if (!new)
-// 		return (data);
-// 	s_free(&data);
-// 	return (new);
-// }
-
-t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
+t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error, t_env *envv)
 {
 	t_lst	*keys;
 	int		redi[2];
@@ -49,15 +29,18 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error)
 	}
 	if (error)
 		return (cmd);
+	cmd->meta.exec_cmd = lst_list_to_tab(lst_go_to(keys, -1));
+	if (cmd && !cmd->meta.exec_cmd)
+		
 	cmd->meta.infile = redi[0];
 	cmd->meta.outfile = redi[1];
-	cmd->meta.exec_cmd = lst_list_to_tab(lst_go_to(keys, -1));
+	change_env_arg(cmd->meta.exec_cmd, envv);
 	/* DEBUG */	db_tabstr_display(cmd->meta.exec_cmd, "\tList to tab New", -1);
 	lst_free_list(keys);
 	return (cmd);
 }
 
-t_cmd	*build_commands(t_cmd *command, char **tokens)
+t_cmd	*build_commands(t_cmd *command, char **tokens, t_env *envv)
 {
 	int		i;
 	int		error;
@@ -71,7 +54,7 @@ t_cmd	*build_commands(t_cmd *command, char **tokens)
 	{
 		/*DEBUG*/	db_tabstr_display(tokens, "\n\n\tToken Input (i)", i);
 		command = cmd_add_unit(command);
-		command = set_command_metadatas(command, tokens[i], &error);
+		command = set_command_metadatas(command, tokens[i], &error, envv);
 		if (error || (!command->meta.exec_cmd))
 			cmd_rm_unit(command);
 		i++;
