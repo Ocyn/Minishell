@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/21 15:20:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 15:24:25 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
 void	redirection(int fd, int todup)
 {
 	if (fd > 2 && todup > 2)
-	{
 		dup2(fd, todup);
-		if (toclose > 2)
-			s_close(toclose);
-	}
 }
 
 int	select_dup(int *pip, int old_pipr, t_cmd *cmd)
@@ -50,8 +46,8 @@ int	select_dup(int *pip, int old_pipr, t_cmd *cmd)
 		s_close(pip[0]);
 		redirection(old_pipr, STDIN_FILENO);
 		redirection(pip[1], STDOUT_FILENO);
-		redirection(cmd->meta.infile, STDIN_FILENO);
-		redirection(cmd->meta.outfile, STDOUT_FILENO);
+		// redirection(cmd->meta.infile, STDIN_FILENO);
+		// redirection(cmd->meta.outfile, STDOUT_FILENO);
 		return (1);
 	}
 	return (0);
