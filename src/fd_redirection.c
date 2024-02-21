@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 11:34:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 14:26:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,13 @@ int	set_infile(char *file, int heredoc, int oldfd)
 {
 	int	fd;
 
+	/*DEBUG*/	printf("\t\tInfile to open : [%s] | Heredoc : [%d]\n", file, heredoc);
 	fd = 0;
 	(void)heredoc;
 	if (!file)
 		return (oldfd);
-	/*DEBUG*/	printf("\t\tInfile to open : [%s] | Heredoc : [%d]\n", file, heredoc);
-	if (access(file, F_OK) != -1 && access(file, R_OK) != -1)
-	{
-		fd = open(file, O_RDONLY);
-		err_perror((fd == -1));
-	}
+	fd = open(file, O_RDONLY);
+	err_perror((fd == -1));
 	if (oldfd > 1)
 	{
 		if (fd > 1)
@@ -98,6 +95,7 @@ int	set_outfile(char *file, int append, int oldfd)
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
 	else
 		fd = open(file, O_CREAT | O_WRONLY, 00700);
+	err_perror((fd == -1));
 	if (fd > 2 && oldfd > 2)
 		s_close(oldfd);
 	if (fd <= 2 && oldfd > 2)
