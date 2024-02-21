@@ -6,51 +6,59 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/21 15:41:14 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 23:02:34 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	exe_command(t_cmd *cmd, pid_t *fk, int *pip, t_linux *shell)
+void	exe_command(char **command, pid_t *fk, int *pip, t_linux *shell)
 {
 	char	*path;
 
 	path = NULL;
 	*fk = fork();
 	if (*fk == -1)
-		return ;
+		return ((void)err_perror(1));
 	if (*fk == 0)
 	{
-		printf("\n\tChild:\n");
-		printf("\t\tpip[0]: [%d]\n", pip[0]);
-		printf("\t\tpip[1]: [%d]\n", pip[1]);
-		path = get_path(cmd->meta.exec_cmd[0], shell->env);
+		path = get_path(command[0], shell->env);
 		if (path != NULL)
 		{
-			execve(path, cmd->meta.exec_cmd, shell-> envi);
-			perror("minishell");
+			execve(path, command, shell->envi);
 			exit_forkfailure(EXIT_FAILURE, shell, pip, &path);
 		}
 		exit_forkfailure(127, shell, pip, &path);
 	}
 }
 
-void	redirection(int fd, int todup)
+int	pipe_tool(int *piipe, int initorclose)
 {
-	if (fd > 2 && todup > 2)
-		dup2(fd, todup);
+	if (initorclose)
+	{
+		ft_memset(piipe, -1, 2);
+		if (pipe(piipe) == -1)
+			return (EXIT_FAILURE);
+	}
+	else
+	{
+		if (close(piipe[0]) == -1 || close(piipe[1]) == -1)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
-int	select_dup(int *pip, int old_pipr, t_cmd *cmd)
+int	select_dup(int *pi_in, int *pi_out, t_cmd *cmd)
 {
+	(void)pi_out;
+	(void)pi_in;
 	if (cmd)
 	{
-		s_close(pip[0]);
-		redirection(old_pipr, STDIN_FILENO);
-		redirection(pip[1], STDOUT_FILENO);
-		// redirection(cmd->meta.infile, STDIN_FILENO);
-		// redirection(cmd->meta.outfile, STDOUT_FILENO);
+		/*DEBUG*/	printf("\n\tSelect dup:\n");
+		/*DEBUG*/	printf("\t\tpi_in[0][1]: [%d] [%d]\n", pi_in[0], pi_in[1]);
+		/*DEBUG*/	printf("\t\tpi_out[0][1]: [%d] [%d]\n", pi_out[0], pi_out[1]);
+		dup2(cmd->meta.infile, STDIN_FILENO);
+		dup2(cmd->meta.outfile, STDOUT_FILENO);
 		return (1);
 	}
 	return (0);
@@ -59,33 +67,27 @@ int	select_dup(int *pip, int old_pipr, t_cmd *cmd)
 void	launch_command(t_linux *shell, t_cmd *command)
 {
 	pid_t	fork_id;
-	int		old_pipr;
-	int		pip[2];
+	int		pi_in[2];
+	int		pi_out[2];
 
 	/*DEBUG*/	db_printf("\nLaunch Command\n\n\n", FE_UND);
 	fork_id = 0;
-	old_pipr = -1;
-	pip[0] = -1;
-	pip[1] = -1;
+	err_perror((pipe_tool(pi_in, 1) || pipe_tool(pi_out, 1)));
 	let_signal_through();
 	command = shell->head->next;
 	while (command && command->meta.exec_cmd)
 	{
-		if (pipe(pip) == -1)
-			break ;
-		select_dup(pip, old_pipr, command);
+		select_dup(pi_in, pi_out, command);
 		if (!is_builtin(command->meta.exec_cmd[0], shell))
 		{
-			if (command->meta.exec_cmd)
-				exe_command(command, &fork_id, pip, shell);
+			/*DEBUG*/	db_printf("\n\nOUTPUT START\n\n", FE_BOL);
+			exe_command(command->meta.exec_cmd, &fork_id, pi_in, shell);
+			/*DEBUG*/	db_printf("\n\nOUTPUT END\n\n", FE_BOL);
 			waitpid(fork_id, &g_sign, 0);
 		}
-		s_close(pip[0]);
-		dup2(old_pipr, pip[1]);
 		command = command->next;
 	}
-	s_close(old_pipr);
+	err_perror((pipe_tool(pi_in, 0) || pipe_tool(pi_out, 0)));
 	change_ret_signal(g_sign);
 	create_signal();
-	/*DEBUG*/	db_printf("\n\nCOMMANDS ALL DONE\n\n", FE_BOL);
 }

@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 13:31:54 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 15:54:49 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_cmd	*build_commands(t_cmd *command, char **tokens, t_env *envv)
 		/*DEBUG*/	db_tabstr_display(tokens, "\n\n\tToken Input (i)", i);
 		command = cmd_add_unit(command);
 		command = set_command_metadatas(command, tokens[i], &error, envv);
-		if (error || (!command->meta.exec_cmd))
+		if (error || (command->meta.infile < 2 && command->meta.outfile < 2 \
+		&& !command->meta.exec_cmd))
 			cmd_rm_unit(command);
 		i++;
 	}

@@ -74,6 +74,20 @@ POUR TESTER LA PIPELINE
 
 	echo "just two of us" | cat -e
 
+	echo $USER $?USERR
+
+	EXPORT ? (env trie + mise en page particuliere)
+
+	export _1 (marche sur bash, pas sur le votre)
+
+	exit OK -> verif %256 ?
+
+	cat Makefile>out (ecrit sur 1); toutes les redirections out
+
+	gestion des quotes KO
+
+
+
 
 
 

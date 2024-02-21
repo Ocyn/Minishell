@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:26:29 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 13:22:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:57:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	err_custom(int launch, char *message)
 {
 	if (launch)
 	{
-		printf("minishell: ");
-		printf("%s", message);
-		printf("\n");
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(message, 2);
+		ft_putstr_fd("\n", 2);
 		g_sign = 2;
 	}
 }
@@ -44,9 +44,9 @@ void	err_parse_token(int launch)
 {
 	if (launch)
 	{
-		printf("minishell: ");
-		printf("syntax error unexpected token");
-		printf("\n");
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("syntax error unexpected token", 2);
+		ft_putstr_fd("\n", 2);
 		g_sign = 2;
 	}
 }

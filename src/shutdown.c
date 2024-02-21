@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:26:29 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 14:47:33 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 22:02:56 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exit_prompt(int launch, t_linux *shell)
 
 void	exit_forkfailure(int e_sig, t_linux *shell, int *pip, char **path)
 {
+	perror("minishell");
 	s_close(pip[1]);
 	s_close(pip[0]);
 	s_free(&shell->input);
