@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/20 23:35:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 14:21:20 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ void	redirection(int fd, int todup, int toclose)
 	if (fd > 2 && todup > 2)
 	{
 		dup2(fd, todup);
-		if (toclose != -1)
+		if (toclose > 2)
 			s_close(toclose);
 	}
-	else
-		s_close(fd);
 }
 
 int	select_dup(int *pip, t_cmd *cmd)
@@ -67,9 +65,10 @@ void	launch_command(t_linux *shell, t_cmd *command)
 	pid_t	fork_id;
 	int		pip[2];
 
+	/*DEBUG*/	db_printf("\nLaunch Command\n\n\n", FE_UND);
 	fork_id = 0;
-	let_signal_through();
 	ft_memset(pip, 0, 2);
+	let_signal_through();
 	command = shell->head->next;
 	while (command && command->meta.exec_cmd)
 	{
@@ -89,4 +88,5 @@ void	launch_command(t_linux *shell, t_cmd *command)
 	waitpid(fork_id, &g_sign, 0);
 	change_ret_signal(g_sign);
 	create_signal();
+	/*DEBUG*/	db_printf("\n\nCOMMANDS ALL DONE\n\n", FE_BOL);
 }

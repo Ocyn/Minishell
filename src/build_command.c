@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 05:49:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 00:27:05 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 13:31:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error, t_env *envv)
 	ft_memset(redi, 0, sizeof(int) * 2);
 	cmd->meta.sraw = ft_strdup(token);
 	cmd->meta.raw = multisplit(token, " ");
+	change_env_arg(cmd->meta.raw, envv);
 	keys = lst_tab_to_list(cmd->meta.raw);
 	while (keys && keys->next)
 	{
@@ -33,7 +34,6 @@ t_cmd	*set_command_metadatas(t_cmd *cmd, char *token, int *error, t_env *envv)
 	lst_free_list(keys);
 	cmd->meta.infile = redi[0];
 	cmd->meta.outfile = redi[1];
-	change_env_arg(cmd->meta.exec_cmd, envv);
 	/* DEBUG */	db_tabstr_display(cmd->meta.exec_cmd, "\tList to tab New", -1);
 	return (cmd);
 }
@@ -44,7 +44,7 @@ t_cmd	*build_commands(t_cmd *command, char **tokens, t_env *envv)
 	int		error;
 	int		input_len;
 
-	/*DEBUG*/	db_print_custom_font("Build command\n", FE_UND);
+	/*DEBUG*/	db_printf("Build command\n", FE_UND);
 	i = 0;
 	error = 0;
 	input_len = tablen(tokens);

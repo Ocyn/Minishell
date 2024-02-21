@@ -19,7 +19,7 @@
 # include "functions_docs.h"
 
 void		db_debug(void);
-void		db_print_custom_font(char *message, char *font_effect);
+void		db_printf(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_lst *list, char *message, int alldata);
 void		db_display_list_cmd(t_cmd *list, char *message, int alldata);
@@ -110,7 +110,9 @@ void		basic_env(t_env *env);
 void		change_env_arg(char **tab, t_env *env);
 char		*path_not_found(char *str);
 
+void		err_log(int launch, void (*errormode)(int, int, char *));
 void		err_custom(int launch, char *message);
+void		err_perror(int launch);
 void		err_parse_token(int launch);
 
 void		exit_end(int launch, t_linux *shell);

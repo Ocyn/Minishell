@@ -70,6 +70,55 @@ cat -e <<hd <<hd <<hd
 
 < Makefile ls | cat -e > out
 
+POUR TESTER LA PIPELINE
+
+	echo "just two of us" | cat -e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int	get_type(char *data)
 {
@@ -102,7 +151,7 @@ t_cmd	*get_redirection(t_cmd *cmd, t_lst *list)
 	int		err;
 
 	err = 0;
-	db_print_custom_font("\n\nGet_Redirection\n", FE_BOL);
+	db_printf("\n\nGet_Redirection\n", FE_BOL);
 	db_display_list(list, "Key_words");
 	while (list && !err)
 	{

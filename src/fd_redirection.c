@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 22:45:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 11:34:50 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_lst	*token_format(t_lst *list, int *redi, char *id)
 		list = lst_rm(list);
 		mode = (list && !ft_strcmp(list->data, id));
 		if (!list || (!list->next && is_redi(list->data)))
-			return (err_parse_token(1), list);	// Erreur de token -> annulation execve
+			return (err_parse_token(1), list);
 		if (list && !ft_strcmp(list->data, id))
 			list = lst_rm(list);
 		if (list && ft_strcmp(list->data, id) && !is_redi(list->data))
@@ -72,7 +72,10 @@ int	set_infile(char *file, int heredoc, int oldfd)
 		return (oldfd);
 	/*DEBUG*/	printf("\t\tInfile to open : [%s] | Heredoc : [%d]\n", file, heredoc);
 	if (access(file, F_OK) != -1 && access(file, R_OK) != -1)
+	{
 		fd = open(file, O_RDONLY);
+		err_perror((fd == -1));
+	}
 	if (oldfd > 1)
 	{
 		if (fd > 1)

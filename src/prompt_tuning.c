@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 04:31:34 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/01/30 18:46:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 13:31:54 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ char	*prompt_tuning(char *name, char *suffix, char *profile)
 	prompt = NULL;
 	settings = NULL;
 	set_index = -1;
-	/*DEBUG*/	db_print_custom_font("\nPrompt_Tuning", FE_UND);
+	/*DEBUG*/	db_printf("\nPrompt_Tuning", FE_UND);
 	if (!init_all(&settings, profile, &suffix))
 		return (ft_strdup("> "));
 	prompt = ft_strjoin(" ", name);

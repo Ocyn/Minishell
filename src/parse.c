@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/21 00:22:47 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 13:29:19 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	token_repetition(char *str, char token, int max_rep)
 	id = -1;
 	state = (str && str[0] == '|');
 	rep_count = 0;
-	if (state)
-		return (EXIT_FAILURE);
+	if (!ft_strchr(str, token))
+		return (EXIT_SUCCESS);
 	while (str && str[++id])
 	{
 		while (str[id] && str[id] == ' ')
@@ -49,9 +49,8 @@ int	preliminary(char **entry)
 	str_edit(entry, "\n", " ");
 	str_edit(entry, "\v", " ");
 	str_edit(entry, "\r", " ");
-	if ((find_str_in_str(*entry, "|") && token_repetition(*entry, '|', 2)) \
-	|| (find_str_in_str(*entry, "<") && token_repetition(*entry, '<', 3)) \
-	|| (find_str_in_str(*entry, ">") && token_repetition(*entry, '>', 3)))
+	if (token_repetition(*entry, '|', 2) || token_repetition(*entry, '<', 3) \
+	|| token_repetition(*entry, '>', 3))
 		return (EXIT_FAILURE);
 	if ((*entry)[0] == '|')
 		return (EXIT_FAILURE);
@@ -97,7 +96,7 @@ void	parse(t_linux *shell)
 	if (!shell->token)
 		return ;
 	command = build_commands(shell->head, shell->token, shell->env);
-	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 1);
+	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 0);
 	launch_command(shell, NULL);
 	free_tab(shell->token, tablen(shell->token));
 	db_cmd_free_list(shell->head);
