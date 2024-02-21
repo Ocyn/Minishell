@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/21 23:02:34 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 23:05:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	pipe_tool(int *piipe, int initorclose)
 int	select_dup(int *pi_in, int *pi_out, t_cmd *cmd)
 {
 	(void)pi_out;
-	(void)pi_in;
+	(void)pi_inz;
 	if (cmd)
 	{
 		/*DEBUG*/	printf("\n\tSelect dup:\n");
