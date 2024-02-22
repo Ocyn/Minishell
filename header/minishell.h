@@ -40,18 +40,18 @@ int			is_white_space(const char seek);
 int			is_special_token(const char seek);
 int			is_str(char *str, int (*check)(const char));
 int			is_tab(char **tab, int (*check)(const char));
-int			heredoc_check(const char **token, int index, int *checker);
 int			str_occur(const char *src, const char *seek);
 
 void		parse(t_linux *shell);
 char		**multisplit(const char *s, char *keys);
 t_cmd		*build_commands(t_cmd *command, char **tokens, t_env *envv);
 t_lst		*get_redirection(t_lst *list, int *redi, int *err);
+int			heredocument(char *delim, int expand, t_env *env);
+int			pipe_tool(int *piipe, int initorclose);
 void		launch_command(t_linux *shell, t_cmd *cmd);
 char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
-char		**get_heredoc(char *src);
 int			set_infile(char *file, int heredoc, int oldfd);
 int			set_outfile(char *file, int append, int oldfd);
 

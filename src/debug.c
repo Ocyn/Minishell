@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 13:48:44 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 13:44:45 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 18:31:01 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	db_printf(char *message, char *font_effect)
 {
+	fflush(stdout);
 	if (font_effect)
 		printf("%s", font_effect);
 	if (message)
