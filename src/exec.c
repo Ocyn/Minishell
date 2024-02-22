@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 14:28:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 14:34:09 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	smart_dup(t_pipeline *table, t_cmd *cmd, int id)
 {
 	(void)cmd;
-	if (cmd.id == 1 && !cmd->next)
+	if (cmd->id == 1 && !cmd->next)
 		return ;
 	close(table->pline[(id + 1) % 2]);
 	dup2(table->pline[id % 2], id % 2);
@@ -45,8 +45,6 @@ void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
 		}
 		exit_forkfailure(127, shell, table->pline, &path);
 	}
-	else
-		/*DEBUG*/	db_printf("\n\nOUTPUT END\n\n", FE_BOL);
 }
 
 int	pipe_tool(int *piipe, int initorclose)
