@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 19:26:22 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 21:48:46 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	smart_dup(t_pipeline *table, t_cmd *cmd, int id)
+void	auto_dup(t_pipeline *table, t_cmd *cmd, int id)
 {
+	(void)id;
 	(void)cmd;
-	if (cmd->id == 1 && !cmd->next)
-		return ;
-	close(table->pline[(id + 1) % 2]);
-	dup2(table->pline[id % 2], id % 2);
-	close(table->pline[(id) % 2]);
+	close(table->pline[0]);
+	dup2(table->pline[1], STDOUT_FILENO);
+	close(table->pline[1]);
 }
 
 void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
@@ -34,7 +33,8 @@ void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
 		return ((void)err_perror(1));
 	if (table->fork_id == 0)
 	{
-		smart_dup(table, cmd, 1);
+		if (cmd->next)
+			auto_dup(table, cmd, b_fd);
 		path = get_path(cmd->meta.exec_cmd[0], shell->env);
 		if (path != NULL)
 		{
@@ -57,6 +57,8 @@ int	pipe_tool(int *piipe, int initorclose)
 	{
 		if (close(piipe[0]) == -1 || close(piipe[1]) == -1)
 			return (EXIT_FAILURE);
+		piipe[0] = -1;
+		piipe[1] = -1;
 	}
 	return (EXIT_SUCCESS);
 }
@@ -79,22 +81,29 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 	t_pipeline	table;
 
 	table.fork_id = 0;
-	err_perror(pipe_tool(table.pline, 1));
 	let_signal_through();
 	cmd = shell->head->next;
+	table.state = 0;
 	while (cmd && cmd->meta.exec_cmd)
 	{
+		ft_putstr_fd("DB 1\n", 2);
+		ft_memset(table.pline, -1, 2);
+		err_perror(pipe_tool(table.pline, 1));
+		if (table.pline[0] != -1)
+			table.state = 1;
 		if (!is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
+		{
 			exe_command(&table, cmd, shell);
+			close(table.pline[1]);
+			dup2(table.pline[0], STDIN_FILENO);
+			close(table.pline[0]);
+			ft_putstr_fd("DB 4\n", 2);
+		}
 		cmd = cmd->next;
 	}
-	cmd = shell->head->next;
-	err_perror(pipe_tool(table.pline, 0));
-	while (cmd && cmd->meta.exec_cmd)
-	{
-		waitpid(-1, &g_sign, 0);
-		cmd = cmd->next;
-	}
+	waitpid(table.fork_id, &g_sign, 0);
+	while (waitpid(-1, &g_sign, 0) != -1)
+		;
 	change_ret_signal(g_sign);
 	create_signal();
 }

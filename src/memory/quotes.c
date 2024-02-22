@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 20:17:33 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 16:49:10 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:44:53 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,36 @@
 int	reset_token(char	*last_token)
 {
 	(*last_token) = '\0';
-	return (1);
+	return (0);
+}
+
+int	pipe_repetition(char *str, char last_token, int i, int quotes)
+{
+	int		count;
+
+	count = 0;
+	last_token = '\0';
+	while (str[++i])
+	{
+		quotes_check_parse(str[i], &quotes);
+		if (quotes == 0)
+		{
+			if (ft_strchr("|", str[i]) != NULL)
+			{
+				if (last_token != '\0' && last_token != str[i])
+					return (EXIT_FAILURE);
+				last_token = str[i];
+				count++;
+			}
+			else if (count != 0 && str[i] == ' ')
+				count++;
+			else
+				count = reset_token(&last_token);
+			if (count > 1 && ft_strchr("|", str[i]) != NULL)
+				return (EXIT_FAILURE);
+		}
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	len_after_ampute(char *tab)

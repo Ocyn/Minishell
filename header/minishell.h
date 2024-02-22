@@ -47,6 +47,7 @@ char		**multisplit(const char *s, char *keys);
 t_cmd		*build_commands(t_cmd *command, char **tokens, t_env *envv);
 t_lst		*get_redirection(t_lst *list, int *redi, int *err);
 void		launch_command(t_linux *shell, t_cmd *command);
+int			s_close(int launch, int fd);
 char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
@@ -87,6 +88,7 @@ int			str_edit_quotes(char **src, char *seek, char *replace, int i);
 int			ft_strcat(char *dest, char *src);
 int			tablen(char **tab);
 int			str_occur(const char *src, const char *seek);
+int			pipe_repetition(char *str, char last_token, int i, int quotes);
 
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);

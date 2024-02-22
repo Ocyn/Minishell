@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   str_edit_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:03:20 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 15:47:33 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:01:52 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,9 @@ int	str_edit_quotes(char **src, char *seek, char *replace, int i)
 char	*str_quote_edit_init(char *src, char *seek, char *replace, int *llen)
 {
 	char	*new;
-	char	*str;
 	int		len;
 
 	len = 0;
-	str = src;
 	new = NULL;
 	if (str_occur(src, seek))
 		len++;

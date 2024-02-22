@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 16:50:02 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:45:15 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	**split_pipeline(char *cmd_in)
 		return (err_parse_token(1), s_free(&temp), NULL);
 	if (token_repetition(temp, '\0', -1, 0))
 		return (err_parse_token(1), s_free(&temp), NULL);
+	if (pipe_repetition(temp, '\0', -1, 0))
+		return (err_parse_token(1), s_free(&temp), NULL);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
 	if (is_tab(tab, is_white_space) || is_tab(tab, is_special_token))
@@ -111,6 +113,7 @@ void	parse(t_linux *shell)
 	t_cmd	*command;
 	char	*raw_prompt;
 
+	(void)command;
 	command = shell->head;
 	raw_prompt = shell->input;
 	if (!raw_prompt || !raw_prompt[0] || is_str(raw_prompt, is_white_space))

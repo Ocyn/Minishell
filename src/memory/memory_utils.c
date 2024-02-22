@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:14:08 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 13:44:59 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:48:38 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+int	s_close(int launch, int fd)
+{
+	if (launch && fd != -1)
+		return (close(fd));
+	return (0);
+}
 
 void	change_var_sign(char **str)
 {
