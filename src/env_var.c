@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 16:59:33 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 09:49:27 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 21:38:30 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,97 +33,109 @@ int	cmp_for_env(char *str, char *cmp)
 	return (0);
 }
 
-char	*replace_var(t_env *env, char *str)
+void	expended_variable(t_lst *new, t_env *env)
 {
-	t_env	*buf;
-
-	buf = env;
-	while (buf != NULL)
-	{
-		if (cmp_for_env(buf->str, str))
-			return (ft_strdup(ft_strchr(buf->str, '=') + 1));
-		buf = buf->next;
-	}
-	return (NULL);
-}
-
-char	*expended_variable(char *tab, char *str, int j)
-{
-	char	*buf;
+	t_lst	*buf;
+	t_env	*check;
 	int		i;
 
-	i = 0;
-	j = 0;
-	while (tab[j] != '$')
-		j++;
-	buf = malloc(sizeof(char) * (j + ft_strlen(str) + 1));
-	if (!buf)
-		return (NULL);
-	while (i < j)
+	check = env;
+	while (check)
 	{
-		buf[i] = tab[i];
-		i++;
-	}
-	if (str != NULL)
-	{
-		while (i < (int)(j + ft_strlen(str)))
+		buf = new;
+		while (buf && buf->data)
 		{
-			buf[i] = str[i - j];
-			i++;
+			if (buf->data[0] == '$' && ft_strncmp(buf->data, "$?", 2) \
+			&& cmp_for_env(check->str, buf->data))
+			{
+				i = 0;
+				while (check->str[i] != '=')
+					i++;
+				s_free(&buf->data);
+				buf->data = ft_strdup(&check->str[i + 1]);
+			}
+			buf = buf->next;
 		}
+		check = check->next;
 	}
-	buf[i] = '\0';
-	return (buf);
+}
+
+int	is_quotes(int *i, int *j, t_lst **new, char *str)
+{
+	static int	quotes;
+
+	if (j == 0 && new == NULL && str == NULL)
+	{
+		quotes = 0;
+		return (0);
+	}
+	quotes_check_parse(str[(*i)], &quotes);
+	if (quotes == 1)
+	{
+		(*new) = lst_add_fragment_str(*new, str, *j, *i);
+		*j = *i;
+		while (str[(*i)] && quotes == 1)
+		{
+			(*i)++;
+			quotes_check_parse(str[(*i)], &quotes);
+		}
+		(*i)++;
+		(*new) = lst_add_fragment_str(*new, str, *j, *i);
+		*j = *i;
+		return (1);
+	}
+	return (0);
+}
+
+t_lst	*split_var(char *str, int i, int quotes)
+{
+	int		j;
+	t_lst	*new;
+	t_lst	*start;
+
+	j = 0;
+	new = lst_init();
+	start = new;
+	while (str[i])
+	{
+		quotes = is_quotes(&i, &j, &new, str);
+		if (quotes == 0 && str[i] == '$')
+		{
+			new = lst_add_fragment_str(new, str, j, i);
+			j = i;
+			i++;
+			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
+				i++;
+			new = lst_add_fragment_str(new, str, j, i);
+			j = i;
+		}
+		else if (quotes == 0)
+			i++;
+	}
+	new = lst_add_fragment_str(new, str, j, i);
+	return (start);
 }
 
 void	change_env_arg(char **tab, t_env *env)
 {
 	int		i;
-	char	*new;
-	char	*buf;
+	t_lst	*new;
 
-	i = 0;
-	while (tab[i])
+	i = -1;
+	if (!tab)
+		return ;
+	while (tab[++i])
 	{
-		if (ft_strcmp(tab[i], "$?") && ft_strchr(tab[i], '$') != NULL)
+		is_quotes(0, 0, NULL, NULL);
+		new = split_var(tab[i], 0, 0);
+		expended_variable(new, env);
+		if (new != NULL)
 		{
-			new = replace_var(env, ft_strchr(tab[i], '$'));
-			buf = expended_variable(tab[i], new, 0);
-			if (buf != NULL)
-			{
-				s_free(&tab[i]);
-				tab[i] = buf;
-			}
-			if (new)
-				s_free(&new);
+			s_free(&tab[i]);
+			tab[i] = lst_to_char(new);
+			change_var_sign(&tab[i]);
 		}
-		i++;
+		if (new)
+			lst_free_list(new);
 	}
 }
-void	basic_env(t_env *env)
-{
-	t_env	*buf;
-	char	*str;
-
-	buf = env;
-	str = get_var(env, "SHLVL");
-	if (!str)
-	{
-		if (!buf->str)
-		{
-			buf->str = put_in("SHLVL=1");
-			return ;
-		}
-		while (buf != NULL)
-			buf = buf->next;
-		buf = malloc(sizeof(t_env));
-		if (!buf->next)
-			return ;
-		buf = buf->next;
-		buf->next = NULL;
-		buf->str = put_in("SHLVL=1");
-	}
-	else
-		s_free(&str);
-}
-

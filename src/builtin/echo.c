@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:22:27 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/16 18:00:25 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:13:18 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,8 @@ int	write_to_shell(int writed, int i, char **str)
 {
 	if (writed == 0)
 		printf(" ");
-	if (!ft_strcmp(str[i], "$?"))
-	{
-		writed = 0;
-		printf ("%d", g_sign);
-	}
-	else if (str[i][0] != '$')
-	{
-		printf ("%s", str[i]);
-		writed = 0;
-	}
+	printf ("%s", str[i]);
+	writed = 0;
 	return (writed);
 }
 

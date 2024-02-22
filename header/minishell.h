@@ -21,8 +21,8 @@
 void		db_debug(void);
 void		db_print_custom_font(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
-void		db_display_list(t_lst *list, char *message);
-void		db_display_list_cmd(t_cmd *list, char *message);
+void		db_display_list(t_lst *list, char *message, int alldata);
+void		db_display_list_cmd(t_cmd *list, char *message, int alldata);
 void		*db_cmd_free_list(t_cmd *cmd);
 void		*db_lst_free_list(t_lst *lst, char *title);
 
@@ -34,27 +34,25 @@ void		cmd_init(t_cmd *cmd);
 
 char		*whos_the_nearest_between(char *thisguy, char *thatdude, char *str);
 char		*ft_strtok(char *src, char delim);
-int			is_builtin(char *cmd_in, t_linux *shell);
-int			white_space(const char seek);
-int			is_empty(char *str);
+int			is_builtin(char *cmd_in, t_cmd *cmd, t_env *env, t_linux *shell);
+int			is_white_space(const char seek);
+int			is_special_token(const char seek);
+int			is_str(char *str, int (*check)(const char));
+int			is_tab(char **tab, int (*check)(const char));
 int			heredoc_check(const char **token, int index, int *checker);
 int			str_occur(const char *src, const char *seek);
-int			special_char(char *seek, int mode);
 
 void		parse(t_linux *shell);
 char		**multisplit(const char *s, char *keys);
-t_cmd		*build_commands(t_cmd *command, char **all_token);
-t_cmd		*fd_redirection(t_cmd *command, char **token);
+t_cmd		*build_commands(t_cmd *command, char **tokens, t_env *envv);
+t_lst		*get_redirection(t_lst *list, int *redi, int *err);
 void		launch_command(t_linux *shell, t_cmd *command);
 char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
 char		**get_heredoc(char *src);
-int			set_infile(char *file, int heredoc);
-int			set_outfile(char *file, int overwrite);
-int			check_type(t_lst *list);
-t_lst		*token_format(t_lst *list, int *redi, int type \
-, int (*set_redi)(char *, int));
+int			set_infile(char *file, int heredoc, int oldfd);
+int			set_outfile(char *file, int append, int oldfd);
 
 t_cmd		*cmd_add_unit(t_cmd *cmd);
 void		cmd_init(t_cmd *cmd);
@@ -65,7 +63,7 @@ int			list_len(t_cmd list);
 t_lst		*lst_init(void);
 t_lst		*lst_add(t_lst *last);
 int			lst_len(t_lst *list, int fromhere);
-void		lst_rm(t_lst *list);
+t_lst		*lst_rm(t_lst *list);
 void		*lst_free_list(t_lst *lst);
 t_lst		*lst_tab_to_list(char **tab);
 t_lst		*lst_go_to(t_lst *list, int firstorlast);
@@ -85,20 +83,24 @@ char		*tab_to_str(char **tab, int size, int add_sep, int freed);
 void		whitespaces_to_space(char **entry);
 char		**cmd_list_to_tab(t_cmd *list);
 void		str_edit(char **src, char *seek, char *replace);
+int			str_edit_quotes(char **src, char *seek, char *replace, int i);
 int			ft_strcat(char *dest, char *src);
 int			tablen(char **tab);
+int			str_occur(const char *src, const char *seek);
 
 void		*s_malloc(unsigned long size);
 void		s_free(char **ptr_memory);
 void		free_tab(char **tab, int i);
+void		quotes_check_parse(char c, int	*quotes);
+int			reset_token(char	*last_token);
 
 void		ft_pwd(void);
 void		ft_cd(t_linux *shell, char **str);
-void		ft_exit(t_linux *shell);
-void		ft_env(t_linux *shell);
+void		ft_exit(t_cmd *cmd, t_linux *shell);
+void		ft_env(t_env *env);
 void		ft_echo(char **str);
-void		ft_unset(t_linux *shell, char *src);
-void		ft_export(t_linux *shell);
+void		ft_unset(t_cmd *cmd, t_env *env, char *src);
+void		ft_export(t_cmd *cmd, t_env *env);
 void		change_oldpwd(t_linux *shell);
 
 char		*get_var(t_env *env, char *str);
@@ -109,6 +111,10 @@ void		basic_env(t_env *env);
 void		change_env_arg(char **tab, t_env *env);
 char		*path_not_found(char *str);
 
+int			err_custom(int launch, char *message, int sig);
+int			err_parse_token(int launch);
+int			err_perror(int launch);
+
 void		exit_end(int launch, t_linux *shell);
 void		exit_forkfailure(int launch, t_linux *shell, int *pip, char **path);
 void		exit_prompt(int launch, t_linux *shell);
@@ -117,8 +123,17 @@ int			weird_cmp(char *str, char *cmp);
 int			weird_cmp_export(char *str, char *cmp);
 void		total_free(t_env *chain);
 
+t_lst		*lst_add_fragment_str(t_lst *last, char *str, int i, int j);
 void		create_signal(void);
 void		ctrl_c(int sig, siginfo_t *inf, void *gain);
 void		let_signal_through(void);
+int			check_unclosed_quotes(char *tab);
+char		*lst_to_char(t_lst *lst);
+
+char		**ampute_quotes(char **tab);
+void		change_var_sign(char **str);
+
+void		change_ret_signal(int c);
+int			pipe_tool(int *piipe, int initorclose);
 
 #endif

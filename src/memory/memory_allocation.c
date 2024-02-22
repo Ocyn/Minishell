@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   memory_allocation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 16:50:03 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 23:54:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/21 17:16:24 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+char	*lst_to_char(t_lst *lst)
+{
+	int		len;
+	char	*new;
+	t_lst	*buf;
+
+	buf = lst;
+	len = 0;
+	while (buf)
+	{
+		if (buf->data != NULL && (ft_strcmp(buf->data, "$") == 0 \
+		|| ft_strcmp(buf->data, "$?") == 0 || buf->data[0] != '$'))
+			len += ft_strlen(buf->data);
+		buf = buf->next;
+	}
+	new = s_malloc(sizeof(char) * len + 1);
+	buf = lst;
+	while (buf)
+	{
+		if (buf->data != NULL && (ft_strcmp(buf->data, "$") == 0 \
+		|| ft_strcmp(buf->data, "$?") == 0 || buf->data[0] != '$'))
+			ft_strcat(new, buf->data);
+		buf = buf->next;
+	}
+	return (new);
+}
 
 void	s_free(char **ptr_memory)
 {

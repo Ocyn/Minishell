@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 19:13:09 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 13:00:29 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,53 @@ t_lst	*lst_add(t_lst *last)
 	return (last);
 }
 
-void	lst_rm(t_lst *list)
+t_lst	*lst_add_fragment_str(t_lst *last, char *str, int i, int j)
+{
+	int	index;
+
+	index = 0;
+	if (j - i == 0)
+		return (last);
+	last->data = s_malloc(sizeof(char) * (j - i + 1));
+	if (!last->data)
+	{
+		last->data = NULL;
+		return (last);
+	}
+	while (str[index + i] && index + i < j)
+	{
+		last->data[index] = str[index + i];
+		index++;
+	}
+	last = lst_add(last);
+	if (!last)
+		return (NULL);
+	return (last);
+}
+
+t_lst	*lst_rm(t_lst *list)
 {
 	t_lst	*tprev;
 	t_lst	*tnext;
 
-	tprev = list->prev;
-	tnext = list->next;
-	if (list)
-		s_free((char **)(&list->data));
-	if (tprev)
+	tprev = NULL;
+	tnext = NULL;
+	if (!list)
+		return (list);
+	if (list->prev)
+		tprev = list->prev;
+	if (list->next)
+		tnext = list->next;
+	s_free(&list->data);
+	if (tprev && tprev->next)
 		tprev->next = list->next;
-	if (tnext)
+	if (tnext && tnext->prev)
 		tnext->prev = list->prev;
 	free(list);
 	list = NULL;
+	if (tprev->next)
+		list = tprev->next;
+	return (list);
 }
 
 void	*lst_free_list(t_lst *lst)
@@ -66,7 +98,7 @@ void	*lst_free_list(t_lst *lst)
 		lst = lst_go_to(lst, -1);
 	while (lst)
 	{
-		s_free((char **)(&lst->data));
+		s_free(&lst->data);
 		if (lst->next)
 		{
 			lst = lst->next;

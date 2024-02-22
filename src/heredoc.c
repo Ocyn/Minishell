@@ -3,58 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 05:47:51 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/04 00:37:37 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:26:40 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../header/minishell.h"
+#include "../header/minishell.h"
 
-// void	hd_parse(t_linux *syst)
-// {
-// 	t_cmd	*command;
-// 	char	*final;
-// 	char	*line;
+t_lst	*heredoc_readline(char *exit, int expand, t_env *env)
+{
+	t_lst	*line;
 
-// 	line = NULL;
-// 	final = NULL;
-// 	command = syst->command;
-// 	str_edit(&syst->input, "\"", "\\\"");
-// 	line = syst->input;
-// 	command = cmd_add_unit(command);
-// 	final = ft_strjoin("\"", line);
-// 	cut_and_paste((void **)&final, (void **)&temp
-// 	, ft_strlen(final) + 1);
-// 	final = ft_strjoin(temp, "\"");
-// 	s_free(&temp);
-// 	syst->command = command;
-// }
+	line = NULL;
+	if (!exit)
+		return (NULL);
+	while (exit)
+	{
+		line = lst_add(line);
+		line->data = readline(">");
+		if (!line->data)
+			return (lst_free_list(line));
+		if (!ft_strcmp(line->data, exit))
+			break ;
+		if (expand)
+			change_env_arg((char **)&line->data, env);
+	}
+	return (line);
+}
 
-// char	**get_heredoc(char *src)
-// {
-// 	t_linux	heredoc;
-// 	char	**out;
-// 	char	*delim;
-// 	int		i;
+int	set_temp_file(char *filename, t_lst *list)
+{
+	int	fd;
 
-// 	if (!find_str_in_str(src, "<<"))
-// 		return (NULL);
-// 	out = NULL;
-// 	i = ft_strlen(src + find_str_in_str(src, "<<")) 
-// 	- ft_strlen(ft_strchr(src + find_str_in_str(src, "<<"), ' '));
-// 	delim = ft_substr(ft_strchr(src, '<'), 2, i);
-// 	if (!delim || !delim[0] || ft_strchr(delim, '<'))
-// 		return (s_free(&delim), NULL);
-// 	init_struct(&heredoc);
-// 	heredoc.prompt = ft_strdup("heredoc>");
-// 	read_prompt(&heredoc, delim, hd_parse);
-// 	out = list_to_tab(heredoc.head);
-// 	/*DEBUG*/	db_display_list(heredoc.head, "\nHeredoc: ");
-// 	s_free(&heredoc.prompt);
-// 	cmd_free_list(heredoc.head);
-// 	free(heredoc.head);
-// 	s_free(&delim);
-// 	return (out);
-// }
+	fd = -1;
+	dup2(fd, STDOUT_FILENO);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 00700);
+	if (!list || err_perror((fd == -1)))
+		return (-1);
+	while (fd != -1 && list)
+	{
+		printf("%s\n", list->data);
+		list = list->next;
+		if (!list)
+			break ;
+	}
+	return (fd);
+}
+
+int	heredocument(char *delim, int expand, t_env *env)
+{
+	t_lst	*list;
+	int		outp[2];
+	int		fd;
+	pid_t	fk;
+
+	fk = 0;
+	fd = -1;
+	list = NULL;
+	if (err_perror(pipe_tool(outp, 1)))
+		return (-1);
+	fk = fork();
+	if (fk == -1)
+		return (-1);
+	if (fk == 0)
+	{
+		close(outp[0]);
+		list = heredoc_readline(delim, expand, env);
+		fd = set_temp_file(".hdtemp", list);
+		pipe_tool(outp, 0);
+		free_env(env);
+		exit(g_sign);
+	}
+	err_perror(pipe_tool(outp, 0));
+	return (fd);
+}

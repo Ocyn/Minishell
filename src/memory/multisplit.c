@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 14:47:35 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 22:46:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/20 20:51:53 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	**initialization(int *i, int *t, int *quote, char **tab)
 	return (tab);
 }
 
-static char	**tab_init(const char *s, char *keys)
+static char	**tab_init(const char *s, char *key)
 {
 	char	**init;
 	int		quote[2];
@@ -90,7 +90,7 @@ static char	**tab_init(const char *s, char *keys)
 	{
 		quote[0] += (s[i] == '\'');
 		quote[1] += (s[i] == '\"');
-		cmd += (ft_strchr(keys, s[i]) && s[i + 1] && !ft_strchr(keys, s[i + 1]));
+		cmd += (ft_strchr(key, s[i]) && s[i + 1] && !ft_strchr(key, s[i + 1]));
 	}
 	cmd += (quote[0] / 2);
 	cmd += (quote[1] / 2);

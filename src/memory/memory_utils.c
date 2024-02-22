@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 08:14:08 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/14 14:27:18 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 13:44:59 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+void	change_var_sign(char **str)
+{
+	char	*buf;
+
+	buf = ft_itoa(g_sign);
+	if (!buf)
+		return ;
+	str_edit(str, "$?", buf);
+	s_free(&buf);
+}
 
 char	**tab_dup(char **token_tab, int token_len)
 {
@@ -22,7 +33,21 @@ char	**tab_dup(char **token_tab, int token_len)
 	raw = s_malloc(sizeof(char *) * (token_len + 1));
 	while (++i < token_len)
 		raw[i] = ft_strdup(token_tab[i]);
-	/*DEBUG*/	//db_tabstr_display(raw, "\n\t\tTabDup", token_len);
 	return (raw);
 }
 
+char	*ft_strtok(char *src, char delim)
+{
+	int	id;
+
+	id = 0;
+	if (src && delim)
+	{
+		src = ft_strchr(src, delim);
+		src += (src && src[0] && src[1]);
+		while (src && src[id] && src[id] != delim)
+			id++;
+		src[id] = 0;
+	}
+	return (src);
+}

@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 05:12:14 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 15:42:43 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_cd(char *str)
 {
-	printf ("%s", str);
+	ft_putstr_fd (str, 2);
 	g_sign = 1;
 }
 
@@ -47,7 +47,7 @@ void	change_to_home(t_linux	*shell)
 		if (home != NULL)
 		{
 			if (chdir(home) != 0)
-				error_cd("bash: cd: HOME not set\n");
+				error_cd("minishell: cd: HOME not set correctly\n");
 			else
 			{
 				if (shell->oldpwd)
@@ -57,6 +57,8 @@ void	change_to_home(t_linux	*shell)
 			}
 			s_free(&home);
 		}
+		else
+			error_cd("minishell: cd: HOME not set\n");
 		free(pwd);
 	}
 }
@@ -99,7 +101,7 @@ void	ft_cd(t_linux *shell, char **str)
 		if (pwd)
 		{
 			if (chdir(path) != 0)
-				perror("chdir");
+				perror("minishell");
 			else
 			{
 				if (shell->oldpwd != NULL)

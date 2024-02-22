@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 05:18:01 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 11:55:17 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ void	ctrl_c(int sig, siginfo_t *inf, void *gain)
 void	nothing(int sig, siginfo_t *inf, void *gain)
 {
 	if (sig == SIGQUIT)
+	{
+		g_sign = 131;
 		printf ("Quit (core dumped)\n");
+	}
+	if (sig == SIGINT)
+		g_sign = 130;
 	(void)gain;
 	(void)inf;
 	(void)sig;

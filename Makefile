@@ -19,9 +19,11 @@ MEMORY			= cmd_lists.c \
 				memory_utils.c \
 				quick_checking.c \
 				memory_edit.c \
+				str_edit_quotes.c \
 				memory_scan.c \
 				multisplit.c \
-				initialization.c
+				initialization.c \
+				quotes.c
 
 SRCS			= main.c \
 				signal.c \
@@ -36,7 +38,8 @@ SRCS			= main.c \
 				prompt_tuning.c \
 				utils_two.c \
 				shutdown.c \
-				env_var.c
+				error.c \
+				env_var.c 
 
 CC 				= cc
 

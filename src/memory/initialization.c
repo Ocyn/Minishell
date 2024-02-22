@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 08:54:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:42:53 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+void	change_ret_signal(int c)
+{
+	if (WIFEXITED(c))
+		g_sign = WEXITSTATUS(c);
+	else if (WIFSIGNALED(c))
+	{
+		if (WTERMSIG(c) == SIGQUIT)
+			g_sign = 131;
+		if (WTERMSIG(c) == SIGINT)
+			g_sign = 130;
+	}
+}
 
 void	change_oldpwd(t_linux *shell)
 {
@@ -49,4 +62,31 @@ void	init_struct(t_linux *shell)
 	shell->token = NULL;
 	shell->command = shell->head;
 	change_oldpwd(shell);
+}
+
+void	basic_env(t_env *env)
+{
+	t_env	*buf;
+	char	*str;
+
+	buf = env;
+	str = get_var(env, "SHLVL");
+	if (!str)
+	{
+		if (!buf->str)
+		{
+			buf->str = put_in("SHLVL=1");
+			return ;
+		}
+		while (buf != NULL)
+			buf = buf->next;
+		buf = malloc(sizeof(t_env));
+		if (!buf->next)
+			return ;
+		buf = buf->next;
+		buf->next = NULL;
+		buf->str = put_in("SHLVL=1");
+	}
+	else
+		s_free(&str);
 }
