@@ -6,14 +6,15 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 13:59:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 14:20:12 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	smart_dup(t_pipeline *table, int id)
+void	smart_dup(t_pipeline *table, t_cmd *cmd, int id)
 {
+	(void)cmd;
 	close(table->pline[(id + 1) % 2]);
 	dup2(table->pline[id % 2], id % 2);
 }
@@ -33,7 +34,7 @@ void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
 		return ((void)err_perror(1));
 	if (table->fork_id == 0)
 	{
-		smart_dup(table, b_fd);
+		smart_dup(table, cmd, b_fd);
 		path = get_path(cmd->meta.exec_cmd[0], shell->env);
 		if (path != NULL)
 		{
@@ -89,11 +90,12 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 		if (!is_builtin(cmd->meta.exec_cmd[0], shell))
 		{
 			exe_command(&table, cmd, shell);
-			waitpid(table.fork_id, &g_sign, 0);
+			waitpid(table.fork_id - 1, &g_sign, 0);
 		}
 		cmd = cmd->next;
 	}
 	err_perror(pipe_tool(table.pline, 0));
+	waitpid(table.fork_id, &g_sign, 0);
 	change_ret_signal(g_sign);
 	create_signal();
 }
