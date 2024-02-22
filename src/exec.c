@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 21:48:46 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 23:25:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,17 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 	table.state = 0;
 	while (cmd && cmd->meta.exec_cmd)
 	{
-		ft_putstr_fd("DB 1\n", 2);
+		// ft_putstr_fd("DB 1\n", 2);
 		ft_memset(table.pline, -1, 2);
 		err_perror(pipe_tool(table.pline, 1));
-		if (table.pline[0] != -1)
-			table.state = 1;
+		table.state = (table.pline[0] != -1);
 		if (!is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
 		{
 			exe_command(&table, cmd, shell);
 			close(table.pline[1]);
 			dup2(table.pline[0], STDIN_FILENO);
 			close(table.pline[0]);
-			ft_putstr_fd("DB 4\n", 2);
+			// ft_putstr_fd("DB 4\n", 2);
 		}
 		cmd = cmd->next;
 	}
