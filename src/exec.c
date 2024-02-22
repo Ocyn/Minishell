@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 18:46:40 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:19:17 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	auto_dup(t_pipeline *table, t_cmd *cmd, int id)
 {
-	if (cmd->id == 1 && !cmd->next)
-		return ;
-	close(table->pline[(id + 1) % 2]);
-	dup2(table->pline[id % 2], id % 2);
+	(void)id;
+	(void)cmd;
+	close(table->pline[0]);
+	dup2(table->pline[1], 1);
+	close(table->pline[1]);
 }
 
 void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
@@ -89,8 +90,7 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 		if (!is_builtin(cmd->meta.exec_cmd[0], shell))
 		{
 			exe_command(&table, cmd, shell);
-			if (cmd->id > 1)
-				waitpid(-1, &g_sign, 0);
+			waitpid(-1, &g_sign, 0);
 		}
 		cmd = cmd->next;
 	}
