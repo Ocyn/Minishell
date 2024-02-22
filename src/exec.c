@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/22 19:19:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 19:33:13 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	auto_dup(t_pipeline *table, t_cmd *cmd, int id)
 	(void)id;
 	(void)cmd;
 	close(table->pline[0]);
-	dup2(table->pline[1], 1);
+	dup2(table->pline[1], STDOUT_FILENO);
 	close(table->pline[1]);
 }
 
@@ -82,20 +82,24 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 
 	/*DEBUG*/	db_printf("\nLaunch Command\n\n\n", FE_UND);
 	table.fork_id = 0;
-	err_perror(pipe_tool(table.pline, 1));
 	let_signal_through();
 	cmd = shell->head->next;
 	while (cmd && cmd->meta.exec_cmd)
 	{
+		err_perror(pipe_tool(table.pline, 1));
 		if (!is_builtin(cmd->meta.exec_cmd[0], shell))
 		{
 			exe_command(&table, cmd, shell);
-			waitpid(-1, &g_sign, 0);
+			close(table.pline[1]);
+			dup2(table.pline[0], STDIN_FILENO);
+			close(table.pline[0]);
 		}
 		cmd = cmd->next;
 	}
+	waitpid(table.fork_id, &g_sign, 0);
+	while (waitpid(-1, &g_sign, 0) != -1)
+		;
 	err_perror(pipe_tool(table.pline, 0));
-	waitpid(-1, &g_sign, 0);
 	change_ret_signal(g_sign);
 	create_signal();
 }
