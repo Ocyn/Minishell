@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 14:26:49 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 13:36:07 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_lst	*token_format(t_lst *list, int *redi, char *id)
 		list = lst_rm(list);
 		mode = (list && !ft_strcmp(list->data, id));
 		if (!list || (!list->next && is_redi(list->data)))
-			return (err_parse_token(1), list);
+			return ((void)lst_free_list(list), (void)err_parse_token(1), list);
 		if (list && !ft_strcmp(list->data, id))
 			list = lst_rm(list);
 		if (list && ft_strcmp(list->data, id) && !is_redi(list->data))
@@ -50,11 +50,11 @@ t_lst	*get_redirection(t_lst *list, int *redi, int *err)
 {
 	char	*token_type;
 
-	token_type = 0;
+	token_type = NULL;
 	if (!list || !is_redi(list->data))
 		return (list);
 	token_type = ft_strdup(list->data);
-	printf("\n\tGet_Redirection at Cell %d\n", list->id);
+	/*DEBUG*/	printf("\n\tGet_Redirection at Cell %d\n", list->id);
 	list = token_format(list, redi, token_type);
 	if (!list)
 		err++;
@@ -75,8 +75,8 @@ int	set_infile(char *file, int heredoc, int oldfd)
 	err_perror((fd == -1));
 	if (oldfd > 1)
 	{
-		if (fd > 1)
-			s_close(oldfd);
+		if (fd > 2)
+			close(oldfd);
 		else
 			fd = oldfd;
 	}
@@ -97,7 +97,7 @@ int	set_outfile(char *file, int append, int oldfd)
 		fd = open(file, O_CREAT | O_WRONLY, 00700);
 	err_perror((fd == -1));
 	if (fd > 2 && oldfd > 2)
-		s_close(oldfd);
+		close(oldfd);
 	if (fd <= 2 && oldfd > 2)
 		fd = oldfd;
 	return (fd);

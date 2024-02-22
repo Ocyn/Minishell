@@ -23,6 +23,7 @@ void		db_printf(char *message, char *font_effect);
 void		db_tabstr_display(char **tab, char *message, int highlight);
 void		db_display_list(t_lst *list, char *message, int alldata);
 void		db_display_list_cmd(t_cmd *list, char *message, int alldata);
+int			db_close(int fd);
 void		*db_cmd_free_list(t_cmd *cmd);
 void		*db_lst_free_list(t_lst *lst, char *title);
 
