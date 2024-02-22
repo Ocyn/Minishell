@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 12:00:21 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/17 22:14:56 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:12:26 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	ft_exit(t_linux *shell)
 	if (i <= 2)
 		shell->end = 1;
 	if (i > 2)
-		printf ("bash: exit: too many arguments\n");
+		err_custom(1, "exit: too many arguments");
 }

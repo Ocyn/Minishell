@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 09:41:56 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 05:18:01 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:10:58 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ctrl_c(int sig, siginfo_t *inf, void *gain)
 {
-	write (1, "\n", 1);
+	write (2, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -27,7 +27,7 @@ void	ctrl_c(int sig, siginfo_t *inf, void *gain)
 void	nothing(int sig, siginfo_t *inf, void *gain)
 {
 	if (sig == SIGQUIT)
-		printf ("Quit (core dumped)\n");
+		ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
 	(void)gain;
 	(void)inf;
 	(void)sig;
@@ -59,6 +59,8 @@ char	*path_not_found(char *str)
 {
 	if (!access(str, F_OK))
 		return (ft_strdup(str));
-	printf ("%s: command not found\n", str);
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
 	return (NULL);
 }

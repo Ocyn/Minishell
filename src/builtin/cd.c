@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:08:13 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 05:12:14 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:14:02 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	error_cd(char *str)
 {
-	printf ("%s", str);
+	err_custom(1, str);
 	g_sign = 1;
 }
 
@@ -47,7 +47,7 @@ void	change_to_home(t_linux	*shell)
 		if (home != NULL)
 		{
 			if (chdir(home) != 0)
-				error_cd("bash: cd: HOME not set\n");
+				error_cd("cd: HOME not set");
 			else
 			{
 				if (shell->oldpwd)
@@ -111,6 +111,6 @@ void	ft_cd(t_linux *shell, char **str)
 			free(pwd);
 		}
 		else
-			error_cd("i'm in the middle of nowere\n");
+			error_cd("i'm in the middle of nowere");
 	}
 }
