@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 18:04:11 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 11:13:53 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef struct s_metadatas
 	int				infile;
 	int				outfile;
 }					t_metadatas;
+
+typedef struct s_pipeline
+{
+	pid_t	fork_id;
+	int		piproot[2];
+	int		pipchild[2];
+}				t_pipeline;
 
 typedef struct s_cmd
 {

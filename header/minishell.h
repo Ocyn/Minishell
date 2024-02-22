@@ -46,7 +46,7 @@ void		parse(t_linux *shell);
 char		**multisplit(const char *s, char *keys);
 t_cmd		*build_commands(t_cmd *command, char **tokens, t_env *envv);
 t_lst		*get_redirection(t_lst *list, int *redi, int *err);
-void		launch_command(t_linux *shell, t_cmd *command);
+void		launch_command(t_linux *shell, t_cmd *cmd);
 char		*get_file_name(char *token, char type);
 char		*get_path(char *command, t_env *env);
 char		*put_in(char *str);
@@ -110,10 +110,9 @@ void		basic_env(t_env *env);
 void		change_env_arg(char **tab, t_env *env);
 char		*path_not_found(char *str);
 
-void		err_log(int launch, void (*errormode)(int, int, char *));
-void		err_custom(int launch, char *message);
-void		err_perror(int launch);
-void		err_parse_token(int launch);
+int			err_custom(int launch, char *message);
+int			err_perror(int launch);
+int			err_parse_token(int launch);
 
 void		exit_end(int launch, t_linux *shell);
 void		exit_forkfailure(int e_sig, t_linux *shell, int *pip, char **path);
