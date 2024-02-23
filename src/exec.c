@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/23 04:37:30 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 04:52:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	s_dup(int fdin, int fdout, int fd_bonus)
 
 void	auto_dup(t_cmd *cmd, t_pipeline *table)
 {
-	// if (cmd->meta.outfile != -1)
-	// 	s_dup(cmd->meta.outfile, STDIN_FILENO, -1);
+	if (cmd->meta.outfile != -1)
+		s_dup(cmd->meta.outfile, STDIN_FILENO, -1);
 	if (cmd->next)
 		s_dup(table->pline[1], STDOUT_FILENO, table->pline[0]);
-	// if (cmd->meta.infile != -1)
-	// 	s_dup(cmd->meta.infile, STDIN_FILENO, -1);
+	if (cmd->meta.infile != -1)
+		s_dup(cmd->meta.infile, STDIN_FILENO, -1);
 }
 
 void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
