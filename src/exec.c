@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/23 02:46:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 04:37:30 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int	pipe_tool(int *piipe, int initorclose)
 {
 	if (initorclose)
 	{
-		ft_memset(piipe, -1, 2);
+		piipe[0] = -1;
+		piipe[1] = -1;
 		if (pipe(piipe) == -1)
 			return (EXIT_FAILURE);
 	}
-	else
+	if (!initorclose)
 	{
-		if (close(piipe[0]) == -1 || close(piipe[1]) == -1)
+		if (close(piipe[0]) == -1 && close(piipe[1]) == -1)
 			return (EXIT_FAILURE);
 		piipe[0] = -1;
 		piipe[1] = -1;
@@ -75,25 +76,25 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 
 	table.fork_id = 0;
 	cmd = shell->head->next;
-	table.save = dup(STDOUT_FILENO);
+	table.save = dup(STDIN_FILENO);
 	let_signal_through();
 	while (cmd && cmd->meta.exec_cmd)
 	{
-		ft_memset(table.pline, -1, 2);
 		err_perror(pipe_tool(table.pline, 1));
 		if (!is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
 		{
 			exe_command(&table, cmd, shell);
-			waitpid(table.fork_id, &g_sign, 0);
-			while (waitpid(-1, &g_sign, 0) != -1)
-				;
 		}
 		if (cmd->id > 1 || cmd->next)
 			s_dup(table.pline[0], STDIN_FILENO, table.pline[1]);
-		if (!cmd->next)
-			s_dup(table.pline[0], table.save, table.pline[1]);
 		cmd = cmd->next;
 	}
+	s_dup(table.save, STDIN_FILENO, -1);
+	waitpid(table.fork_id, &g_sign, 0);
+	while (waitpid(-1, &g_sign, 0) != -1)
+		;
+	s_close(1, table.save);
+	pipe_tool(table.pline, 0);
 	change_ret_signal(g_sign);
 	create_signal();
 }
