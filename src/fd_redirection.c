@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 21:14:41 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 14:57:14 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 05:42:37 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int	set_outfile(char *file, int append, int oldfd)
 	if (!file)
 		return (oldfd);
 	if (append)
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 00700);
+		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
-		fd = open(file, O_CREAT | O_WRONLY, 00700);
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd > 1 && oldfd > 1)
 		close(oldfd);
 	if (fd < 1 && oldfd > 1)
