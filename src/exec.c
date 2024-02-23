@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/23 05:31:13 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 06:30:36 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	s_dup(int fdin, int fdout, int fd_bonus)
 
 void	auto_dup(t_cmd *cmd, t_pipeline *table)
 {
-	if (cmd->next)
+	if (cmd->meta.infile > 2)
+		dup2(cmd->meta.infile, STDIN_FILENO);
+	else if (cmd->next && cmd->meta.infile <= 2)
 		s_dup(table->pline[1], STDOUT_FILENO, table->pline[0]);
-	// if (cmd->meta.infile != -1)
-	// 	s_dup(cmd->meta.infile, STDIN_FILENO, -1);
-	if (cmd->meta.outfile > 2)
+	else if (cmd->meta.outfile > 2 && !cmd->next)
 		s_dup(cmd->meta.outfile, STDOUT_FILENO, -1);
 }
 
@@ -80,7 +80,7 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 	cmd = shell->head->next;
 	table.save = dup(STDIN_FILENO);
 	let_signal_through();
-	while (cmd && cmd->meta.exec_cmd)
+	while (cmd)
 	{
 		err_perror(pipe_tool(table.pline, 1));
 		exe_command(&table, cmd, shell);
@@ -91,11 +91,11 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	s_dup(table.save, STDIN_FILENO, -1);
+	pipe_tool(table.pline, 0);
 	waitpid(table.fork_id, &g_sign, 0);
 	while (waitpid(-1, &g_sign, 0) != -1)
 		;
 	s_close(1, table.save);
-	pipe_tool(table.pline, 0);
 	change_ret_signal(g_sign);
 	create_signal();
 }
