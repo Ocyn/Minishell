@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:26:29 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 23:41:10 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 05:34:23 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	exit_prompt(int launch, t_linux *shell)
 
 void	exit_fork(int sig, t_linux *shell, t_pipeline *tbl, char **path)
 {
-	err_perror(EXIT_FAILURE);
+	err_perror(sig);
 	pipe_tool(tbl->pline, 0);
+	s_close(1, tbl->save);
 	s_free(&shell->input);
 	s_free(&shell->prompt);
 	free_tab(shell->token, tablen(shell->token));

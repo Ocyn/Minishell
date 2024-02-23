@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/23 04:56:17 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 05:31:13 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	s_dup(int fdin, int fdout, int fd_bonus)
 
 void	auto_dup(t_cmd *cmd, t_pipeline *table)
 {
-	// if (cmd->meta.outfile != -1)
-	// 	s_dup(cmd->meta.outfile, STDIN_FILENO, -1);
 	if (cmd->next)
 		s_dup(table->pline[1], STDOUT_FILENO, table->pline[0]);
 	// if (cmd->meta.infile != -1)
 	// 	s_dup(cmd->meta.infile, STDIN_FILENO, -1);
+	if (cmd->meta.outfile > 2)
+		s_dup(cmd->meta.outfile, STDOUT_FILENO, -1);
 }
 
 void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
@@ -41,6 +41,8 @@ void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
 	if (table->fork_id == _F_CHILD)
 	{
 		auto_dup(cmd, table);
+		if (is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
+			exit_fork(EXIT_SUCCESS, shell, table, &path);
 		path = get_path(cmd->meta.exec_cmd[0], shell->env);
 		if (path != NULL)
 		{
@@ -81,10 +83,8 @@ void	launch_command(t_linux *shell, t_cmd *cmd)
 	while (cmd && cmd->meta.exec_cmd)
 	{
 		err_perror(pipe_tool(table.pline, 1));
-		if (!is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
-		{
-			exe_command(&table, cmd, shell);
-		}
+		exe_command(&table, cmd, shell);
+		waitpid(table.fork_id, &g_sign, 0);
 		s_close(1, table.pline[1]);
 		if (cmd->id > 1 || cmd->next)
 			s_dup(table.pline[0], STDIN_FILENO, -1);
