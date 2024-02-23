@@ -118,7 +118,7 @@ int			err_parse_token(int launch);
 int			err_perror(int launch);
 
 void		exit_end(int launch, t_linux *shell);
-void		exit_forkfailure(int launch, t_linux *shell, int *pip, char **path);
+void		exit_fork(int sig, t_linux *shell, t_pipeline *tbl, char **path);
 void		exit_prompt(int launch, t_linux *shell);
 
 int			weird_cmp(char *str, char *cmp);

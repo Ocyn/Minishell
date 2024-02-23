@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 11:42:53 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 01:06:45 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	cmd_init(t_cmd *cmd)
 	cmd->meta.raw = NULL;
 	cmd->meta.sraw = NULL;
 	cmd->meta.exec_cmd = NULL;
-	cmd->meta.infile = 0;
-	cmd->meta.outfile = 0;
+	cmd->meta.infile = -1;
+	cmd->meta.outfile = -1;
 }
 
 void	init_struct(t_linux *shell)

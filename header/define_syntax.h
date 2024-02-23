@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 05:34:19 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 09:06:50 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 23:34:18 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # define _TOK_SP_QUOTE 					70051
 # define _TOK_DB_QUOTE 					70052
 # define _TOK_WORD 						70060
+
+//	Fork codes
+# define _F_CHILD					0
+# define _F_PARENT					1
+# define _F_FAIL					-1
 
 //	Exit codes
 # define EXIT_FINISH				"EX001"

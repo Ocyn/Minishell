@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/24 20:00:00 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 21:15:16 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 00:15:19 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ typedef struct s_metadatas
 
 typedef struct s_pipeline
 {
-	int		state;
-	pid_t	fork_id;
+	int		save;
 	int		pline[2];
-}				t_pipeline;
+	pid_t	fork_id;
+}			t_pipeline;
 
 typedef struct s_cmd
 {
