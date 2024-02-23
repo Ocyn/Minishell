@@ -6,7 +6,7 @@
 /*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 14:10:31 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/23 06:30:36 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 06:33:03 by jcuzin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	exe_command(t_pipeline *table, t_cmd *cmd, t_linux *shell)
 	if (table->fork_id == _F_CHILD)
 	{
 		auto_dup(cmd, table);
-		if (is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
+		if (!cmd->meta.exec_cmd \
+		&& is_builtin(cmd->meta.exec_cmd[0], cmd, shell->env, shell))
 			exit_fork(EXIT_SUCCESS, shell, table, &path);
 		path = get_path(cmd->meta.exec_cmd[0], shell->env);
 		if (path != NULL)
