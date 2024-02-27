@@ -22,7 +22,8 @@ MEMORY			= cmd_lists.c \
 				str_edit_quotes.c \
 				memory_scan.c \
 				multisplit.c \
-				initialization.c
+				initialization.c \
+				quotes.c
 
 SRCS			= main.c \
 				signal.c \
@@ -35,11 +36,10 @@ SRCS			= main.c \
 				build_command.c \
 				heredoc.c \
 				prompt_tuning.c \
-				debug.c \
 				utils_two.c \
 				shutdown.c \
 				error.c \
-				env_var.c
+				env_var.c 
 
 CC 				= cc
 

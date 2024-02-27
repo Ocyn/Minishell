@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:24 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/17 22:48:36 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:52:41 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*get_path(char *command, t_env *env)
 	char	**var;
 	int		i;
 
-	while (env && ft_strncmp(env->str, "PATH=", 5) != 0)
+	while (env && env->str && ft_strncmp(env->str, "PATH=", 5) != 0)
 		env = env->next;
 	if (!env || ft_strncmp(env->str, "PATH=", 5) != 0)
 		return (path_not_found(command));

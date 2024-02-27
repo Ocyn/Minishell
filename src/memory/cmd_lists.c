@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_lists.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/21 14:31:24 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 13:45:53 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ void	cmd_rm_unit(t_cmd *cmd)
 	s_free(&cmd->meta.sraw);
 	if (cmd->meta.exec_cmd)
 		free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
-	if (cmd->meta.infile > 2)
-		s_close(cmd->meta.infile);
-	if (cmd->meta.outfile > 2)
-		s_close(cmd->meta.outfile);
+	if (cmd->meta.outfile > 1)
+		close(cmd->meta.outfile);
+	if (cmd->meta.infile > 1)
+		close(cmd->meta.infile);
 	if (tprev)
 		tprev->next = cmd->next;
 	if (tnext)
@@ -63,10 +63,10 @@ void	*cmd_free_list(t_cmd *cmd)
 		s_free(&cmd->meta.sraw);
 		if (cmd->meta.exec_cmd)
 			free_tab(cmd->meta.exec_cmd, tablen(cmd->meta.exec_cmd));
-		if (cmd->meta.infile > 2)
-			s_close(cmd->meta.infile);
-		if (cmd->meta.outfile > 2)
-			s_close(cmd->meta.outfile);
+		if (cmd->meta.infile > 1)
+			close(cmd->meta.infile);
+		if (cmd->meta.outfile > 1)
+			close(cmd->meta.outfile);
 		if (cmd->next)
 		{
 			cmd = cmd->next;

@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:27:44 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/18 01:26:46 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:50:40 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,65 +44,70 @@ int	weird_cmp(char *str, char *cmp)
 	return (0);
 }
 
-void	unset_cmd(t_linux *shell, int i, t_env *buff, t_env *prev)
+void	unset_cmd(t_cmd *cmd, t_env *buff, t_env *env, t_env *prev)
 {
-	buff = shell->env;
+	int	i;
+
 	while (buff != NULL)
 	{
 		i = 0;
-		while (shell->head->next->meta.raw[++i])
+		while (cmd->meta.raw[++i])
 		{
-			if (weird_cmp(buff->str, shell->head->next->meta.raw[i]))
+			if (buff->str && weird_cmp(buff->str, cmd->meta.raw[i]) && !prev)
 			{
-				if (!prev)
-				{
-					shell->env = shell->env->next;
-					total_free(buff);
-					buff = shell->env;
-				}
-				else
-				{
-					prev->next = buff->next;
-					total_free(buff);
-					buff = prev;
-				}
+				env = env->next;
+				if (buff->str)
+					s_free(&buff->str);
+				buff = env;
+			}
+			else if (buff->str && weird_cmp(buff->str, cmd->meta.raw[i]))
+			{
+				prev->next = buff->next;
+				total_free(buff);
+				buff = prev;
 			}
 		}
 		prev = buff;
-		buff = buff->next;
+		if (buff != NULL)
+			buff = buff->next;
 	}
 }
 
-void	unset_export(t_linux *shell, char *str)
+void	unset_export(t_env *env, char *str)
 {
 	t_env	*buff;
+	int		status;
 
-	buff = shell->env;
-	while (buff != NULL)
+	buff = env;
+	status = 0;
+	while (buff != NULL && status == 0)
 	{
-		if (weird_cmp_export(buff->str, str))
+		if (buff->str && weird_cmp_export(buff->str, str))
 		{
 			free(buff->str);
 			buff->str = put_in(str);
+			status = 1;
 		}
+		if (!buff->next)
+			buff->next = NULL;
 		buff = buff->next;
 	}
 }
 
-void	ft_unset(t_linux *shell, char *str)
+void	ft_unset(t_cmd *cmd, t_env *env, char *str)
 {
 	int	i;
 
 	if (str != NULL)
-		unset_export(shell, str);
+		unset_export(env, str);
 	else
 	{
 		i = 0;
-		while (shell->head->next->meta.raw[i])
+		while (cmd->meta.raw[i])
 			i++;
 		if (i > 1)
 		{
-			unset_cmd(shell, 0, NULL, NULL);
+			unset_cmd(cmd, env, env, NULL);
 			g_sign = 0;
 		}
 		else

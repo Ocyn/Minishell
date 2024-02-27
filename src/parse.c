@@ -3,59 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 14:26:20 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/21 13:29:19 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:31:48 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int	token_repetition(char *str, char token, int max_rep)
+void	quotes_check_parse(char c, int	*quotes)
 {
-	int	id;
-	int	rep_count;
-	int	state;
+	int	newquotes;
 
-	id = -1;
-	state = (str && str[0] == '|');
-	rep_count = 0;
-	if (!ft_strchr(str, token))
-		return (EXIT_SUCCESS);
-	while (str && str[++id])
+	newquotes = *quotes;
+	if (c == '\'' && *quotes == 0)
+		newquotes = 1;
+	else if (c == '\"' && *quotes == 0)
+		newquotes = 2;
+	else if (c == '\'' && *quotes == 1)
+		newquotes = 0;
+	else if (c == '\"' && *quotes == 2)
+		newquotes = 0;
+	*quotes = newquotes;
+}
+
+int	token_repetition(char *str, char last_token, int i, int quotes)
+{
+	int		count;
+
+	count = 0;
+	last_token = '\0';
+	while (str[++i])
 	{
-		while (str[id] && str[id] == ' ')
-			id++;
-		state = (str[id] == '|');
-		if (str[id] != '|' && str[id] != ' ')
-			state = 0;
-		rep_count += (str[id] == token);
-		if (str[id] != token && str[id] != ' ')
-			rep_count = 0;
-		if (rep_count >= max_rep)
-			return (EXIT_FAILURE);
+		quotes_check_parse(str[i], &quotes);
+		if (quotes == 0)
+		{
+			if (ft_strchr("<>", str[i]) != NULL)
+			{
+				if (last_token != '\0' && last_token != str[i])
+					return (EXIT_FAILURE);
+				last_token = str[i];
+				count++;
+			}
+			else if (count != 0 && str[i] == ' ')
+				count++;
+			else
+				count = reset_token(&last_token);
+			if (count > 4 && ft_strchr("<>", str[i]) != NULL)
+				return (EXIT_FAILURE);
+		}
 	}
-	if ((token == '|' && state))
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int	preliminary(char **entry)
+int	preliminary(char **entry, int i)
 {
+	int	quotes;
+
+	quotes = 0;
 	if (is_str(*entry, is_white_space) || is_str(*entry, is_special_token))
 		return (EXIT_FAILURE);
-	str_edit(entry, "\t", " ");
-	str_edit(entry, "\n", " ");
-	str_edit(entry, "\v", " ");
-	str_edit(entry, "\r", " ");
-	if (token_repetition(*entry, '|', 2) || token_repetition(*entry, '<', 3) \
-	|| token_repetition(*entry, '>', 3))
-		return (EXIT_FAILURE);
-	if ((*entry)[0] == '|')
-		return (EXIT_FAILURE);
-	str_edit(entry, "<", " < ");
-	str_edit(entry, ">", " > ");
+	while ((*entry)[++i])
+	{
+		quotes_check_parse((*entry)[i], &quotes);
+		if (quotes == 0)
+		{
+			i += str_edit_quotes(entry, "\t", " ", i);
+			i += str_edit_quotes(entry, "\n", " ", i);
+			i += str_edit_quotes(entry, "\v", " ", i);
+			i += str_edit_quotes(entry, "\r", " ", i);
+			i += str_edit_quotes(entry, "<", " < ", i);
+			i += str_edit_quotes(entry, ">", " > ", i);
+		}
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -66,7 +87,13 @@ char	**split_pipeline(char *cmd_in)
 
 	temp = NULL;
 	temp = ft_strtrim(cmd_in, " \n\v\r\t");
-	if (preliminary(&temp) == EXIT_FAILURE)
+	if (check_unclosed_quotes(temp))
+		return (err_custom(1, "unclosed quotes", 1), s_free(&temp), NULL);
+	if (temp[0] == '|')
+		return (err_parse_token(1), s_free(&temp), NULL);
+	if (preliminary(&temp, -1) == EXIT_FAILURE)
+		return (err_parse_token(1), s_free(&temp), NULL);
+	if (token_repetition(temp, '\0', -1, 0))
 		return (err_parse_token(1), s_free(&temp), NULL);
 	str_edit(&temp, "|", " | ");
 	tab = multisplit(temp, "|");
@@ -84,20 +111,17 @@ void	parse(t_linux *shell)
 	t_cmd	*command;
 	char	*raw_prompt;
 
-	(void)command;
 	command = shell->head;
 	raw_prompt = shell->input;
 	if (!raw_prompt || !raw_prompt[0] || is_str(raw_prompt, is_white_space))
 		return ;
-	if (!ft_strcmp(raw_prompt, "exit"))
-		return (ft_exit(shell));
 	add_history(raw_prompt);
 	shell->token = split_pipeline(raw_prompt);
 	if (!shell->token)
 		return ;
-	command = build_commands(shell->head, shell->token, shell->env);
-	/*DEBUG*/ db_display_list_cmd(shell->head, "\nTotal Memory Data\n", 0);
-	launch_command(shell, NULL);
+	command = build_commands(shell->head, shell->token, shell);
+	launch_command(shell, NULL, shell->head->next);
+	create_signal();
 	free_tab(shell->token, tablen(shell->token));
-	db_cmd_free_list(shell->head);
+	cmd_free_list(shell->head);
 }

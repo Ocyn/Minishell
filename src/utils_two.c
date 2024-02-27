@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:06:46 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/16 17:00:33 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:11:09 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ void	total_free(t_env *chain)
 {
 	s_free(&chain->str);
 	free(chain);
+	chain = NULL;
 }

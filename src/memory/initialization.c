@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:21:26 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/22 11:42:35 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:01:33 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
 
-void	change_ret_signal(int c)
+void	change_ret_signal(int c, int id)
 {
 	if (WIFEXITED(c))
 		g_sign = WEXITSTATUS(c);
@@ -23,6 +23,8 @@ void	change_ret_signal(int c)
 		if (WTERMSIG(c) == SIGINT)
 			g_sign = 130;
 	}
+	if (id == 1 && g_sign == 13)
+		g_sign = 0;
 }
 
 void	change_oldpwd(t_linux *shell)
@@ -60,6 +62,7 @@ void	init_struct(t_linux *shell)
 	shell->end = 0;
 	shell->count_cmd = 0;
 	shell->token = NULL;
+	shell->last_token = NULL;
 	shell->command = shell->head;
 	change_oldpwd(shell);
 }

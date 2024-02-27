@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 17:26:48 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/17 23:35:59 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:18:29 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ int	is_in_env(char *str, t_env *env)
 	t_env	*buf;
 
 	buf = env;
-	while (buf != NULL)
+	while (buf)
 	{
-		if (weird_cmp_export(buf->str, str))
+		if (buf->str && weird_cmp_export(buf->str, str))
 			return (1);
+		if (!buf->next)
+			buf->next = NULL;
 		buf = buf->next;
 	}
 	return (0);
@@ -28,7 +30,9 @@ int	is_in_env(char *str, t_env *env)
 
 int	error(char *str)
 {
-	printf ("they are a problem with the syntax of : %s\n", str);
+	ft_putstr_fd ("they are a problem with the syntax of : ", 2);
+	ft_putstr_fd (str, 2);
+	ft_putstr_fd ("\n", 2);
 	g_sign = 1;
 	return (0);
 }
@@ -61,41 +65,37 @@ int	test_valid(char *arguments)
 	{
 		if (j == 0 && arguments[j] == '=')
 			return (error(arguments));
-		if (arguments[j] == '=')
-			count++;
 		if (is_space(arguments[j]))
 			return (error(arguments));
 		j++;
 	}
-	if (count == 0)
-		return (error(arguments));
 	return (nicely_done(arguments));
 }
 
-void	ft_export(t_linux *shell)
+void	ft_export(t_cmd *cmd, t_env *env)
 {
 	t_env	*buf;
 	int		i;
 
 	i = 0;
 	g_sign = 0;
-	while (shell->head->next->meta.raw[++i])
+	while (cmd->meta.exec_cmd[++i])
 	{
-		if (test_valid(shell->head->next->meta.raw[i]))
+		if (test_valid(cmd->meta.exec_cmd[i]))
 		{
-			if (is_in_env(shell->head->next->meta.raw[i], shell->env))
-				ft_unset(shell, shell->head->next->meta.raw[i]);
+			if (is_in_env(cmd->meta.exec_cmd[i], env))
+				ft_unset(cmd, env, cmd->meta.exec_cmd[i]);
 			else
 			{
-				buf = shell->env;
-				while (buf->next)
+				buf = env;
+				while (buf && buf->next)
 					buf = buf->next;
 				buf->next = malloc(sizeof(t_env));
 				if (!buf->next)
 					return ;
 				buf = buf->next;
 				buf->next = NULL;
-				buf->str = put_in(shell->head->next->meta.raw[i]);
+				buf->str = put_in(cmd->meta.exec_cmd[i]);
 			}
 		}
 	}

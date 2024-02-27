@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 11:01:32 by aammirat          #+#    #+#             */
-/*   Updated: 2024/02/19 03:58:23 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 14:18:36 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ int	main(int argc, char **argv, char **env)
 {
 	t_linux		shell;
 
-	(void)argc;
 	(void)argv;
+	if (argc != 1)
+	{
+		ft_putstr_fd ("minishell : No such file or directory \n", 2);
+		return (127);
+	}
 	shell.input = NULL;
 	init_struct(&shell);
 	create_signal();

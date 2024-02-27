@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/25 19:52:02 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/20 17:02:42 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/22 13:00:29 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,30 @@ t_lst	*lst_add(t_lst *last)
 	last->next = NULL;
 	last->prev = temp_prev;
 	last->id = temp_prev->id + 1;
+	return (last);
+}
+
+t_lst	*lst_add_fragment_str(t_lst *last, char *str, int i, int j)
+{
+	int	index;
+
+	index = 0;
+	if (j - i == 0)
+		return (last);
+	last->data = s_malloc(sizeof(char) * (j - i + 1));
+	if (!last->data)
+	{
+		last->data = NULL;
+		return (last);
+	}
+	while (str[index + i] && index + i < j)
+	{
+		last->data[index] = str[index + i];
+		index++;
+	}
+	last = lst_add(last);
+	if (!last)
+		return (NULL);
 	return (last);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 11:02:04 by aammirat          #+#    #+#             */
-/*   Updated: 2024/01/30 18:37:24 by aammirat         ###   ########.fr       */
+/*   Updated: 2024/02/22 16:35:24 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,6 @@ void	ft_pwd(void)
 	else
 	{
 		g_sign = 1;
-		printf ("where am i\n");
+		ft_putstr_fd ("where am i\n", 2);
 	}
 }

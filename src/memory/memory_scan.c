@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   memory_scan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcuzin <jcuzin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: aammirat <aammirat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 02:49:05 by jcuzin            #+#    #+#             */
-/*   Updated: 2024/02/18 08:47:55 by jcuzin           ###   ########.fr       */
+/*   Updated: 2024/02/23 11:14:45 by aammirat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header/minishell.h"
+
+int	cmd_len(t_cmd *cmd)
+{
+	int		i;
+	t_cmd	*buf;
+
+	i = 0;
+	buf = cmd;
+	while (buf)
+	{
+		i++;
+		buf = buf->next;
+	}
+	return (i);
+}
 
 int	find_str_in_tab(int strict_mode, char *find, char **tab)
 {
